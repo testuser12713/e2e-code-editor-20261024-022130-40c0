@@ -46,7 +46,11 @@ export type ShellAction =
   | { type: 'view/showSearch' }
   | { type: 'view/showSettings' };
 
-export type AppAction = TabsAction | WorkspaceAction | SettingsAction | ShellAction;
+export type StatusAction =
+  | { type: 'status/update'; status: Partial<DocumentStatus> }
+  | { type: 'status/reset' };
+
+export type AppAction = TabsAction | WorkspaceAction | SettingsAction | ShellAction | StatusAction;
 
 function shellReducer(state: AppState, action: ShellAction): AppState {
   switch (action.type) {
@@ -82,6 +86,13 @@ function reduce(state: AppState, action: AppAction): AppState {
     case 'settings/update':
     case 'settings/replace':
       return { ...state, settings: settingsReducer(state.settings, action) };
+    case 'status/update':
+      return { ...state, status: { ...state.status, ...action.status } };
+    case 'status/reset':
+      return {
+        ...state,
+        status: { ...DEFAULT_STATUS, indentSize: state.settings.tabSize },
+      };
     default:
       return state;
   }
