@@ -1,13 +1,60 @@
 'use strict';
 
-const NOT_IMPLEMENTED = Object.freeze({ ok: false, message: 'Not implemented' });
+const { app, BrowserWindow } = require('electron');
 
-function notImplemented() {
-  return Promise.resolve(NOT_IMPLEMENTED);
+let allowClose = false;
+let pendingWindow = null;
+
+function sendBeforeClose(window) {
+  if (!window || window.isDestroyed() || window.webContents.isDestroyed()) return false;
+  pendingWindow = window;
+  window.webContents.send('app:beforeClose');
+  return true;
 }
 
-async function confirmClose() {
-  return notImplemented();
+function attachCloseGuard(window) {
+  window.on('close', (event) => {
+    if (allowClose) return;
+    event.preventDefault();
+    sendBeforeClose(window);
+  });
 }
 
-module.exports = { confirmClose, NOT_IMPLEMENTED };
+function targetWindow() {
+  if (pendingWindow && !pendingWindow.isDestroyed()) return pendingWindow;
+  return BrowserWindow.getFocusedWindow() || BrowserWindow.getAllWindows()[0] || null;
+}
+
+function confirmClose() {
+  const window = targetWindow();
+  pendingWindow = null;
+
+  if (!window) {
+    allowClose = true;
+    app.quit();
+    return { ok: true };
+  }
+
+  allowClose = true;
+  window.close();
+  return { ok: true };
+}
+
+app.on('browser-window-created', (_event, window) => {
+  attachCloseGuard(window);
+});
+
+app.on('before-quit', (event) => {
+  if (allowClose) return;
+
+  const window = targetWindow();
+  if (!window) {
+    allowClose = true;
+    return;
+  }
+
+  event.preventDefault();
+  sendBeforeClose(window);
+});
+
+module.exports = { confirmClose };
