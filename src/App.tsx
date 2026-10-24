@@ -10,10 +10,11 @@ import { Sidebar } from './shell/Sidebar';
 import { StatusBar } from './shell/StatusBar';
 import { TabBar } from './shell/TabBar';
 import { TitleBar } from './shell/TitleBar';
-import { appStore } from './state/store';
+import { appStore, useAppStore } from './state/store';
 import { IconSprite } from './ui/Icon';
 import { Notifications } from './ui/Notify';
 import { GalleryView } from './views/GalleryView';
+import { SettingsView } from './views/SettingsView';
 
 registerCommands([
   {
@@ -45,6 +46,8 @@ registerCommands([
 ]);
 
 export default function App() {
+  const state = useAppStore();
+  const settingsOpen = state.sidebarView === 'settings';
   const showGallery =
     import.meta.env.DEV && typeof window !== 'undefined' && window.location.hash === '#gallery';
 
@@ -62,12 +65,12 @@ export default function App() {
       <IconSprite />
       <div className="app" data-od-id="app-shell" data-testid="app-shell">
         <TitleBar />
-        <div className="app-body">
+        <div className={settingsOpen ? 'app-body is-wide' : 'app-body'}>
           <ActivityBar />
-          <Sidebar />
+          {settingsOpen ? null : <Sidebar />}
           <main className="editor-region" data-od-id="editor-region" data-testid="editor-pane">
             <TabBar />
-            <EditorPane />
+            {settingsOpen ? <SettingsView /> : <EditorPane />}
           </main>
         </div>
         <StatusBar />

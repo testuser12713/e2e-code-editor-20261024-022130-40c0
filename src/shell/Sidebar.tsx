@@ -5,7 +5,6 @@ import { Icon } from '../ui/Icon';
 import { IconButton } from '../ui/IconButton';
 import { ExplorerView } from '../views/ExplorerView';
 import { SearchView } from '../views/SearchView';
-import { SettingsView } from '../views/SettingsView';
 
 const VIEW_TITLES = {
   explorer: 'Explorer',
@@ -39,7 +38,6 @@ export function Sidebar() {
 
       {view === 'explorer' ? <ExplorerView /> : null}
       {view === 'search' ? <SearchView /> : null}
-      {view === 'settings' ? <SettingsView /> : null}
     </aside>
   );
 }
