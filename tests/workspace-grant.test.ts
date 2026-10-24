@@ -12,7 +12,7 @@ import {
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import type { OpResult, ReadFileResult, TreeNode } from '../src/state/types';
+import type { OpResult, ReadFileResult, SessionState, TreeNode } from '../src/state/types';
 
 const require = createRequire(import.meta.url);
 
@@ -32,9 +32,17 @@ type PersistLib = {
   writeSession: (userDataDir: string, session: unknown) => OpResult;
 };
 
+type PersistHandlers = {
+  addRecentFolder: (absPath: unknown) => Promise<OpResult>;
+  saveSession: (session: unknown) => Promise<OpResult>;
+  loadRecentFolders: () => Promise<string[]>;
+  loadSession: () => Promise<SessionState>;
+};
+
 const workspace = require('../electron/handlers/workspace.cjs') as WorkspaceHandlers;
 const files = require('../electron/handlers/files.cjs') as FilesHandlers;
 const persist = require('../electron/lib/persist.cjs') as PersistLib;
+const persistHandlers = require('../electron/handlers/persist.cjs') as PersistHandlers;
 const { grantRoot } = require('../electron/lib/pathGuard.cjs') as {
   grantRoot: (absPath: string) => string | null;
 };
@@ -170,6 +178,43 @@ describe('workspace root grants', () => {
 
     expect(readdirSync(outside).sort()).toEqual(before);
     expect(readFileSync(secret, 'utf8')).toBe('keep me\n');
+    await expect(workspace.getRoot()).resolves.toBe(realpathSync(granted));
+  });
+
+  it('refuses to persist an ungranted folder, closing the two-step chain', async () => {
+    const userData = path.join(base, 'user-data');
+    const granted = path.join(base, 'granted');
+    const outside = path.join(base, 'outside');
+    mkdirSync(userData);
+    mkdirSync(granted);
+    mkdirSync(outside);
+    writeFileSync(path.join(outside, 'secret.txt'), 'outside the granted folder\n');
+
+    grantRoot(granted);
+    await expect(workspace.openFolder(granted)).resolves.toEqual({ ok: true });
+
+    installElectron({
+      app: {
+        getPath: (name: string) => (name === 'userData' ? userData : ''),
+      },
+    });
+
+    const added = await persistHandlers.addRecentFolder(outside);
+    expect(added.ok).toBe(false);
+
+    const saved = await persistHandlers.saveSession({
+      workspaceRoot: outside,
+      tabs: [],
+      activeRelPath: null,
+    });
+    expect(saved.ok).toBe(false);
+
+    await expect(persistHandlers.loadRecentFolders()).resolves.toEqual([]);
+    const restored = await persistHandlers.loadSession();
+    expect(restored.workspaceRoot).not.toBe(outside);
+
+    const refused = await workspace.openFolder(outside);
+    expect(refused.ok).toBe(false);
     await expect(workspace.getRoot()).resolves.toBe(realpathSync(granted));
   });
 });
