@@ -1,8 +1,41 @@
 import { useEffect, useRef, useState } from 'react';
 import type { KeyboardEvent as ReactKeyboardEvent } from 'react';
 import type * as Monaco from 'monaco-editor';
+import CssWorkerUrl from 'monaco-editor/language/css/css.worker?worker&url';
+import EditorWorkerUrl from 'monaco-editor/editor/editor.worker?worker&url';
+import HtmlWorkerUrl from 'monaco-editor/language/html/html.worker?worker&url';
+import JsonWorkerUrl from 'monaco-editor/language/json/json.worker?worker&url';
+import TsWorkerUrl from 'monaco-editor/language/typescript/ts.worker?worker&url';
 
 type MonacoModule = typeof import('monaco-editor');
+
+type MonacoEnvironment = {
+  getWorker(moduleId: string, label: string): Worker;
+};
+
+function workerUrlFor(label: string): string {
+  switch (label) {
+    case 'json':
+      return JsonWorkerUrl;
+    case 'css':
+    case 'scss':
+    case 'less':
+      return CssWorkerUrl;
+    case 'html':
+    case 'handlebars':
+    case 'razor':
+      return HtmlWorkerUrl;
+    case 'typescript':
+    case 'javascript':
+      return TsWorkerUrl;
+    default:
+      return EditorWorkerUrl;
+  }
+}
+
+(globalThis as { MonacoEnvironment?: MonacoEnvironment }).MonacoEnvironment = {
+  getWorker: (_moduleId, label) => new Worker(workerUrlFor(label), { name: label }),
+};
 
 import { COMMAND_IDS, COMMAND_KEYBINDINGS } from '../commands/ids';
 import { registerCommands } from '../commands/registry';
