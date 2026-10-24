@@ -4,9 +4,16 @@
    bottom edge. Geometry follows design/mockups/settings.html:1527-1532. */
 
 .editor-region > .settings-wrap {
+  /* The closure below the page's last row. The design's 70px base (styles.css:
+     1531) ends the page inside the notice band that floats above the status
+     bar, so the closure is widened by the notice's clearance (one notice row
+     plus its gap and offset). The same value keeps keyboard and programmatic
+     scrolling clear of the notice. */
+  --settings-end-space: 112px;
   flex: 1 1 0;
   min-height: 0;
   overflow: auto;
+  scroll-padding-bottom: var(--settings-end-space);
   background: var(--code-bg);
 }
 
@@ -14,8 +21,9 @@
   width: min(860px, 100%);
   margin: 0 auto;
   /* The bottom padding is the page's closure: after the last row the content
-     ends with room below before the scroll container's edge. */
-  padding: clamp(24px, 4vw, 48px) clamp(18px, 4vw, 44px) 70px;
+     ends with room below before the scroll container's edge, so the notice
+     never sits over the last setting. */
+  padding: clamp(24px, 4vw, 48px) clamp(18px, 4vw, 44px) var(--settings-end-space);
 }
 
 /* While rows continue below the fold the bottom edge of the content softens
@@ -66,9 +74,14 @@
   cursor: default;
 }
 
+.settings-page .setting-row {
+  /* A row scrolled into view by its control keeps a little air below it. */
+  scroll-margin-bottom: var(--space-4);
+}
+
 @media (max-width: 760px) {
   .settings-wrap > .settings-page {
-    padding: 24px 18px 60px;
+    padding: 24px 18px var(--settings-end-space);
   }
 
   .settings-header h1 {

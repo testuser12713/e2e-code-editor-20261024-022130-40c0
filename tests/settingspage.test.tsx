@@ -56,9 +56,11 @@ describe('settings page scroll container', () => {
     const container = cssRule(css, '.editor-region > .settings-wrap');
     expect(container).toContain('overflow: auto');
     expect(container).toContain('min-height: 0');
+    expect(container).toContain('scroll-padding-bottom: var(--settings-end-space)');
+    expect(container).toContain('--settings-end-space: 112px');
 
     const page = cssRule(css, '.settings-wrap > .settings-page');
-    expect(page).toContain('70px');
+    expect(page).toContain('var(--settings-end-space)');
   });
 });
 
