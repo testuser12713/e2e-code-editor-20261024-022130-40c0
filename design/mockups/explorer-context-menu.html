@@ -1,0 +1,311 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="screen-route" content="/workspace">
+  <title>Forge — Explorer Actions</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- serves: AC-11, AC-17 -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-brand" viewBox="0 0 24 24"><path d="M8.5 7 4 12l4.5 5M15.5 7 20 12l-4.5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5h6l2 2H20v9.5H4V7.5Z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5v12H6z"/><path d="M13 3.5v5h5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h3V6Zm0 12a3 3 0 1 1-3-3h3v3Zm6-12a3 3 0 1 1 3 3h-3V6Zm0 12a3 3 0 1 0 3-3h-3v3ZM9 9h6v6H9z"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 10.5V17M12 7.4v.2"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.2 9a7 7 0 0 1 11.6-2.5L20 9M4 15l2.2 2.5A7 7 0 0 0 17.8 15"/></symbol>
+    <symbol id="i-new-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5v12H6z"/><path d="M13 3.5v5h5M9 14h5M11.5 11.5v5"/></symbol>
+    <symbol id="i-new-folder" viewBox="0 0 24 24"><path d="M3.5 7.5h6l2 2H20v9.5H4V7.5Z"/><path d="M12 12v5M9.5 14.5h5"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 20 4.5-1 10-10-3.5-3.5-10 10z"/><path d="m13.5 6.5 3.5 3.5"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9 7V4.5h6V7M6 7l1 13h10l1-13M10 10.5v6M14 10.5v6"/></symbol>
+    <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 3.5 21 20H3z"/><path d="M12 9v5M12 17.4v.2"/></symbol>
+  </svg>
+
+  <div class="app" data-od-id="app-shell">
+    <header class="titlebar" data-od-id="titlebar">
+      <a class="brand" href="welcome.html" aria-label="Forge home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg></span>
+        <span class="brand-name">Forge</span>
+      </a>
+      <nav class="menubar" data-menubar aria-label="Application menu"></nav>
+      <div class="titlebar-context">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg>
+        <span class="path">C:\Users\Patrick\Projects\forge</span>
+      </div>
+      <div class="titlebar-actions">
+        <a class="command-hint" href="command-palette.html" aria-label="Open command palette">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-command"/></svg>
+          <span>Commands</span>
+          <span class="kbd">Ctrl+Shift+P</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <nav class="activitybar" aria-label="Primary views" data-od-id="activity-bar">
+        <a class="activity-btn" href="workspace.html" aria-current="page" title="Explorer" aria-label="Explorer">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-folder"/></svg>
+        </a>
+        <a class="activity-btn" href="project-search.html" title="Project search" aria-label="Project search">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-search"/></svg>
+        </a>
+        <a class="activity-btn" href="settings.html" title="Settings" aria-label="Settings">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-settings"/></svg>
+        </a>
+        <span class="activity-spacer"></span>
+        <span class="activity-sep"></span>
+        <a class="activity-btn" href="about-privacy.html" title="About / Privacy" aria-label="About and privacy">
+          <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        </a>
+      </nav>
+
+      <aside class="sidebar" aria-label="Explorer" data-od-id="explorer-panel">
+        <div class="sidebar-head">
+          <span class="eyebrow">Explorer</span>
+          <div class="sidebar-actions">
+            <a class="icon-btn icon-btn-sm" href="explorer-context-menu.html" title="Refresh explorer" aria-label="Refresh explorer">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-refresh"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="workspace-name">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg>
+          <span>forge-editor</span>
+        </div>
+        <div class="tree" role="tree" aria-label="Workspace files">
+          <button class="tree-row" type="button" role="treeitem" aria-expanded="false" data-tree-toggle>
+            <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+            <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span class="tree-label">electron</span>
+          </button>
+          <div class="tree-children" hidden>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">main.cjs</span
+            ></a>
+          </div>
+          <button class="tree-row" type="button" role="treeitem" aria-expanded="true" data-tree-toggle>
+            <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+            <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span class="tree-label">src</span>
+          </button>
+          <div class="tree-children">
+            <button class="tree-row" type="button" role="treeitem" aria-expanded="true" data-tree-toggle>
+              <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+              <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+              <span class="tree-label">state</span>
+            </button>
+            <div class="tree-children">
+              <a class="tree-row" href="workspace.html"
+                ><span class="tree-spacer"
+                ></span
+                ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                  ><use href="#i-file"
+                /></svg
+                ><span class="tree-label">documents.ts</span
+              ></a>
+              <a class="tree-row is-active" href="explorer-context-menu.html" aria-current="page" data-context-anchor
+                ><span class="tree-spacer"
+                ></span
+                ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                  ><use href="#i-file"
+                /></svg
+                ><span class="tree-label">legacy.ts</span
+              ></a>
+              <a class="tree-row" href="workspace.html"
+                ><span class="tree-spacer"
+                ></span
+                ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                  ><use href="#i-file"
+                /></svg
+                ><span class="tree-label">tabsReducer.ts</span
+              ></a>
+              <a class="tree-row" href="workspace.html"
+                ><span class="tree-spacer"
+                ></span
+                ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                  ><use href="#i-file"
+                /></svg
+                ><span class="tree-label">types.ts</span
+              ></a>
+            </div>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">App.tsx</span
+            ></a>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">platform.ts</span
+            ></a>
+          </div>
+          <a class="tree-row" href="workspace.html"
+            ><span class="tree-spacer"
+            ></span
+            ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+              ><use href="#i-file"
+            /></svg
+            ><span class="tree-label">package.json</span
+          ></a>
+          <a class="tree-row" href="workspace.html"
+            ><span class="tree-spacer"
+            ></span
+            ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+              ><use href="#i-file"
+            /></svg
+            ><span class="tree-label">README.md</span
+          ></a>
+        </div>
+
+        <div class="context-menu is-anchored" role="menu" aria-label="File actions for legacy.ts" data-context-menu data-od-id="explorer-context-menu">
+          <button class="menu-item" type="button" role="menuitem" data-tree-action="new-file">
+            <span class="menu-item-label"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-new-file"/></svg>New File…</span>
+          </button>
+          <button class="menu-item" type="button" role="menuitem" data-tree-action="new-folder">
+            <span class="menu-item-label"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-new-folder"/></svg>New Folder…</span>
+          </button>
+          <div class="menu-sep"></div>
+          <button class="menu-item" type="button" role="menuitem" data-tree-action="rename">
+            <span class="menu-item-label"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-edit"/></svg>Rename</span>
+          </button>
+          <a class="menu-item is-danger" href="delete-confirm.html" role="menuitem" data-tree-action="delete">
+            <span class="menu-item-label"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-trash"/></svg>Delete</span>
+          </a>
+        </div>
+      </aside>
+
+      <main class="editor-region" data-od-id="editor-region">
+        <div class="tabbar" data-tabset="legacy-stage" role="tablist" aria-label="Open editors" data-od-id="tab-bar">
+          <div class="tab is-active" role="tab" tabindex="0" aria-selected="true" data-pane="legacy" data-language="TypeScript" data-cursor="4:3">
+            <svg class="icon icon-sm tab-icon" aria-hidden="true"><use href="#i-file"/></svg>
+            <span class="tab-title">legacy.ts</span>
+            <button class="tab-close" type="button" aria-label="Close legacy.ts">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-close"/></svg>
+            </button>
+          </div>
+          <div class="tab" role="tab" tabindex="-1" aria-selected="false" data-pane="documents" data-language="TypeScript" data-cursor="37:18">
+            <svg class="icon icon-sm tab-icon" aria-hidden="true"><use href="#i-file"/></svg>
+            <span class="tab-title">documents.ts</span>
+            <button class="tab-close" type="button" aria-label="Close documents.ts">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-close"/></svg>
+            </button>
+          </div>
+          <span class="tab-spacer"></span>
+        </div>
+
+        <div class="editor-stage" id="legacy-stage" data-od-id="monaco-editor">
+          <div class="code" data-pane="legacy">
+            <div class="code-line" data-line="1"
+              ><span class="ln">1</span
+              ><code
+                ><span class="tok-key">import</span> { appStore } <span class="tok-key">from</span> <span class="tok-str">'./store'</span>;</code
+            ></div>
+            <div class="code-line" data-line="2"><span class="ln">2</span><code> </code></div>
+            <div class="code-line" data-line="3"><span class="ln">3</span><code><span class="tok-com">/** @deprecated Moved to documents.ts in 0.4.0. */</span></code></div>
+            <div class="code-line is-active" data-line="4"
+              ><span class="ln">4</span
+              ><code
+                ><span class="tok-key">export</span> <span class="tok-key">function</span> <span class="tok-fn">closeDocument</span>(relPath: <span class="tok-type">string</span>): <span class="tok-type">void</span> {</code
+            ></div>
+            <div class="code-line" data-line="5"
+              ><span class="ln">5</span
+              ><code>  <span class="tok-key">const</span> tab = appStore.<span class="tok-fn">getState</span>().tabs.tabs.<span class="tok-fn">find</span>((item) =&gt; item.relPath === relPath);</code
+            ></div>
+            <div class="code-line" data-line="6"><span class="ln">6</span><code>  <span class="tok-key">if</span> (!tab) <span class="tok-key">return</span>;</code></div>
+            <div class="code-line" data-line="7"
+              ><span class="ln">7</span
+              ><code>  appStore.<span class="tok-fn">dispatch</span>({ type: <span class="tok-str">'tabs/close'</span>, id: tab.id });</code
+            ></div>
+            <div class="code-line" data-line="8"><span class="ln">8</span><code>}</code></div>
+          </div>
+          <div class="code" data-pane="documents" hidden>
+            <div class="code-line" data-line="1"
+              ><span class="ln">1</span
+              ><code
+                ><span class="tok-key">import</span> <span class="tok-key">type</span> { <span class="tok-type">EditorApi</span> } <span class="tok-key">from</span> <span class="tok-str">'./types'</span>;</code
+            ></div>
+            <div class="code-line" data-line="2"><span class="ln">2</span><code> </code></div>
+            <div class="code-line" data-line="3"
+              ><span class="ln">3</span
+              ><code
+                ><span class="tok-key">export</span> <span class="tok-key">async</span> <span class="tok-key">function</span> <span class="tok-fn">openFile</span>(relPath: <span class="tok-type">string</span>): <span class="tok-type">Promise</span>&lt;<span class="tok-type">boolean</span>&gt; {</code
+            ></div>
+            <div class="code-line" data-line="4"><span class="ln">4</span><code>  <span class="tok-key">return</span> <span class="tok-fn">openDocument</span>(relPath);</code></div>
+            <div class="code-line" data-line="5"><span class="ln">5</span><code>}</code></div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="statusbar" data-od-id="status-bar">
+      <span class="status-item"
+        ><select class="status-select" data-status-language aria-label="Language mode"
+          ><option>TypeScript</option
+          ><option>JavaScript</option
+          ><option>JSON</option
+          ><option>HTML</option
+          ><option>CSS</option
+          ><option>SCSS</option
+          ><option>Python</option
+          ><option>Markdown</option
+          ><option>Shell</option
+          ><option>YAML</option
+          ><option>XML</option
+        ></select
+      ></span>
+      <span class="status-item"><span data-status-position>4:3</span></span>
+      <span class="status-item">Spaces: 2</span>
+      <span class="status-item">LF</span>
+      <span class="status-item">UTF-8</span>
+      <span class="status-spacer"></span>
+      <span class="status-item">forge-editor</span>
+    </footer>
+  </div>
+
+  <div class="dialog-backdrop" data-prompt-dialog hidden data-stay-on-scrim>
+    <div class="dialog" role="dialog" aria-modal="true" aria-labelledby="prompt-title">
+      <div class="dialog-head">
+        <span class="dialog-icon is-accent"><svg class="icon" aria-hidden="true"><use href="#i-new-file"/></svg></span>
+        <div>
+          <h2 id="prompt-title" data-prompt-title>New File</h2>
+          <span class="hint">Inside src/state</span>
+        </div>
+      </div>
+      <div class="dialog-body">
+        <div class="field">
+          <label class="label" for="prompt-name">Name</label>
+          <input class="input input-lg" id="prompt-name" type="text" placeholder="file.ts" data-prompt-input autocomplete="off" spellcheck="false">
+        </div>
+        <div class="dialog-error" data-prompt-error hidden>
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-alert"/></svg>
+          <span>A file named documents.ts already exists in src/state. Nothing was written to disk.</span>
+        </div>
+      </div>
+      <div class="dialog-actions">
+        <span class="dialog-meta">The operation is checked against the workspace root.</span>
+        <button class="btn" type="button" data-dialog-close>Cancel</button>
+        <button class="btn btn-primary" type="button" data-prompt-confirm>Create</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

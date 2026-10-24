@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="screen-route" content="/design-set">
+  <title>Forge — Interface set</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="index-page">
+  <!-- serves: design-set index; links every screen in the set -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-brand" viewBox="0 0 24 24"><path d="M8.5 7 4 12l4.5 5M15.5 7 20 12l-4.5 5M14 4l-4 16"/></symbol>
+  </svg>
+
+  <main class="index-wrap" data-od-id="design-set-index">
+    <header class="index-top" data-od-id="index-header">
+      <a class="index-brand" href="index.html" aria-label="Forge interface set, home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg></span>
+        <span>
+          <span class="index-brand-name">Forge</span>
+          <span class="index-brand-sub">Interface set for review</span>
+        </span>
+      </a>
+      <div class="index-meta">
+        <span class="badge badge-accent">Electron · Windows</span>
+        <span class="badge">Dark / Light</span>
+        <span class="badge">360 px ready</span>
+      </div>
+    </header>
+
+    <section class="index-hero" data-od-id="index-hero">
+      <h1>One surface.<br><em>Every</em> screen.</h1>
+      <div class="index-hero-copy">
+        <span class="badge badge-dot badge-success">Review build</span>
+        <p>Forge is a deliberately narrow desktop code editor: open a folder, read the tree, edit a file, find a line, save. The interface is graphite and ember, with Bitter for display, Inter for controls, and JetBrains Mono wherever the product talks about code.</p>
+        <div class="index-hero-actions">
+          <a class="btn btn-primary" href="workspace.html">Open the workspace</a>
+          <a class="btn" href="welcome.html">Start at welcome</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="index-section" data-od-id="screen-directory">
+      <div class="index-section-head">
+        <h2>Screen directory</h2>
+        <p>12 screens · one stylesheet · no network</p>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="welcome.html" data-od-id="screen-card-welcome">
+          <span class="screen-card-top"><span class="screen-index">01</span><span class="badge">Launch</span></span>
+          <h3>Welcome</h3>
+          <p>No workspace yet. Open a folder, reopen one of five recents, or learn the shortcuts.</p>
+          <span class="screen-route">/</span>
+        </a>
+        <a class="screen-card" href="workspace.html" data-od-id="screen-card-workspace">
+          <span class="screen-card-top"><span class="screen-index">02</span><span class="badge">Primary</span></span>
+          <h3>Workspace</h3>
+          <p>Explorer, open tabs, Monaco-style editor and the complete document status line.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="quick-open.html" data-od-id="screen-card-quick-open">
+          <span class="screen-card-top"><span class="screen-index">03</span><span class="badge">Overlay</span></span>
+          <h3>Quick Open</h3>
+          <p>Ctrl+P fuzzy file jump with keyboard selection, path detail and Escape to dismiss.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="command-palette.html" data-od-id="screen-card-command-palette">
+          <span class="screen-card-top"><span class="screen-index">04</span><span class="badge">Overlay</span></span>
+          <h3>Command Palette</h3>
+          <p>The registered command set, fuzzy filtered, every row carrying its real keybinding.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="project-search.html" data-od-id="screen-card-project-search">
+          <span class="screen-card-top"><span class="screen-index">05</span><span class="badge">Search</span></span>
+          <h3>Project Search</h3>
+          <p>Workspace-wide matches grouped by file, with case, whole-word and regex controls.</p>
+          <span class="screen-route">/workspace/search</span>
+        </a>
+        <a class="screen-card" href="find-replace.html" data-od-id="screen-card-find-replace">
+          <span class="screen-card-top"><span class="screen-index">06</span><span class="badge">Editor</span></span>
+          <h3>Find &amp; Replace</h3>
+          <p>In-file search, current hit, total count, single replace and replace all.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="settings.html" data-od-id="screen-card-settings">
+          <span class="screen-card-top"><span class="screen-index">07</span><span class="badge">Persistent</span></span>
+          <h3>Settings</h3>
+          <p>Dark or light, editor size, indentation, wrapping, whitespace and tree scale.</p>
+          <span class="screen-route">/settings</span>
+        </a>
+        <a class="screen-card" href="explorer-context-menu.html" data-od-id="screen-card-explorer-menu">
+          <span class="screen-card-top"><span class="screen-index">08</span><span class="badge">Explorer</span></span>
+          <h3>Explorer Menu</h3>
+          <p>New file, new folder, rename and delete raised directly from a tree node.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="delete-confirm.html" data-od-id="screen-card-delete-confirm">
+          <span class="screen-card-top"><span class="screen-index">09</span><span class="badge">Dialog</span></span>
+          <h3>Delete Confirmation</h3>
+          <p>A destructive file action stops for confirmation before anything touches disk.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="unsaved-close.html" data-od-id="screen-card-unsaved-close">
+          <span class="screen-card-top"><span class="screen-index">10</span><span class="badge">Dialog</span></span>
+          <h3>Unsaved Changes</h3>
+          <p>Save, don’t save, or cancel when a dirty tab or the window asks to close.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="file-rejected.html" data-od-id="screen-card-file-rejected">
+          <span class="screen-card-top"><span class="screen-index">11</span><span class="badge">Guard</span></span>
+          <h3>File Rejected</h3>
+          <p>Binary and over-limit files are refused with a reason, and never get an empty tab.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="about-privacy.html" data-od-id="screen-card-about-privacy">
+          <span class="screen-card-top"><span class="screen-index">12</span><span class="badge">Trust</span></span>
+          <h3>About / Privacy</h3>
+          <p>What stays local, where it lives, how to erase it, and the vendor fields still open.</p>
+          <span class="screen-route">/about</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="index-section" data-od-id="design-system">
+      <div class="index-section-head">
+        <h2>The system</h2>
+        <p>styles.css · tokens + components</p>
+      </div>
+      <div class="index-tokens">
+        <div class="panel panel-pad">
+          <h3>Graphite &amp; ember</h3>
+          <p class="hint mt-1">Both themes derive from the same six anchors. Light mode is a documented override, not a second system.</p>
+          <div class="swatches" aria-label="Core colour tokens">
+            <div class="swatch swatch-bg"><span>bg</span></div>
+            <div class="swatch swatch-surface"><span>surface</span></div>
+            <div class="swatch swatch-fg"><span>fg</span></div>
+            <div class="swatch swatch-border"><span>border</span></div>
+            <div class="swatch swatch-accent"><span>accent</span></div>
+            <div class="swatch swatch-danger"><span>danger</span></div>
+          </div>
+          <div class="stack-inline">
+            <span class="badge">radius 3 / 6 / 9 / 13</span>
+            <span class="badge">4 · 8 · 12 · 16 · 24 · 32</span>
+            <span class="badge">data-theme → <span data-theme-live>dark</span></span>
+          </div>
+        </div>
+        <div class="panel panel-pad">
+          <h3>Three families, no substitutions</h3>
+          <div class="type-specimen">
+            <span class="display">Forge</span>
+            <span class="ui">Inter keeps controls quiet and legible at 360 px.</span>
+            <span class="code">const workspaceRoot = "forge-editor";</span>
+          </div>
+          <p class="hint mt-4">Bitter · Inter · JetBrains Mono. Loaded from <span class="mono">fonts/</span>, Latin and Latin Extended, offline.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="index-top index-footer" data-od-id="index-footer">
+      <span class="hint">Forge · binding HTML mockup set · review before implementation</span>
+      <span class="badge">HTML + CSS + vanilla JS</span>
+    </footer>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

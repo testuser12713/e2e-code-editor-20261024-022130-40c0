@@ -1,0 +1,226 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="screen-route" content="/settings">
+  <title>Forge — Settings</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- serves: AC-13, AC-17 -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-brand" viewBox="0 0 24 24"><path d="M8.5 7 4 12l4.5 5M15.5 7 20 12l-4.5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5h6l2 2H20v9.5H4V7.5Z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5v12H6z"/><path d="M13 3.5v5h5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h3V6Zm0 12a3 3 0 1 1-3-3h3v3Zm6-12a3 3 0 1 1 3 3h-3V6Zm0 12a3 3 0 1 0 3-3h-3v3ZM9 9h6v6H9z"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 10.5V17M12 7.4v.2"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7"/></symbol>
+  </svg>
+
+  <div class="app" data-od-id="app-shell">
+    <header class="titlebar" data-od-id="titlebar">
+      <a class="brand" href="welcome.html" aria-label="Forge home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg></span>
+        <span class="brand-name">Forge</span>
+      </a>
+      <nav class="menubar" data-menubar aria-label="Application menu"></nav>
+      <div class="titlebar-context">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-settings"/></svg>
+        <span>Preferences</span>
+      </div>
+      <div class="titlebar-actions">
+        <a class="command-hint" href="command-palette.html" aria-label="Open command palette">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-command"/></svg>
+          <span>Commands</span>
+          <span class="kbd">Ctrl+Shift+P</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="app-body is-wide">
+      <nav class="activitybar" aria-label="Primary views" data-od-id="activity-bar">
+        <a class="activity-btn" href="workspace.html" title="Explorer" aria-label="Explorer">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-folder"/></svg>
+        </a>
+        <a class="activity-btn" href="project-search.html" title="Project search" aria-label="Project search">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-search"/></svg>
+        </a>
+        <a class="activity-btn" href="settings.html" aria-current="page" title="Settings" aria-label="Settings">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-settings"/></svg>
+        </a>
+        <span class="activity-spacer"></span>
+        <span class="activity-sep"></span>
+        <a class="activity-btn" href="about-privacy.html" title="About / Privacy" aria-label="About and privacy">
+          <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        </a>
+      </nav>
+
+      <main class="editor-region" data-od-id="editor-region">
+        <div class="tabbar" aria-label="Open editors" data-od-id="tab-bar">
+          <a class="tab is-active" href="settings.html" aria-current="page" aria-selected="true">
+            <svg class="icon icon-sm tab-icon" aria-hidden="true"><use href="#i-settings"/></svg>
+            <span class="tab-title">Settings</span>
+          </a>
+          <a class="tab" href="workspace.html">
+            <svg class="icon icon-sm tab-icon" aria-hidden="true"><use href="#i-file"/></svg>
+            <span class="tab-title">documents.ts</span>
+            <span class="tab-dot" title="Unsaved changes"></span>
+          </a>
+          <span class="tab-spacer"></span>
+        </div>
+
+        <div class="settings-wrap" data-od-id="settings-page">
+          <div class="settings-page">
+            <header class="settings-header">
+              <span class="eyebrow">Local preferences</span>
+              <h1>Settings</h1>
+              <p>These values belong to this machine. Changes take effect immediately in the editor and survive the next launch.</p>
+              <span class="save-note"><span class="dot"></span><span data-save-state>Saved locally</span> · userData/settings.json</span>
+            </header>
+
+            <section class="settings-section" aria-labelledby="appearance-title">
+              <div>
+                <h2 id="appearance-title">Appearance</h2>
+                <p class="section-desc">The surface and the reading sizes. Light mode keeps the same contrast relationships as dark.</p>
+              </div>
+              <div class="setting-list">
+                <div class="setting-row">
+                  <div>
+                    <span class="setting-label" id="theme-label">Theme</span>
+                    <span class="setting-desc">Applied to the editor chrome, panels and status bar.</span>
+                  </div>
+                  <div class="setting-control">
+                    <div class="segmented" role="group" aria-labelledby="theme-label">
+                      <label>
+                        <input type="radio" name="theme" value="dark" data-setting="theme" checked>
+                        <span>Dark</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="theme" value="light" data-setting="theme">
+                        <span>Light</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="setting-row">
+                  <div>
+                    <label class="setting-label" for="font-size">Editor font size</label>
+                    <span class="setting-desc">From 10 to 24 pixels; code, gutters and find results follow.</span>
+                  </div>
+                  <div class="setting-control">
+                    <div class="range-wrap">
+                      <input class="range" id="font-size" type="range" min="10" max="24" step="1" value="14" data-setting="fontSize">
+                      <output class="range-value" for="font-size" data-output-for="fontSize">14</output>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="setting-row">
+                  <div>
+                    <label class="setting-label" for="tree-size">File tree font size</label>
+                    <span class="setting-desc">The explorer uses its own scale so long names stay readable.</span>
+                  </div>
+                  <div class="setting-control">
+                    <div class="range-wrap">
+                      <input class="range" id="tree-size" type="range" min="10" max="18" step="1" value="13" data-setting="treeFontSize">
+                      <output class="range-value" for="tree-size" data-output-for="treeFontSize">13</output>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="settings-section" aria-labelledby="editor-title">
+              <div>
+                <h2 id="editor-title">Editor</h2>
+                <p class="section-desc">How a document is drawn. These are editor defaults, not language settings.</p>
+              </div>
+              <div class="setting-list">
+                <div class="setting-row">
+                  <div>
+                    <span class="setting-label" id="tabsize-label">Tab size</span>
+                    <span class="setting-desc">Used for indentation guides and when the Tab key inserts spaces.</span>
+                  </div>
+                  <div class="setting-control">
+                    <div class="segmented" role="group" aria-labelledby="tabsize-label">
+                      <label>
+                        <input type="radio" name="tabSize" value="2" data-setting="tabSize" checked>
+                        <span>2</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="tabSize" value="4" data-setting="tabSize">
+                        <span>4</span>
+                      </label>
+                      <label>
+                        <input type="radio" name="tabSize" value="8" data-setting="tabSize">
+                        <span>8</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="setting-row">
+                  <div>
+                    <label class="setting-label" for="word-wrap">Word wrap</label>
+                    <span class="setting-desc">Long lines fold at the viewport instead of scrolling sideways.</span>
+                  </div>
+                  <div class="setting-control">
+                    <label class="switch">
+                      <input id="word-wrap" type="checkbox" data-setting="wordWrap">
+                      <span class="switch-track" aria-hidden="true"></span>
+                    </label>
+                  </div>
+                </div>
+
+                <div class="setting-row">
+                  <div>
+                    <label class="setting-label" for="show-whitespace">Show whitespace</label>
+                    <span class="setting-desc">Reveals spaces and tabs with quiet marks.</span>
+                  </div>
+                  <div class="setting-control">
+                    <label class="switch">
+                      <input id="show-whitespace" type="checkbox" data-setting="renderWhitespace">
+                      <span class="switch-track" aria-hidden="true"></span>
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <section class="settings-section" aria-labelledby="storage-title">
+              <div>
+                <h2 id="storage-title">Storage</h2>
+                <p class="section-desc">Settings, session and recent folders are separate local JSON files.</p>
+              </div>
+              <div>
+                <div class="settings-path">
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-info"/></svg>
+                  <span>Changes are written atomically to the operating system’s userData directory. The exact path, the stored fields and the reset action live in <a class="link-accent" href="about-privacy.html">About / Privacy</a>.</span>
+                </div>
+                <div class="settings-path">
+                  <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg>
+                  <span>Theme, font size, tab size, word wrap, whitespace and file tree size are restored on launch. No file contents or telemetry are kept.</span>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="statusbar" data-od-id="status-bar">
+      <span class="status-item"><span class="accent-dot"></span><strong>Settings</strong></span>
+      <span class="status-item" data-save-state>Saved locally</span>
+      <span class="status-spacer"></span>
+      <span class="status-item">userData</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

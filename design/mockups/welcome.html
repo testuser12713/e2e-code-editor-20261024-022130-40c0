@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="screen-route" content="/">
+  <title>Forge — Welcome</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- serves: AC-01, AC-14, AC-15, AC-17 -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-brand" viewBox="0 0 24 24"><path d="M8.5 7 4 12l4.5 5M15.5 7 20 12l-4.5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5h6l2 2H20v9.5H4V7.5Z"/></symbol>
+    <symbol id="i-folder-open" viewBox="0 0 24 24"><path d="M3.5 8h6l2 2H20l-2 8.5H4L2.5 11H17"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5v12H6z"/><path d="M13 3.5v5h5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.2 9a7 7 0 0 1 11.6-2.5L20 9M4 15l2.2 2.5A7 7 0 0 0 17.8 15"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h3V6Zm0 12a3 3 0 1 1-3-3h3v3Zm6-12a3 3 0 1 1 3 3h-3V6Zm0 12a3 3 0 1 0 3-3h-3v3ZM9 9h6v6H9z"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M4.5 4.5h11l4 4v11h-15z"/><path d="M8 4.5v5h7v-5M8 19.5v-5h8v5"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 10.5V17M12 7.4v.2"/></symbol>
+  </svg>
+
+  <div class="app" data-od-id="app-shell">
+    <header class="titlebar" data-od-id="titlebar">
+      <a class="brand" href="welcome.html" aria-label="Forge home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg></span>
+        <span class="brand-name">Forge</span>
+      </a>
+      <nav class="menubar" data-menubar aria-label="Application menu"></nav>
+      <div class="titlebar-context">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder-open"/></svg>
+        <span>No folder open</span>
+      </div>
+      <div class="titlebar-actions">
+        <a class="command-hint" href="command-palette.html" aria-label="Open command palette">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-command"/></svg>
+          <span>Commands</span>
+          <span class="kbd">Ctrl+Shift+P</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <nav class="activitybar" aria-label="Primary views" data-od-id="activity-bar">
+        <a class="activity-btn" href="welcome.html" aria-current="page" title="Explorer" aria-label="Explorer">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-folder"/></svg>
+        </a>
+        <a class="activity-btn" href="project-search.html" aria-disabled="true" tabindex="-1" title="Open a folder to search" aria-label="Search — open a folder first">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-search"/></svg>
+        </a>
+        <a class="activity-btn" href="settings.html" title="Settings" aria-label="Settings">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-settings"/></svg>
+        </a>
+        <span class="activity-spacer"></span>
+        <span class="activity-sep"></span>
+        <a class="activity-btn" href="about-privacy.html" title="About / Privacy" aria-label="About and privacy">
+          <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        </a>
+      </nav>
+
+      <aside class="sidebar" aria-label="Explorer" data-od-id="explorer-panel">
+        <div class="sidebar-head">
+          <span class="eyebrow">Explorer</span>
+          <div class="sidebar-actions">
+            <button class="icon-btn icon-btn-sm" type="button" title="Refresh explorer" aria-label="Refresh explorer" disabled>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-refresh"/></svg>
+            </button>
+          </div>
+        </div>
+        <div class="workspace-name">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg>
+          <span>No folder open</span>
+        </div>
+        <div class="tree-empty">
+          <p>Open a folder to build the workspace tree. Forge only reads inside that folder.</p>
+          <a class="btn btn-sm" href="workspace.html">
+            <svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder-open"/></svg>
+            Open Folder…
+          </a>
+        </div>
+      </aside>
+
+      <main class="editor-region" data-od-id="editor-region">
+        <div class="tabbar" aria-label="Open editors" data-od-id="tab-bar">
+          <span class="tab-spacer"></span>
+          <div class="tab-actions">
+            <button class="icon-btn icon-btn-sm" type="button" title="Save all" aria-label="Save all" disabled>
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-save"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="welcome" data-od-id="welcome-view">
+          <div class="welcome-grid">
+            <section class="welcome-hero" aria-labelledby="welcome-title">
+              <div class="welcome-mark">
+                <svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg>
+              </div>
+              <h1 id="welcome-title">Forge</h1>
+              <p class="welcome-tagline">A local-first code editor for Windows. Open a folder to load its tree, tabs and cursor positions exactly where you left them.</p>
+              <div class="welcome-actions">
+                <a class="btn btn-primary btn-lg" href="workspace.html" data-od-id="open-folder-button">
+                  <svg class="icon" aria-hidden="true"><use href="#i-folder-open"/></svg>
+                  Open Folder…
+                </a>
+                <a class="btn btn-lg" href="#recent">
+                  Open Recent
+                </a>
+              </div>
+
+              <div class="shortcuts" aria-label="Essential keyboard shortcuts">
+                <div class="shortcut"><span>Command palette</span><span class="kbd">Ctrl+Shift+P</span></div>
+                <div class="shortcut"><span>Quick open</span><span class="kbd">Ctrl+P</span></div>
+                <div class="shortcut"><span>Project search</span><span class="kbd">Ctrl+Shift+F</span></div>
+                <div class="shortcut"><span>Save active file</span><span class="kbd">Ctrl+S</span></div>
+                <div class="shortcut"><span>Find in file</span><span class="kbd">Ctrl+F</span></div>
+                <div class="shortcut"><span>Settings</span><span class="kbd">Ctrl+,</span></div>
+              </div>
+            </section>
+
+            <section class="recent-panel" id="recent" aria-labelledby="recent-title" data-od-id="recent-folders">
+              <div class="recent-head">
+                <div>
+                  <h2 id="recent-title">Open Recent</h2>
+                  <p>The last five folders stay on this machine.</p>
+                </div>
+                <span class="badge">5</span>
+              </div>
+              <div class="recent-list">
+                <a class="recent-item" href="workspace.html" data-od-id="recent-forge">
+                  <span class="recent-icon"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg></span>
+                  <span class="recent-copy"><span class="recent-name">forge-editor</span><span class="recent-path">C:\Users\Patrick\Projects\forge</span></span>
+                </a>
+                <a class="recent-item" href="workspace.html" data-od-id="recent-atlas">
+                  <span class="recent-icon"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg></span>
+                  <span class="recent-copy"><span class="recent-name">atlas-api</span><span class="recent-path">C:\Users\Patrick\Projects\atlas-api</span></span>
+                </a>
+                <a class="recent-item" href="workspace.html" data-od-id="recent-relay">
+                  <span class="recent-icon"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg></span>
+                  <span class="recent-copy"><span class="recent-name">relay-site</span><span class="recent-path">D:\studio\relay-site</span></span>
+                </a>
+                <a class="recent-item" href="workspace.html" data-od-id="recent-notes">
+                  <span class="recent-icon"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg></span>
+                  <span class="recent-copy"><span class="recent-name">notes-kit</span><span class="recent-path">C:\Users\Patrick\Projects\notes-kit</span></span>
+                </a>
+                <a class="recent-item" href="workspace.html" data-od-id="recent-syntax">
+                  <span class="recent-icon"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg></span>
+                  <span class="recent-copy"><span class="recent-name">syntax-lab</span><span class="recent-path">D:\labs\syntax-lab</span></span>
+                </a>
+              </div>
+              <div class="recent-foot">Paths are stored in the local userData folder. Nothing leaves this computer.</div>
+            </section>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="statusbar" data-od-id="status-bar">
+      <span class="status-item"><span class="accent-dot"></span><strong>Welcome</strong></span>
+      <span class="status-item">No active document</span>
+      <span class="status-spacer"></span>
+      <span class="status-item">Local session</span>
+      <span class="status-item">UTF-8</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

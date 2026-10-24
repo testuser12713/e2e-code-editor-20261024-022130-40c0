@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="screen-route" content="/about">
+  <title>Forge — About / Privacy</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- serves: AC-17, AC-26, AC-27, AC-28, AC-29 -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-brand" viewBox="0 0 24 24"><path d="M8.5 7 4 12l4.5 5M15.5 7 20 12l-4.5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5h6l2 2H20v9.5H4V7.5Z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5v12H6z"/><path d="M13 3.5v5h5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h3V6Zm0 12a3 3 0 1 1-3-3h3v3Zm6-12a3 3 0 1 1 3 3h-3V6Zm0 12a3 3 0 1 0 3-3h-3v3ZM9 9h6v6H9z"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 10.5V17M12 7.4v.2"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3.5 19 6v5.4c0 4.4-2.8 7.5-7 9.1-4.2-1.6-7-4.7-7-9.1V6z"/><path d="m9 12 2 2 4-4.5"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.2 4.2L19 7"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4.5 7h15M9 7V4.5h6V7M6 7l1 13h10l1-13M10 10.5v6M14 10.5v6"/></symbol>
+  </svg>
+
+  <div class="app" data-od-id="app-shell">
+    <header class="titlebar" data-od-id="titlebar">
+      <a class="brand" href="welcome.html" aria-label="Forge home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg></span>
+        <span class="brand-name">Forge</span>
+      </a>
+      <nav class="menubar" data-menubar aria-label="Application menu"></nav>
+      <div class="titlebar-context">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-info"/></svg>
+        <span>About / Privacy</span>
+      </div>
+      <div class="titlebar-actions">
+        <a class="command-hint" href="command-palette.html" aria-label="Open command palette">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-command"/></svg>
+          <span>Commands</span>
+          <span class="kbd">Ctrl+Shift+P</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="app-body is-wide">
+      <nav class="activitybar" aria-label="Primary views" data-od-id="activity-bar">
+        <a class="activity-btn" href="workspace.html" title="Explorer" aria-label="Explorer">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-folder"/></svg>
+        </a>
+        <a class="activity-btn" href="project-search.html" title="Project search" aria-label="Project search">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-search"/></svg>
+        </a>
+        <a class="activity-btn" href="settings.html" title="Settings" aria-label="Settings">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-settings"/></svg>
+        </a>
+        <span class="activity-spacer"></span>
+        <span class="activity-sep"></span>
+        <a class="activity-btn" href="about-privacy.html" aria-current="page" title="About / Privacy" aria-label="About and privacy">
+          <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        </a>
+      </nav>
+
+      <main class="editor-region" data-od-id="editor-region">
+        <div class="tabbar" aria-label="Open editors" data-od-id="tab-bar">
+          <span class="tab-spacer"></span>
+        </div>
+        <div class="editor-stage">
+          <div class="editor-empty">
+            <div>
+              <h2>Your workspace stays yours.</h2>
+              <p>Open a file, or open About / Privacy from Help to review what Forge keeps on this machine.</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <footer class="statusbar" data-od-id="status-bar">
+      <span class="status-item"><span class="accent-dot"></span><strong>About / Privacy</strong></span>
+      <span class="status-spacer"></span>
+      <span class="status-item">Local only</span>
+    </footer>
+  </div>
+
+  <div class="about-backdrop" data-od-id="about-overlay">
+    <section class="about-dialog" role="dialog" aria-modal="true" aria-labelledby="about-title" data-od-id="about-privacy">
+      <div class="about-head">
+        <div class="about-id">
+          <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg></span>
+          <div>
+            <h1 id="about-title">Forge</h1>
+            <p>Local-first code editor for Windows · About / Privacy</p>
+          </div>
+        </div>
+        <a class="icon-btn" href="workspace.html" title="Close About / Privacy" aria-label="Close About / Privacy">
+          <svg class="icon" aria-hidden="true"><use href="#i-close"/></svg>
+        </a>
+      </div>
+
+      <div class="about-body">
+        <p class="about-lede">Forge works only inside the folder you open. Everything else — preferences, session and recent folders — stays in a local userData directory. There is no account, no sync and no telemetry.</p>
+
+        <section class="about-section" aria-labelledby="stored-title">
+          <h2 id="stored-title">Stored on this device</h2>
+          <ul class="about-list">
+            <li><svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg><span><strong>Recent folders</strong> — up to five absolute folder paths.</span></li>
+            <li
+              ><svg class="icon icon-sm" aria-hidden="true"
+                ><use href="#i-check"
+              /></svg
+              ><span
+                ><strong>Session</strong> — the workspace root, open tab paths and cursor positions, saved in tab order.</span
+            ></li>
+            <li
+              ><svg class="icon icon-sm" aria-hidden="true"
+                ><use href="#i-check"
+              /></svg
+              ><span
+                ><strong>Settings</strong> — theme, editor and tree font size, tab size, word wrap and whitespace visibility.</span
+            ></li>
+          </ul>
+          <div class="about-note">
+            <strong>Location</strong><br>
+            The operating system’s userData directory for this account:
+            <span class="about-path">C:\Users\Patrick\AppData\Roaming\Forge</span><br>
+            Settings, session and recent folders are separate JSON files. File contents are never persisted.
+          </div>
+        </section>
+
+        <section class="about-section" aria-labelledby="network-title">
+          <h2 id="network-title">Nothing leaves this machine</h2>
+          <p class="about-lede">Monaco, fonts and icons are bundled with the application. While Forge runs, it makes no HTTP or HTTPS request. External links are refused in the renderer; only a checked http(s) link can be passed to the operating system’s browser.</p>
+        </section>
+
+        <section class="about-section" aria-labelledby="delete-title">
+          <h2 id="delete-title">Deleting local data</h2>
+          <p class="about-lede">Reset Local Data removes <span class="mono">settings.json</span>, <span class="mono">session.json</span> and <span class="mono">recent-folders.json</span>. Forge restarts at the Welcome screen with defaults. This cannot be undone.</p>
+        </section>
+
+        <section class="about-section" aria-labelledby="vendor-title">
+          <h2 id="vendor-title">Vendor details</h2>
+          <p class="about-pending"
+            ><span class="badge badge-accent">Open</span> Provider name, contact address and legal notice are still to be supplied by the vendor. These fields are intentionally not invented.</p>
+        </section>
+      </div>
+
+      <div class="about-actions">
+        <button class="btn btn-danger" type="button" data-reset-local>
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-trash"/></svg>
+          Reset Local Data
+        </button>
+        <a class="btn" href="workspace.html">Close</a>
+      </div>
+    </section>
+  </div>
+
+  <div class="dialog-backdrop" data-reset-confirm hidden data-stay-on-scrim>
+    <div class="dialog" role="alertdialog" aria-modal="true" aria-labelledby="reset-title" aria-describedby="reset-copy">
+      <div class="dialog-head">
+        <span class="dialog-icon is-danger"><svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg></span>
+        <div>
+          <h2 id="reset-title">Reset local data?</h2>
+          <span class="hint">Settings · session · recent folders</span>
+        </div>
+      </div>
+      <div class="dialog-copy" id="reset-copy">
+        Forge will delete all three JSON files from userData. Open tabs, recent folders and every preference return to defaults, and the app restarts at Welcome.
+      </div>
+      <div class="dialog-actions">
+        <span class="dialog-meta">File contents are not affected</span>
+        <button class="btn" type="button" data-dialog-close>Cancel</button>
+        <button class="btn btn-danger" type="button" data-confirm-reset>Reset Local Data</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
