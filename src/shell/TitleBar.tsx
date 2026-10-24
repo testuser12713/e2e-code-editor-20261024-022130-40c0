@@ -5,12 +5,15 @@ import { useAppStore } from '../state/store';
 import { Icon } from '../ui/Icon';
 import { Menu, type MenuEntry } from '../ui/Menu';
 
+const BRAND_UNAVAILABLE_OPACITY = 0.33;
+
 export function TitleBar() {
   const state = useAppStore();
   const activeTab = state.tabs.tabs.find((tab) => tab.id === state.tabs.activeId) ?? null;
   const root = state.workspace.root;
   const hasDocument = state.status.relPath !== null;
   const hasDirtyTabs = Object.values(state.tabs.dirty).some(Boolean);
+  const forgeHomeUnavailable = state.sidebarView === 'explorer';
 
   const commandAction = (id: string, args?: unknown) => {
     if (!hasCommand(id)) return undefined;
@@ -133,6 +136,12 @@ export function TitleBar() {
         type="button"
         className="brand"
         aria-label="Forge home"
+        aria-disabled={forgeHomeUnavailable ? true : undefined}
+        disabled={forgeHomeUnavailable}
+        tabIndex={forgeHomeUnavailable ? -1 : undefined}
+        title={forgeHomeUnavailable ? 'Already showing the Explorer view' : 'Show the Explorer view'}
+        data-testid="brand-home"
+        style={forgeHomeUnavailable ? { opacity: BRAND_UNAVAILABLE_OPACITY } : undefined}
         onClick={forgeHome}
       >
         <span className="brand-mark">
