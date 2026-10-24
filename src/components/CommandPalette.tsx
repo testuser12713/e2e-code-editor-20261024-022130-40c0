@@ -11,7 +11,7 @@ import {
 import { fuzzyFilter } from '../lib/fuzzy';
 import { type IconName } from '../ui/Icon';
 import { ListBox } from '../ui/ListBox';
-import { Palette, revealPaletteRow } from '../ui/Palette';
+import { Palette, revealPaletteRow, type PaletteHint } from '../ui/Palette';
 
 export type CommandPaletteProps = {
   open: boolean;
@@ -61,6 +61,12 @@ const COMMAND_ICONS: Record<string, IconName> = {
   [COMMAND_IDS.about]: 'info',
   [COMMAND_IDS.resetLocalData]: 'trash',
 };
+
+const COMMAND_HINTS: PaletteHint[] = [
+  { keys: '↑↓', label: 'Navigate' },
+  { keys: 'Enter', label: 'Run' },
+  { keys: 'Esc', label: 'Close' },
+];
 
 const openListeners = new Set<() => void>();
 
@@ -228,23 +234,11 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
       onClose={close}
       onKeyDown={handleKeyDown}
       testId="command-palette"
+      hints={COMMAND_HINTS}
       footer={
-        <>
-          <span>
-            {filtered.length} available command{filtered.length === 1 ? '' : 's'} · fuzzy filtered
-          </span>
-          <div className="palette-hints">
-            <span className="palette-hint">
-              <span className="kbd">↑↓</span>Navigate
-            </span>
-            <span className="palette-hint">
-              <span className="kbd">Enter</span>Run
-            </span>
-            <span className="palette-hint">
-              <span className="kbd">Esc</span>Close
-            </span>
-          </div>
-        </>
+        <span>
+          {filtered.length} available command{filtered.length === 1 ? '' : 's'} · fuzzy filtered
+        </span>
       }
     >
       {filtered.length === 0 ? (
