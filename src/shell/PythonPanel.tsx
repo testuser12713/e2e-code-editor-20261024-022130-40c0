@@ -121,24 +121,26 @@ export function PythonPanel() {
     interpreterLabel = 'Python unavailable for this tab';
   }
 
-  const runDisabled = !desktop || !activeIsPython || running;
-  const runTitle = !desktop
-    ? 'Running Python requires the desktop application.'
-    : !activeIsPython
-      ? 'Only Python files can be run'
+  const actionsUnavailable = !desktop || !activeIsPython;
+
+  const runDisabled = actionsUnavailable || running;
+  const runTitle = !activeIsPython
+    ? 'Only Python files can be run'
+    : !desktop
+      ? 'Running Python requires the desktop application.'
       : running
         ? 'A Python process is already running'
         : 'Save the open file and run it';
 
-  const checkDisabled = !desktop || !activeIsPython;
-  const checkTitle = !desktop
-    ? 'Running Python requires the desktop application.'
-    : !activeIsPython
-      ? 'Only Python files can be run'
+  const checkDisabled = actionsUnavailable;
+  const checkTitle = !activeIsPython
+    ? 'Only Python files can be run'
+    : !desktop
+      ? 'Running Python requires the desktop application.'
       : 'Compile the open file without running it';
 
   const showEmptyState = desktop && activeIsPython && !running && lines.length === 0;
-  const showNonPythonNote = desktop && activeTab !== null && !activeIsPython;
+  const showNonPythonNote = activeTab !== null && !activeIsPython;
 
   return (
     <section
@@ -147,6 +149,8 @@ export function PythonPanel() {
       data-od-id="python-output-panel"
       data-testid="python-panel"
       data-python-panel
+      data-python-actions={actionsUnavailable ? 'unavailable' : 'available'}
+      data-python-build={desktop ? 'desktop' : 'browser'}
     >
       <header className="python-head">
         <div className="python-id">
@@ -236,24 +240,15 @@ export function PythonPanel() {
         role="log"
         aria-live="polite"
         aria-label="Python output"
-        data-python-output
       >
         {!desktop ? (
-          <>
-            <div className="python-disabled-note">
-              <Icon name="info" size="sm" />
-              <span>
-                <strong>Running Python requires the desktop application.</strong> Completion works
-                unchanged in this browser build.
-              </span>
-            </div>
-            <div className="py-line" data-stream="meta">
-              <span className="py-gutter" />
-              <span className="py-text">
-                The output panel is shown for consistency; no child process is started here.
-              </span>
-            </div>
-          </>
+          <div className="python-disabled-note">
+            <Icon name="info" size="sm" />
+            <span>
+              <strong>Running Python requires the desktop application.</strong> Completion works
+              unchanged in this browser build.
+            </span>
+          </div>
         ) : null}
 
         {showNonPythonNote ? (
@@ -262,6 +257,15 @@ export function PythonPanel() {
             <span>
               Only Python files can be run. Open a <span className="mono">.py</span> file to use Run
               and Check syntax.
+            </span>
+          </div>
+        ) : null}
+
+        {!desktop ? (
+          <div className="py-line" data-stream="meta">
+            <span className="py-gutter" />
+            <span className="py-text">
+              The output panel is shown for consistency; no child process is started here.
             </span>
           </div>
         ) : null}
@@ -279,44 +283,46 @@ export function PythonPanel() {
           </div>
         ) : null}
 
-        {lines.map((line, index) => {
-          const summary = isSummaryLine(line);
-          const summaryClass = summary
-            ? line.stream === 'stderr'
-              ? 'is-stderr-summary'
-              : 'is-summary'
-            : undefined;
-          return (
-            <div
-              key={line.id}
-              className={cn('py-line', line.loc ? 'is-loc' : undefined, summaryClass)}
-              data-stream={displayStream(line)}
-              data-testid="python-line"
-            >
-              <span className="py-gutter">{hasBlankGutter(line) ? '' : index + 1}</span>
-              <span className="py-text">
-                {line.loc ? (
-                  <button
-                    type="button"
-                    className="py-jump"
-                    title={`Open ${line.loc.relPath} at line ${line.loc.line}`}
-                    onClick={() => {
-                      if (!line.loc) return;
-                      void openFile(line.loc.relPath, {
-                        line: line.loc.line,
-                        column: line.loc.column ?? 1,
-                      });
-                    }}
-                  >
-                    {line.text}
-                  </button>
-                ) : (
-                  line.text
-                )}
-              </span>
-            </div>
-          );
-        })}
+        <div data-python-output>
+          {lines.map((line, index) => {
+            const summary = isSummaryLine(line);
+            const summaryClass = summary
+              ? line.stream === 'stderr'
+                ? 'is-stderr-summary'
+                : 'is-summary'
+              : undefined;
+            return (
+              <div
+                key={line.id}
+                className={cn('py-line', line.loc ? 'is-loc' : undefined, summaryClass)}
+                data-stream={displayStream(line)}
+                data-testid="python-line"
+              >
+                <span className="py-gutter">{hasBlankGutter(line) ? '' : index + 1}</span>
+                <span className="py-text">
+                  {line.loc ? (
+                    <button
+                      type="button"
+                      className="py-jump"
+                      title={`Open ${line.loc.relPath} at line ${line.loc.line}`}
+                      onClick={() => {
+                        if (!line.loc) return;
+                        void openFile(line.loc.relPath, {
+                          line: line.loc.line,
+                          column: line.loc.column ?? 1,
+                        });
+                      }}
+                    >
+                      {line.text}
+                    </button>
+                  ) : (
+                    line.text
+                  )}
+                </span>
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

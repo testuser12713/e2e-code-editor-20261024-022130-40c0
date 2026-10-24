@@ -84,6 +84,15 @@
 
 .python-actions .btn-primary .kbd { color: var(--accent-ink); opacity: 0.62; }
 
+.python-panel[data-python-build='browser'] .btn-primary:disabled,
+.python-panel[data-python-build='browser'] .btn-primary[aria-disabled='true'] {
+  border-color: var(--border);
+  background: var(--surface);
+  color: var(--fg);
+}
+
+.python-panel[data-python-build='browser'] .btn-primary .kbd { color: currentColor; }
+
 .python-output {
   flex: 1;
   min-height: 0;
