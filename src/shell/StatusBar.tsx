@@ -2,6 +2,7 @@ import { Menu, type MenuEntry } from '../ui/Menu';
 import { StatusItem } from '../ui/StatusItem';
 import { appStore, useAppStore } from '../state/store';
 import { setActiveLanguage } from '../state/documents';
+import './statusbar.css';
 
 const LANGUAGES = [
   'TypeScript',
@@ -18,50 +19,15 @@ const LANGUAGES = [
   'Plain Text',
 ];
 
+const PLACEHOLDER = '\u2014';
+const POSITION_PLACEHOLDER = `${PLACEHOLDER}:${PLACEHOLDER}`;
+
 const INDENT_OPTIONS: { label: string; mode: 'spaces' | 'tabs'; size: 2 | 4 | 8 }[] = [
   { label: 'Spaces: 2', mode: 'spaces', size: 2 },
   { label: 'Spaces: 4', mode: 'spaces', size: 4 },
   { label: 'Spaces: 8', mode: 'spaces', size: 8 },
   { label: 'Tabs', mode: 'tabs', size: 2 },
 ];
-
-const STATUS_MENU_STYLE = `
-.statusbar .status-menu {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  min-height: 100%;
-}
-.statusbar .status-menu .menu {
-  top: auto;
-  bottom: calc(100% + 6px);
-  left: 0;
-}
-.statusbar .status-menu .menu-trigger {
-  height: 100%;
-  min-height: 100%;
-  padding: 0 15px 0 0;
-  border-radius: 0;
-  background-color: transparent;
-  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
-    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-  background-position: right 6px center, right 3px center;
-  background-size: 3px 3px, 3px 3px;
-  background-repeat: no-repeat;
-  color: var(--muted);
-  font: inherit;
-  line-height: 1;
-  cursor: pointer;
-}
-.statusbar .status-menu .menu-trigger:hover,
-.statusbar .status-menu .menu-trigger[aria-expanded='true'] {
-  background-color: transparent;
-  color: var(--fg);
-}
-.statusbar {
-  overflow: visible;
-}
-`;
 
 function baseName(absPath: string): string {
   const normalized = absPath.replace(/\\/g, '/').replace(/\/+$/, '');
@@ -93,10 +59,9 @@ export function StatusBar() {
   const hasDocument = status.relPath !== null;
   const indentLabel = status.indentMode === 'tabs' ? 'Tabs' : `Spaces: ${status.indentSize}`;
 
-  if (!hasDocument) {
+  if (!root && !hasDocument) {
     return (
       <footer className="statusbar" data-od-id="status-bar" data-testid="status-bar">
-        <style>{STATUS_MENU_STYLE}</style>
         <StatusItem>
           <span className="accent-dot" />
           <strong>Welcome</strong>
@@ -105,6 +70,48 @@ export function StatusBar() {
         <span className="status-spacer" />
         <StatusItem>Local session</StatusItem>
         <StatusItem>UTF-8</StatusItem>
+      </footer>
+    );
+  }
+
+  if (root && !hasDocument) {
+    return (
+      <footer className="statusbar" data-od-id="status-bar" data-testid="status-bar">
+        <StatusItem title="Language">
+          <span className="status-placeholder" data-status-language data-testid="status-language">
+            {PLACEHOLDER}
+          </span>
+        </StatusItem>
+        <StatusItem title="Line and column">
+          <span
+            className="status-placeholder"
+            data-status-position
+            data-testid="status-position"
+          >
+            {POSITION_PLACEHOLDER}
+          </span>
+        </StatusItem>
+        <StatusItem title="Indentation">
+          <span
+            className="status-placeholder"
+            data-status-indentation
+            data-testid="status-indentation"
+          >
+            {PLACEHOLDER}
+          </span>
+        </StatusItem>
+        <StatusItem title="Line ending">
+          <span className="status-placeholder" data-status-eol data-testid="status-eol">
+            {PLACEHOLDER}
+          </span>
+        </StatusItem>
+        <StatusItem title="Encoding">
+          <span className="status-placeholder" data-status-encoding data-testid="status-encoding">
+            {PLACEHOLDER}
+          </span>
+        </StatusItem>
+        <span className="status-spacer" />
+        <StatusItem title={root}>{baseName(root)}</StatusItem>
       </footer>
     );
   }
@@ -126,9 +133,8 @@ export function StatusBar() {
 
   return (
     <footer className="statusbar" data-od-id="status-bar" data-testid="status-bar">
-      <style>{STATUS_MENU_STYLE}</style>
       <StatusItem>
-        <span className="status-menu" data-testid="status-language-control">
+        <span className="status-menu" data-status-language data-testid="status-language-control">
           <Menu
             label={status.language}
             testId="status-language"
@@ -137,13 +143,17 @@ export function StatusBar() {
           />
         </span>
       </StatusItem>
-      <StatusItem>
-        <span data-status-position>
+      <StatusItem title="Line and column">
+        <span data-status-position data-testid="status-position">
           {status.line}:{status.column}
         </span>
       </StatusItem>
       <StatusItem>
-        <span className="status-menu" data-testid="status-indentation-control">
+        <span
+          className="status-menu"
+          data-status-indentation
+          data-testid="status-indentation-control"
+        >
           <Menu
             label={indentLabel}
             testId="status-indentation"
@@ -152,10 +162,18 @@ export function StatusBar() {
           />
         </span>
       </StatusItem>
-      <StatusItem>{status.eol.toUpperCase()}</StatusItem>
-      <StatusItem>{status.encoding.toUpperCase()}</StatusItem>
+      <StatusItem title="Line ending">
+        <span data-status-eol data-testid="status-eol">
+          {status.eol.toUpperCase()}
+        </span>
+      </StatusItem>
+      <StatusItem title="Encoding">
+        <span data-status-encoding data-testid="status-encoding">
+          {status.encoding.toUpperCase()}
+        </span>
+      </StatusItem>
       <span className="status-spacer" />
-      {root ? <StatusItem>{baseName(root)}</StatusItem> : null}
+      {root ? <StatusItem title={root}>{baseName(root)}</StatusItem> : null}
     </footer>
   );
 }

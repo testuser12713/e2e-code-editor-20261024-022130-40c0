@@ -1,0 +1,53 @@
+/* The status bar's own styling. Layout, cells and tokens come from the
+   design stylesheet; this file only holds what the status bar itself needs. */
+
+.statusbar {
+  overflow: visible;
+}
+
+.statusbar .status-menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 100%;
+}
+
+.statusbar .status-menu .menu {
+  top: auto;
+  bottom: calc(100% + 6px);
+  left: 0;
+}
+
+.statusbar .status-menu .menu-trigger {
+  height: 100%;
+  min-height: 100%;
+  padding: 0 15px 0 0;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%),
+    linear-gradient(135deg, var(--muted) 50%, transparent 50%);
+  background-position: right 6px center, right 3px center;
+  background-size: 3px 3px, 3px 3px;
+  background-repeat: no-repeat;
+  color: var(--muted);
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.statusbar .status-menu .menu-trigger:hover,
+.statusbar .status-menu .menu-trigger[aria-expanded='true'] {
+  background-color: transparent;
+  color: var(--fg);
+}
+
+.statusbar .status-placeholder {
+  color: var(--faint);
+  letter-spacing: 0.04em;
+  user-select: none;
+}
+
+.statusbar .status-placeholder[data-status-position] {
+  min-width: 3.5ch;
+  text-align: center;
+}

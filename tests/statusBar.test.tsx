@@ -41,6 +41,12 @@ afterEach(() => {
   cleanup();
 });
 
+function openWorkspace(root = '/projects/forge-editor'): void {
+  act(() => {
+    appStore.dispatch({ type: 'workspace/open', root });
+  });
+}
+
 describe('status bar', () => {
   it('renders the active document status slice', () => {
     openStatus({ language: 'Python', indentSize: 4, eol: 'crlf' });
@@ -136,5 +142,58 @@ describe('status bar', () => {
     expect(within(bar).queryAllByRole('button')).toHaveLength(0);
     expect(screen.queryByTestId('status-language')).toBeNull();
     expect(screen.queryByTestId('status-indentation')).toBeNull();
+  });
+
+  it('keeps the document segments as neutral placeholders while a workspace has no active document', () => {
+    openWorkspace();
+
+    render(<StatusBar />);
+
+    const bar = screen.getByTestId('status-bar');
+    expect(within(bar).getByTestId('status-language').textContent).toBe('\u2014');
+    expect(within(bar).getByTestId('status-position').textContent).toBe('\u2014:\u2014');
+    expect(within(bar).getByTestId('status-indentation').textContent).toBe('\u2014');
+    expect(within(bar).getByTestId('status-eol').textContent).toBe('\u2014');
+    expect(within(bar).getByTestId('status-encoding').textContent).toBe('\u2014');
+    expect(within(bar).getByText('forge-editor')).toBeTruthy();
+
+    expect(within(bar).queryByText('Welcome')).toBeNull();
+    expect(within(bar).queryByText('No active document')).toBeNull();
+    expect(within(bar).queryAllByRole('button')).toHaveLength(0);
+  });
+
+  it('fills the placeholder segments and follows the cursor once a document opens', () => {
+    openWorkspace();
+
+    render(<StatusBar />);
+    expect(screen.getByTestId('status-position').textContent).toBe('\u2014:\u2014');
+
+    act(() => {
+      appStore.dispatch({
+        type: 'status/update',
+        status: {
+          relPath: 'src/app.ts',
+          language: 'TypeScript',
+          line: 37,
+          column: 18,
+          indentMode: 'spaces',
+          indentSize: 2,
+          eol: 'lf',
+          encoding: 'utf-8',
+        },
+      });
+    });
+
+    expect(screen.getByTestId('status-language').textContent).toBe('TypeScript');
+    expect(screen.getByTestId('status-position').textContent).toBe('37:18');
+    expect(screen.getByTestId('status-indentation').textContent).toBe('Spaces: 2');
+    expect(screen.getByTestId('status-eol').textContent).toBe('LF');
+    expect(screen.getByTestId('status-encoding').textContent).toBe('UTF-8');
+
+    act(() => {
+      appStore.dispatch({ type: 'status/update', status: { line: 4, column: 3 } });
+    });
+
+    expect(screen.getByTestId('status-position').textContent).toBe('4:3');
   });
 });
