@@ -46,10 +46,14 @@ import {
   setTabCursor,
   updateDocumentContent,
 } from '../state/documents';
+import { registerCompletionSource, registerPythonCompletion } from '../python/completion';
+import { staticCompletionSource } from '../python/completionStatic';
+import { documentCompletionSource } from '../python/documentSymbols';
 import { appStore, useAppStore } from '../state/store';
 import { Icon } from '../ui/Icon';
 import { IconButton } from '../ui/IconButton';
 import { WelcomeView } from '../views/WelcomeView';
+import { PythonPanel } from './PythonPanel';
 
 type FindMode = 'find' | 'replace';
 
@@ -398,6 +402,9 @@ export function EditorPane() {
         if (cancelled || !containerRef.current) return;
 
         defineThemes(monaco);
+        registerCompletionSource(staticCompletionSource);
+        registerCompletionSource(documentCompletionSource);
+        subscriptions.push(registerPythonCompletion(monaco));
         const current = settingsRef.current;
         model = monaco.editor.createModel('', 'plaintext');
         editor = monaco.editor.create(containerRef.current, {
@@ -621,43 +628,46 @@ export function EditorPane() {
   const hasTab = activeId !== null;
 
   return (
-    <div
-      className="editor-stage"
-      data-od-id="monaco-editor"
-      data-testid="editor-stage"
-      onKeyDownCapture={handleKeyDownCapture}
-    >
-      <style>{EDITOR_STYLE}</style>
+    <>
       <div
-        ref={containerRef}
-        className="forge-monaco"
-        style={{ display: hasTab ? 'block' : 'none' }}
-        data-testid="monaco-mount"
-      />
-      {!hasTab ? (
-        <div className="editor-empty">
-          <div>
-            <h2>No file open</h2>
-            <p>Select a file from the explorer to open it in the editor.</p>
-          </div>
-        </div>
-      ) : null}
-      {loadFailed ? (
-        <div className="editor-empty" role="alert">
-          <div>
-            <h2>Editor unavailable</h2>
-            <p>The editor bundle could not be loaded. Restart Forge and try again.</p>
-          </div>
-        </div>
-      ) : null}
-      {findMode && controllerRef.current ? (
-        <FindWidget
-          mode={findMode}
-          controller={controllerRef.current}
-          focusToken={findFocusToken}
-          onClose={() => setFindMode(null)}
+        className="editor-stage"
+        data-od-id="monaco-editor"
+        data-testid="editor-stage"
+        onKeyDownCapture={handleKeyDownCapture}
+      >
+        <style>{EDITOR_STYLE}</style>
+        <div
+          ref={containerRef}
+          className="forge-monaco"
+          style={{ display: hasTab ? 'block' : 'none' }}
+          data-testid="monaco-mount"
         />
-      ) : null}
-    </div>
+        {!hasTab ? (
+          <div className="editor-empty">
+            <div>
+              <h2>No file open</h2>
+              <p>Select a file from the explorer to open it in the editor.</p>
+            </div>
+          </div>
+        ) : null}
+        {loadFailed ? (
+          <div className="editor-empty" role="alert">
+            <div>
+              <h2>Editor unavailable</h2>
+              <p>The editor bundle could not be loaded. Restart Forge and try again.</p>
+            </div>
+          </div>
+        ) : null}
+        {findMode && controllerRef.current ? (
+          <FindWidget
+            mode={findMode}
+            controller={controllerRef.current}
+            focusToken={findFocusToken}
+            onClose={() => setFindMode(null)}
+          />
+        ) : null}
+      </div>
+      <PythonPanel />
+    </>
   );
 }

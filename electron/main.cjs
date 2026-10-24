@@ -12,6 +12,7 @@ const searchHandlers = require('./handlers/search.cjs');
 const persistHandlers = require('./handlers/persist.cjs');
 const quickOpenHandlers = require('./handlers/quickopen.cjs');
 const lifecycleHandlers = require('./handlers/lifecycle.cjs');
+const pythonHandlers = require('./handlers/python.cjs');
 
 const INDEX_PATH = path.join(__dirname, '..', 'dist', 'index.html');
 const INDEX_URL = pathToFileURL(INDEX_PATH).href;
@@ -82,6 +83,10 @@ const invokeHandlers = {
   'persist:clearLocalData': persistHandlers.clearLocalData,
   'persist:userDataPath': persistHandlers.userDataPath,
   'app:confirmClose': lifecycleHandlers.confirmClose,
+  'python:run': pythonHandlers.run,
+  'python:stop': pythonHandlers.stop,
+  'python:check': pythonHandlers.check,
+  'python:interpreter': pythonHandlers.interpreter,
 };
 
 function registerIpc() {

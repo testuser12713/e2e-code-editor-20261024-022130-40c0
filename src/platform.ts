@@ -90,6 +90,28 @@ const DEMO_FILES: Record<string, string> = {
     '- The main process resolves every path against the workspace root.',
     '',
   ].join('\n'),
+  'reports/inventory_report.py': [
+    'import math',
+    '',
+    '',
+    'def load_shipments() -> list[str]:',
+    '    return ["SKU-1001", "SKU-1002", "SKU-1003"]',
+    '',
+    '',
+    'def total_weight(count: int) -> float:',
+    '    return math.fsum(index * 1.5 for index in range(count))',
+    '',
+    '',
+    'def main() -> None:',
+    '    shipments = load_shipments()',
+    '    print(f"Loaded {len(shipments)} shipments")',
+    '    print(f"Total weight: {total_weight(len(shipments)):.2f} kg")',
+    '',
+    '',
+    'if __name__ == "__main__":',
+    '    main()',
+    '',
+  ].join('\n'),
 };
 
 const LANGUAGE_BY_EXTENSION: Record<string, string> = {
@@ -314,6 +336,23 @@ function createBrowserFallback(): PlatformApi {
     menu: {
       setMenuState: () => undefined,
       onCommand: () => () => undefined,
+    },
+    python: {
+      run: async () => ({
+        ok: false,
+        message: 'Running Python requires the desktop application.',
+      }),
+      stop: async () => ({
+        ok: false,
+        message: 'Running Python requires the desktop application.',
+      }),
+      check: async () => ({
+        ok: false,
+        kind: 'rejected',
+        message: 'Running Python requires the desktop application.',
+      }),
+      interpreter: async () => ({ found: false }),
+      onEvent: () => () => undefined,
     },
   };
 }

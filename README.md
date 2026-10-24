@@ -13,6 +13,7 @@ keine Telemetrie und während der Laufzeit keine HTTP- oder HTTPS-Anfrage.
 - **Desktop-Shell:** Electron mit getrenntem Main- und Preload-Prozess
 - **Renderer:** React, gebündelt mit Vite
 - **Editor:** Monaco Editor, lokal mitgeliefert
+- **Python:** Python 3 des Betriebssystems, über `child_process.spawn` im Main-Prozess gestartet
 - **Persistenz:** JSON-Dateien im Benutzerdatenverzeichnis von Electron (Einstellungen, Sitzung,
   zuletzt geöffnete Ordner)
 - **Tests:** Vitest; Komponententests laufen mit jsdom
@@ -34,6 +35,14 @@ erzeugt allein die statische Oberfläche in `dist/`.
 - Dateien in Tabs öffnen; ein bereits geöffneter Tab wird fokussiert statt dupliziert.
 - Syntaxhervorhebung für JavaScript, TypeScript, JSON, HTML, CSS, SCSS, Python, Markdown, Shell,
   YAML und XML; die erkannte Sprache lässt sich in der Statusleiste umstellen.
+- Python-Ausführung: die geöffnete `.py`-Datei mit „Run“ (`Strg+Enter`) starten oder mit
+  „Check syntax“ (`Strg+Shift+B`) prüfen. Das Output-Panel unter dem Editor streamt stdout und
+  stderr, nennt Exit-Code und Laufzeit, lässt sich stoppen und leert sich über „Clear“; ein Klick
+  auf eine Zeilenangabe springt zur Fehlerzeile im Editor. Während eines Laufs zeigt die
+  Statusleiste „Python: running“ mit Dateinamen, danach den letzten Exit-Code.
+- Python-Autovervollständigung im Editor: Keywords, Builtins mit Signatur, Stdlib-Module und
+  deren Member, Snippets, die Symbole der geöffneten Datei sowie die `.py`-Dateien des
+  Arbeitsbereichs nach `import` und `from`.
 - Änderungsmarkierung am Tab, Speichern mit `Strg+S`, alle geänderten Tabs speichern mit
   `Strg+Alt+S`; beim Schließen eines geänderten Tabs oder des Fensters erscheint ein
   Speichern-Dialog.
@@ -52,10 +61,14 @@ erzeugt allein die statische Oberfläche in `dist/`.
 - Hilfe-Menü mit „About / Privacy“ und „Reset Local Data“.
 - Alle Dateien bleiben auf dem Rechner. Die persistierten JSON-Dateien enthalten nur
   Einstellungswerte, Dateipfade und Cursorpositionen – niemals Dateiinhalte.
+- Python-Ausgaben, Fehler und Pfade eines Laufs bleiben ausschließlich im Arbeitsspeicher des
+  Panels. Sie werden nicht persistiert, nicht in Logs geschrieben und nicht über das Netzwerk
+  gesendet; der Kindprozess erhält eine eigens aufgebaute Umgebung statt der Electron-Umgebung.
 
 ## Installation
 
-Voraussetzung ist Node.js 22 oder neuer.
+Voraussetzung ist Node.js 22 oder neuer. Für die Python-Ausführung muss zusätzlich Python 3
+installiert und im `PATH` des Systems verfügbar sein.
 
 ```bash
 npm ci
@@ -107,6 +120,17 @@ Im Explorer öffnet ein Klick auf eine Datei einen Tab; ein Rechtsklick auf eine
 das Kontextmenü für die Dateiverwaltung. Die Statusleiste zeigt die Werte der aktiven Datei und
 erlaubt das Umschalten der Sprache.
 
+### Python
+
+Ist eine `.py`-Datei aktiv, erscheint unter dem Editor das Output-Panel mit Dateiname,
+Interpreter-Version und Laufzustand. „Run“ speichert die Datei bei Bedarf und startet sie;
+„Stop“ beendet einen laufenden Prozess; „Check syntax“ kompiliert die Datei, ohne sie
+auszuführen. Bei einem Syntaxfehler nennt das Panel Zeile, Spalte und die betroffene
+Quellzeile, bei einer erfolgreichen Prüfung die Anzahl der Zeilen. Verweise auf Zeilen im
+Arbeitsbereich sind anklickbar und setzen den Cursor im Editor. Läuft ein Skript länger als
+60 Sekunden, wird es beendet. Im Browser-Build ohne Electron-Bridge bleiben Ausführung und
+Syntaxprüfung sichtbar deaktiviert; die Autovervollständigung funktioniert dort unverändert.
+
 ### Tastenkürzel
 
 | Aktion | Tastenkürzel |
@@ -119,6 +143,8 @@ erlaubt das Umschalten der Sprache.
 | Alle speichern | `Strg+Alt+S` |
 | Suchen in Datei | `Strg+F` |
 | Ersetzen in Datei | `Strg+H` |
+| Python-Datei ausführen | `Strg+Enter` |
+| Python-Syntax prüfen | `Strg+Shift+B` |
 | Einstellungen | `Strg+,` |
 | Ordner öffnen | `Strg+Shift+O` |
 

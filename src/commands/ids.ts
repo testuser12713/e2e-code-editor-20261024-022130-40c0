@@ -20,6 +20,8 @@ export const COMMAND_IDS = {
   delete: 'tree.delete',
   about: 'app.about',
   resetLocalData: 'app.resetLocalData',
+  pythonRun: 'python.run',
+  pythonCheck: 'python.check',
 } as const;
 
 export type CommandId = (typeof COMMAND_IDS)[keyof typeof COMMAND_IDS];
@@ -35,4 +37,6 @@ export const COMMAND_KEYBINDINGS: Record<string, string> = {
   [COMMAND_IDS.find]: 'Ctrl+F',
   [COMMAND_IDS.replace]: 'Ctrl+H',
   [COMMAND_IDS.openFolder]: 'Ctrl+Shift+O',
+  [COMMAND_IDS.pythonRun]: 'Ctrl+Enter',
+  [COMMAND_IDS.pythonCheck]: 'Ctrl+Shift+B',
 };

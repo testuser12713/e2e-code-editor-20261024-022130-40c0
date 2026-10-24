@@ -60,6 +60,19 @@ const api = {
       };
     },
   },
+  python: {
+    run: (relPath) => ipcRenderer.invoke('python:run', relPath),
+    stop: (runId) => ipcRenderer.invoke('python:stop', runId),
+    check: (relPath) => ipcRenderer.invoke('python:check', relPath),
+    interpreter: () => ipcRenderer.invoke('python:interpreter'),
+    onEvent: (callback) => {
+      const listener = (_event, event) => callback(event);
+      ipcRenderer.on('python:event', listener);
+      return () => {
+        ipcRenderer.removeListener('python:event', listener);
+      };
+    },
+  },
 };
 
 contextBridge.exposeInMainWorld('api', api);

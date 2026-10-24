@@ -158,6 +158,63 @@ export type MenuApi = {
   onCommand(callback: (commandId: string) => void): () => void;
 };
 
+export type PythonStartResult =
+  | { ok: true; runId: string }
+  | { ok: false; message: string };
+
+export type PythonCheckResult =
+  | { ok: true; lineCount: number }
+  | {
+      ok: false;
+      kind: 'syntax';
+      line: number;
+      column: number;
+      sourceText: string;
+      message: string;
+    }
+  | { ok: false; kind: 'rejected'; message: string }
+  | { ok: false; kind: 'interpreter-missing' };
+
+export type PythonInterpreter =
+  | { found: true; path: string; version: string }
+  | { found: false };
+
+export type PythonLocation = {
+  relPath: string;
+  line: number;
+  column: number | null;
+};
+
+export type PythonEvent =
+  | { kind: 'started'; runId: string; interpreter: PythonInterpreter }
+  | {
+      kind: 'output';
+      runId: string;
+      stream: 'stdout' | 'stderr';
+      text: string;
+      loc: PythonLocation | null;
+    }
+  | {
+      kind: 'notice';
+      runId: string;
+      notice: 'stdin-eof' | 'interpreter-missing';
+    }
+  | {
+      kind: 'exit';
+      runId: string;
+      reason: 'exit' | 'stopped' | 'timeout';
+      code: number | null;
+      durationMs: number;
+    };
+
+export type PythonApi = {
+  run(relPath: string): Promise<PythonStartResult>;
+  stop(runId: string): Promise<OpResult>;
+  check(relPath: string): Promise<PythonCheckResult>;
+  interpreter(): Promise<PythonInterpreter>;
+  onEvent(callback: (event: PythonEvent) => void): () => void;
+};
+
 export type PlatformApi = {
   workspace: CapabilityApi;
   files: FilesApi;
@@ -167,4 +224,5 @@ export type PlatformApi = {
   persist: PersistApi;
   app: AppApi;
   menu: MenuApi;
+  python: PythonApi;
 };
