@@ -77,12 +77,16 @@ export function Dialog({
             {subtitle ? <span className="hint">{subtitle}</span> : null}
           </div>
         </div>
-        {description ? (
-          <div className="dialog-copy" id={descriptionId}>
-            {description}
+        {description || children ? (
+          <div className="dialog-content">
+            {description ? (
+              <div className="dialog-copy" id={descriptionId}>
+                {description}
+              </div>
+            ) : null}
+            {children ? <div className="dialog-body">{children}</div> : null}
           </div>
         ) : null}
-        {children ? <div className="dialog-body">{children}</div> : null}
         {footer ? <div className="dialog-actions">{footer}</div> : null}
       </div>
     </div>

@@ -476,3 +476,53 @@
 .kit-overlay-palette .palette.is-contained {
   max-width: none;
 }
+
+.dialog {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 40px);
+  overflow: hidden;
+}
+
+.dialog-head {
+  flex: 0 0 auto;
+}
+
+.dialog-content {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.dialog-actions {
+  flex: 0 0 auto;
+}
+
+.about-dialog {
+  display: flex;
+  flex-direction: column;
+  max-height: calc(100dvh - 40px);
+  overflow: hidden;
+}
+
+.about-head {
+  flex: 0 0 auto;
+}
+
+.about-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.about-actions {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 760px) {
+  .about-dialog {
+    max-height: calc(100dvh - 20px);
+  }
+}
