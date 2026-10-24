@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 import { COMMAND_IDS } from '../commands/ids';
 import { hasCommand, runCommand } from '../commands/registry';
@@ -24,6 +24,7 @@ export type AboutDialogProps = {
 };
 
 export function AboutDialog({ open, onClose }: AboutDialogProps) {
+  const bodyRef = useRef<HTMLDivElement>(null);
   const [requestedOpen, setRequestedOpen] = useState(false);
   const [resetOpen, setResetOpen] = useState(false);
   const [userDataPath, setUserDataPath] = useState<string | null>(null);
@@ -74,6 +75,12 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
     setResetOpen(false);
     onClose();
   };
+
+  useEffect(() => {
+    if (!isOpen) return;
+
+    bodyRef.current?.focus({ preventScroll: true });
+  }, [isOpen]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -133,7 +140,14 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               </button>
             </div>
 
-            <div className="about-body" data-testid="about-body">
+            <div
+              className="about-body"
+              data-testid="about-body"
+              ref={bodyRef}
+              role="region"
+              aria-label="About / Privacy details"
+              tabIndex={0}
+            >
               <p className="about-lede">
                 Forge works only inside the folder you open. Everything else — preferences, session and recent
                 folders — stays in a local userData directory. There is no account, no sync and no telemetry.

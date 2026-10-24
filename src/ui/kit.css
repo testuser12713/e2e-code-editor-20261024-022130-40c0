@@ -499,7 +499,12 @@
   flex: 0 0 auto;
 }
 
-.about-dialog {
+/* The backdrop is the dialog's containing block, so this ruleset is scoped to
+   that one direct child. A view-level `.about-dialog` rule at a breakpoint
+   (theme.css lifts the maximum height at 760px) must never be able to cancel
+   the bound and let the card grow past the viewport: the body would stop being
+   the scroll container and the footer would cover the last paragraphs. */
+.about-backdrop > .about-dialog {
   display: flex;
   flex-direction: column;
   max-height: calc(100dvh - 40px);
@@ -517,34 +522,12 @@
   overscroll-behavior: contain;
 }
 
-/* While sections continue below the fold, the body's bottom edge softens into
-   the dialog surface, so the body visibly continues instead of ending on a hard
-   cut under the footer. The fade follows the body's own scroll position and is
-   gone once the scroll reaches the closure below the vendor details. */
-@supports (animation-timeline: scroll()) {
-  .about-body {
-    animation-name: about-body-bottom-fade;
-    animation-duration: auto;
-    animation-timing-function: linear;
-    animation-fill-mode: both;
-    animation-timeline: scroll(self block);
-  }
-
-  @keyframes about-body-bottom-fade {
-    from {
-      -webkit-mask-image: linear-gradient(
-        to bottom,
-        black calc(100% - 16px),
-        transparent 100%
-      );
-      mask-image: linear-gradient(to bottom, black calc(100% - 16px), transparent 100%);
-    }
-
-    to {
-      -webkit-mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
-      mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
-    }
-  }
+/* The body is focusable so keyboard users can scroll it to the vendor details
+   in the same way the mouse wheel does. The ring is drawn inside the body, so
+   it never spills under the footer. */
+.about-body:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: -2px;
 }
 
 .about-actions {
@@ -552,7 +535,7 @@
 }
 
 @media (max-width: 760px) {
-  .about-dialog {
+  .about-backdrop > .about-dialog {
     max-height: calc(100dvh - 20px);
   }
 }
