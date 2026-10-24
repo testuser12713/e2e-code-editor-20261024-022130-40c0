@@ -111,14 +111,8 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
             if (event.target === event.currentTarget) close();
           }}
         >
-          <section
-            className="about-dialog"
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="about-title"
-            style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
-          >
-            <div className="about-head" style={{ flexShrink: 0 }}>
+          <section className="about-dialog" role="dialog" aria-modal="true" aria-labelledby="about-title">
+            <div className="about-head">
               <div className="about-id">
                 <span className="brand-mark">
                   <Icon name="brand" />
@@ -139,10 +133,7 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               </button>
             </div>
 
-            <div
-              className="about-body"
-              style={{ flex: '1 1 auto', minHeight: 0, overflowY: 'auto' }}
-            >
+            <div className="about-body" data-testid="about-body">
               <p className="about-lede">
                 Forge works only inside the folder you open. Everything else — preferences, session and recent
                 folders — stays in a local userData directory. There is no account, no sync and no telemetry.
@@ -226,7 +217,7 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               </section>
             </div>
 
-            <div className="about-actions" style={{ flexShrink: 0 }}>
+            <div className="about-actions" data-testid="about-actions">
               <Button
                 variant="danger"
                 disabled={!hasCommand(COMMAND_IDS.resetLocalData)}
