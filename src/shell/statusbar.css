@@ -41,17 +41,6 @@
   color: var(--fg);
 }
 
-.statusbar .status-placeholder {
-  color: var(--faint);
-  letter-spacing: 0.04em;
-  user-select: none;
-}
-
-.statusbar .status-placeholder[data-status-position] {
-  min-width: 3.5ch;
-  text-align: center;
-}
-
 /* Python run state: running, the last exit code, or stopped/timeout. */
 .statusbar .status-python {
   color: var(--fg);
