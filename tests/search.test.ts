@@ -27,6 +27,10 @@ const workspaceHandlers = require('../electron/handlers/workspace.cjs') as {
   openFolder: (absPath: unknown) => Promise<{ ok: boolean }>;
 };
 
+const { grantRoot } = require('../electron/lib/pathGuard.cjs') as {
+  grantRoot: (absPath: string) => string | null;
+};
+
 let root = '';
 
 function query(overrides: Partial<SearchQuery> = {}): SearchQuery {
@@ -206,6 +210,7 @@ describe('search handler', () => {
   });
 
   it('searches the open workspace and groups the result', async () => {
+    grantRoot(root);
     const opened = await workspaceHandlers.openFolder(root);
     expect(opened.ok).toBe(true);
 

@@ -133,6 +133,10 @@ const workspaceHandlers = require('../electron/handlers/workspace.cjs') as {
   openFolder: (absPath: unknown) => Promise<{ ok: boolean }>;
 };
 
+const { grantRoot } = require('../electron/lib/pathGuard.cjs') as {
+  grantRoot: (absPath: string) => string | null;
+};
+
 let root = '';
 
 beforeAll(() => {
@@ -156,6 +160,7 @@ describe('quickopen listFiles handler', () => {
   });
 
   it('walks the open workspace and returns relative POSIX paths', async () => {
+    grantRoot(root);
     await workspaceHandlers.openFolder(root);
 
     const files = await quickOpenHandlers.listFiles();

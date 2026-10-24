@@ -11,6 +11,35 @@ class PathError extends Error {
   }
 }
 
+const grantedRoots = new Set();
+
+function rootKey(realOrResolved) {
+  return process.platform === 'win32' ? realOrResolved.toLowerCase() : realOrResolved;
+}
+
+function canonicalRootPath(absPath) {
+  if (typeof absPath !== 'string' || absPath.trim().length === 0) return null;
+  if (!path.isAbsolute(absPath)) return null;
+
+  try {
+    return rootKey(fs.realpathSync(absPath));
+  } catch {
+    return rootKey(path.resolve(absPath));
+  }
+}
+
+function grantRoot(absPath) {
+  const key = canonicalRootPath(absPath);
+  if (key === null) return null;
+  grantedRoots.add(key);
+  return key;
+}
+
+function isRootGranted(absPath) {
+  const key = canonicalRootPath(absPath);
+  return key !== null && grantedRoots.has(key);
+}
+
 function assertRoot(absPath) {
   if (typeof absPath !== 'string' || absPath.trim().length === 0) {
     throw new PathError('Workspace root must be a non-empty path.', 'invalid-root');
@@ -150,4 +179,10 @@ function resolveInWorkspace(root, relPath) {
   return resolved;
 }
 
-module.exports = { PathError, assertRoot, resolveInWorkspace };
+module.exports = {
+  PathError,
+  assertRoot,
+  resolveInWorkspace,
+  grantRoot,
+  isRootGranted,
+};

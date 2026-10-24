@@ -578,12 +578,16 @@ describe('path validation', () => {
     const workspaceHandlers = require('../electron/handlers/workspace.cjs') as {
       openFolder(absPath: unknown): Promise<{ ok: boolean }>;
     };
+    const { grantRoot } = require('../electron/lib/pathGuard.cjs') as {
+      grantRoot: (absPath: string) => string | null;
+    };
     const pythonHandlers = require('../electron/handlers/python.cjs') as {
       run(relPath: unknown): Promise<PythonStartResult>;
       check(relPath: unknown): Promise<PythonCheckResult>;
       stop(runId: unknown): Promise<{ ok: boolean }>;
     };
 
+    grantRoot(root);
     await workspaceHandlers.openFolder(root);
     spawnSpy.mockClear();
 
