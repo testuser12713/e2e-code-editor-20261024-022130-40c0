@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 
 import { DEMO_ROOT, platform } from '../src/platform';
+import { runActivePython, stopPythonRun } from '../src/python/runPython';
 
 const DESKTOP_MESSAGE = 'Running Python requires the desktop application.';
 
@@ -40,6 +41,13 @@ describe('python bridge fallback', () => {
     expect(typeof unsubscribe).toBe('function');
     expect(() => unsubscribe()).not.toThrow();
     expect(called).toBe(false);
+  });
+});
+
+describe('python renderer actions', () => {
+  it('exports the run and stop actions as inert promises', async () => {
+    await expect(runActivePython()).resolves.toBeUndefined();
+    await expect(stopPythonRun()).resolves.toBeUndefined();
   });
 });
 
