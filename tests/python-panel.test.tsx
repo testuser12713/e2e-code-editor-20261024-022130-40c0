@@ -129,6 +129,78 @@ describe('python output panel', () => {
     expect((screen.getByTestId('python-clear') as HTMLButtonElement).disabled).toBe(false);
   });
 
+  it('shows both hints on a non-Python tab in the browser fallback and offers no usable action', () => {
+    environment.bridge = false;
+    openWorkspace();
+    openTab('README.md', 'README.md');
+
+    render(<PythonPanel />);
+
+    expect(screen.getByText(/Only Python files can be run\./)).toBeTruthy();
+    expect(screen.getByText(/Running Python requires the desktop application\./)).toBeTruthy();
+    expect(screen.getByTestId('python-panel').getAttribute('data-python-actions')).toBe(
+      'unavailable',
+    );
+
+    const run = screen.getByTestId('python-run') as HTMLButtonElement;
+    const check = screen.getByTestId('python-check') as HTMLButtonElement;
+    expect(run.disabled).toBe(true);
+    expect(check.disabled).toBe(true);
+    expect(run.getAttribute('aria-disabled')).toBe('true');
+    expect(check.getAttribute('aria-disabled')).toBe('true');
+    expect((screen.getByTestId('python-clear') as HTMLButtonElement).disabled).toBe(false);
+  });
+
+  it('keeps the desktop-only hint on a Python tab in the browser fallback', () => {
+    environment.bridge = false;
+    openWorkspace();
+    openTab('reports/inventory_report.py', 'inventory_report.py');
+
+    render(<PythonPanel />);
+
+    expect(screen.getByText(/Running Python requires the desktop application\./)).toBeTruthy();
+    expect(screen.queryByText(/Only Python files can be run/)).toBeNull();
+    expect((screen.getByTestId('python-run') as HTMLButtonElement).disabled).toBe(true);
+    expect((screen.getByTestId('python-check') as HTMLButtonElement).disabled).toBe(true);
+    expect(screen.getByTestId('python-panel').getAttribute('data-python-actions')).toBe(
+      'unavailable',
+    );
+  });
+
+  it('updates the panel when the active tab switches from Python to a non-Python file', () => {
+    environment.bridge = false;
+    openWorkspace();
+    openTab('reports/inventory_report.py', 'inventory_report.py', 'tab-py');
+
+    render(<PythonPanel />);
+
+    expect(screen.getByText('inventory_report.py')).toBeTruthy();
+    expect(screen.queryByText(/Only Python files can be run/)).toBeNull();
+
+    act(() => {
+      appStore.dispatch({
+        type: 'tabs/open',
+        tab: { id: 'tab-md', relPath: 'README.md', name: 'README.md' },
+      });
+    });
+
+    expect(screen.getByText('README.md')).toBeTruthy();
+    expect(screen.getByText(/Only Python files can be run\./)).toBeTruthy();
+    expect((screen.getByTestId('python-run') as HTMLButtonElement).disabled).toBe(true);
+  });
+
+  it('leaves the output region empty when a Python file opens in the browser fallback', () => {
+    environment.bridge = false;
+    openWorkspace();
+    openTab('reports/inventory_report.py', 'inventory_report.py');
+
+    const { container } = render(<PythonPanel />);
+
+    const output = container.querySelector('[data-python-output]') as HTMLElement;
+    expect(output.textContent?.trim()).toBe('');
+    expect(screen.queryAllByTestId('python-line')).toHaveLength(0);
+  });
+
   it('keeps the panel visible in the browser bridge and names the desktop requirement', () => {
     environment.bridge = false;
     openWorkspace();
