@@ -1,0 +1,15 @@
+{
+  "runcontract": 1,
+  "services": [
+    {
+      "name": "app",
+      "dir": ".",
+      "stack": "electron",
+      "kind": "static",
+      "install": [["npm", "ci"]],
+      "build": [["npm", "run", "build"]],
+      "test": [["npm", "test"]],
+      "serve_dir": "dist"
+    }
+  ]
+}
