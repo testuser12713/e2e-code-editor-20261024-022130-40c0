@@ -6,6 +6,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   variant?: 'default' | 'primary' | 'ghost' | 'danger';
   size?: 'sm' | 'md' | 'lg';
   children?: ReactNode;
+  testId?: string;
 };
 
 const VARIANT_CLASS = {
@@ -21,11 +22,19 @@ const SIZE_CLASS = {
   lg: 'btn-lg',
 } as const;
 
-export function Button({ variant = 'default', size = 'md', className, type = 'button', ...props }: ButtonProps) {
+export function Button({
+  variant = 'default',
+  size = 'md',
+  className,
+  type = 'button',
+  testId,
+  ...props
+}: ButtonProps) {
   return (
     <button
       type={type}
       className={cn('btn', VARIANT_CLASS[variant], SIZE_CLASS[size], className)}
+      data-testid={testId}
       {...props}
     />
   );

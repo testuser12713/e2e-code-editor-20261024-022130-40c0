@@ -1,19 +1,31 @@
 import { useId } from 'react';
 
+import { cn } from '../lib/cn';
+
 export type ToggleProps = {
   label: string;
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;
   id?: string;
+  className?: string;
+  testId?: string;
 };
 
-export function Toggle({ label, checked, onChange, disabled = false, id }: ToggleProps) {
+export function Toggle({
+  label,
+  checked,
+  onChange,
+  disabled = false,
+  id,
+  className,
+  testId,
+}: ToggleProps) {
   const generatedId = useId();
   const inputId = id ?? generatedId;
 
   return (
-    <label className="switch" htmlFor={inputId}>
+    <label className={cn('switch', className)} htmlFor={inputId} data-testid={testId}>
       <input
         id={inputId}
         type="checkbox"

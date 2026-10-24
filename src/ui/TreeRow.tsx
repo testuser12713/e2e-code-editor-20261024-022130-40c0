@@ -12,17 +12,31 @@ export type TreeRowProps = {
   badge?: string;
   onClick?: (node: TreeNode) => void;
   onContextMenu?: (node: TreeNode, event: MouseEvent<HTMLElement>) => void;
+  className?: string;
+  testId?: string;
 };
 
-export function TreeRow({ node, depth = 0, expanded = false, active = false, badge, onClick, onContextMenu }: TreeRowProps) {
+export function TreeRow({
+  node,
+  depth = 0,
+  expanded = false,
+  active = false,
+  badge,
+  onClick,
+  onContextMenu,
+  className,
+  testId,
+}: TreeRowProps) {
   return (
     <button
       type="button"
       role="treeitem"
+      aria-level={depth + 1}
       aria-expanded={node.kind === 'dir' ? expanded : undefined}
       aria-current={active ? 'page' : undefined}
-      className={cn('tree-row', active ? 'is-active' : undefined)}
+      className={cn('tree-row', active ? 'is-active' : undefined, className)}
       style={{ paddingLeft: 4 + depth * 13 }}
+      data-testid={testId}
       onClick={() => onClick?.(node)}
       onContextMenu={(event) => {
         event.preventDefault();
