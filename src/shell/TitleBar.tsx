@@ -9,6 +9,8 @@ export function TitleBar() {
   const state = useAppStore();
   const activeTab = state.tabs.tabs.find((tab) => tab.id === state.tabs.activeId) ?? null;
   const root = state.workspace.root;
+  const hasDocument = state.status.relPath !== null;
+  const hasDirtyTabs = Object.values(state.tabs.dirty).some(Boolean);
 
   const commandAction = (id: string, args?: unknown) => {
     if (!hasCommand(id)) return undefined;
@@ -33,12 +35,14 @@ export function TitleBar() {
       label: 'Save',
       keybinding: 'Ctrl+S',
       icon: 'save',
+      disabled: !state.tabs.activeId,
       onSelect: commandAction(COMMAND_IDS.save),
     },
     {
       label: 'Save All',
       keybinding: 'Ctrl+Alt+S',
       icon: 'save',
+      disabled: !hasDirtyTabs,
       onSelect: commandAction(COMMAND_IDS.saveAll),
     },
     {
@@ -66,12 +70,14 @@ export function TitleBar() {
       label: 'Find',
       keybinding: 'Ctrl+F',
       icon: 'search',
+      disabled: !hasDocument,
       onSelect: commandAction(COMMAND_IDS.find),
     },
     {
       label: 'Replace',
       keybinding: 'Ctrl+H',
       icon: 'edit',
+      disabled: !hasDocument,
       onSelect: commandAction(COMMAND_IDS.replace),
     },
     { separator: true },
