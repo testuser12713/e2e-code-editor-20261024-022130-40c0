@@ -6,6 +6,7 @@ import { Icon } from '../ui/Icon';
 export function ActivityBar() {
   const state = useAppStore();
   const view = state.sidebarView;
+  const hasWorkspace = state.workspace.root !== null;
 
   const switchView = (commandId: string) => {
     void runCommand(commandId);
@@ -28,8 +29,10 @@ export function ActivityBar() {
         type="button"
         className="activity-btn"
         aria-current={view === 'search' ? 'page' : undefined}
-        title="Project search"
-        aria-label="Project search"
+        title={hasWorkspace ? 'Project search' : 'Open a folder to search'}
+        aria-label={hasWorkspace ? 'Project search' : 'Search — open a folder first'}
+        aria-disabled={hasWorkspace ? undefined : true}
+        tabIndex={hasWorkspace ? undefined : -1}
         data-testid="activity-search"
         onClick={() => switchView(COMMAND_IDS.showSearch)}
       >
