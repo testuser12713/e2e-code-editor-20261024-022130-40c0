@@ -160,9 +160,13 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   );
 
   const groups = useMemo(() => groupCommands(filtered), [filtered]);
+  const ordered = useMemo(
+    () => groups.flatMap((group) => group.commands),
+    [groups],
+  );
 
-  const activeIndex = filtered.length === 0 ? -1 : Math.min(selectedIndex, filtered.length - 1);
-  const activeCommand = activeIndex >= 0 ? filtered[activeIndex] : null;
+  const activeIndex = ordered.length === 0 ? -1 : Math.min(selectedIndex, ordered.length - 1);
+  const activeCommand = activeIndex >= 0 ? ordered[activeIndex] : null;
 
   useEffect(() => {
     if (!isOpen || !activeCommand) return;
@@ -181,11 +185,11 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (filtered.length === 0) return;
+    if (ordered.length === 0) return;
 
     if (event.key === 'ArrowDown') {
       event.preventDefault();
-      setSelectedIndex(Math.min(activeIndex + 1, filtered.length - 1));
+      setSelectedIndex(Math.min(activeIndex + 1, ordered.length - 1));
       return;
     }
 
@@ -203,7 +207,7 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
 
     if (event.key === 'End') {
       event.preventDefault();
-      setSelectedIndex(filtered.length - 1);
+      setSelectedIndex(ordered.length - 1);
       return;
     }
 
