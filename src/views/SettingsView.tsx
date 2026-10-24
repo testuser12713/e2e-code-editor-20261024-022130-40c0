@@ -7,7 +7,7 @@ import { appStore, useAppStore } from '../state/store';
 import type { Settings } from '../state/types';
 import { Icon } from '../ui/Icon';
 import { Toggle } from '../ui/Toggle';
-import './SettingsView.css';
+import './settings.css';
 
 const THEMES = ['dark', 'light'] as const;
 const TAB_SIZES: Settings['tabSize'][] = [2, 4, 8];
