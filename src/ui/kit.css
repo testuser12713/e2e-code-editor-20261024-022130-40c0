@@ -112,6 +112,60 @@
   height: 22px;
 }
 
+.notices-host {
+  flex: 0 0 auto;
+}
+
+.notices-host:empty {
+  display: none;
+}
+
+.notices {
+  position: static;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  z-index: auto;
+  display: grid;
+  gap: var(--space-2);
+  justify-items: end;
+  width: 100%;
+  max-width: none;
+  padding: 8px 16px 14px;
+  pointer-events: none;
+}
+
+.notices.is-floating {
+  position: fixed;
+  right: 16px;
+  bottom: calc(var(--statusbar-h) + 14px);
+  z-index: 90;
+  width: min(390px, calc(100vw - 32px));
+  padding: 0;
+}
+
+.notice {
+  width: min(390px, 100%);
+  pointer-events: auto;
+}
+
+@media (max-width: 760px) {
+  .notices {
+    padding: 8px 10px 14px;
+  }
+
+  .notices.is-floating {
+    right: 10px;
+    left: 10px;
+    width: auto;
+    padding: 0;
+  }
+
+  .notice {
+    width: 100%;
+  }
+}
+
 .empty-state-icon {
   margin: 0 auto var(--space-3);
 }
