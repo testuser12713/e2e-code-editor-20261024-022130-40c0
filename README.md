@@ -18,6 +18,15 @@ keine Telemetrie und während der Laufzeit keine HTTP- oder HTTPS-Anfrage.
 - **Tests:** Vitest; Komponententests laufen mit jsdom
 - **Paketierung:** electron-builder
 
+## Dienst `app`
+
+Das Produkt besteht aus genau einem Dienst aus `RUN.json`: **`app`**. Er ist die
+Forge-Anwendung selbst (Verzeichnis `.`, Stack `electron`): Der Main-Prozess liegt in
+`electron/`, der React-Renderer wird mit `npm run build` nach `dist/` gebaut. Die App läuft
+lokal auf dem Rechner des Nutzers und benötigt keinen eigenen Server. Gestartet wird sie in der
+Entwicklung mit `npm start` (baut den Renderer und öffnet das Electron-Fenster); `npm run build`
+erzeugt allein die statische Oberfläche in `dist/`.
+
 ## Funktionen
 
 - Arbeitsbereichsordner über den nativen Ordnerdialog öffnen; der Dateibaum zeigt Ordner zuerst,
