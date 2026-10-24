@@ -1,0 +1,506 @@
+{
+  "$schema": "http://cyclonedx.org/schema/bom-1.7.schema.json",
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.7",
+  "serialNumber": "urn:uuid:77caf3b5-059e-4e3b-a5c5-41a18dca2ee1",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2026-10-24T02:46:58Z",
+    "tools": {
+      "components": [
+        {
+          "type": "application",
+          "author": "anchore",
+          "name": "syft",
+          "version": "1.51.1"
+        }
+      ]
+    },
+    "component": {
+      "bom-ref": "20e1156615475b2f",
+      "type": "file",
+      "name": "e2e-code-editor-20261024-022130-40c0"
+    }
+  },
+  "components": [
+    {
+      "bom-ref": "pkg:npm/%40types/trusted-types@2.0.7?package-id=faefdce74689eae3",
+      "type": "library",
+      "name": "@types/trusted-types",
+      "version": "2.0.7",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:\\@types\\/trusted-types:\\@types\\/trusted-types:2.0.7:*:*:*:*:*:*:*",
+      "purl": "pkg:npm/%40types/trusted-types@2.0.7",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "javascript-lock-cataloger"
+        },
+        {
+          "name": "syft:package:language",
+          "value": "javascript"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "npm"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "javascript-npm-package-lock-entry"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:\\@types\\/trusted-types:\\@types\\/trusted_types:2.0.7:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:\\@types\\/trusted_types:\\@types\\/trusted-types:2.0.7:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:\\@types\\/trusted_types:\\@types\\/trusted_types:2.0.7:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:\\@types\\/trusted:\\@types\\/trusted-types:2.0.7:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:\\@types\\/trusted:\\@types\\/trusted_types:2.0.7:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/package-lock.json"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:github/actions/checkout@v4?package-id=fa2e67b8c20f75f3",
+      "type": "library",
+      "name": "actions/checkout",
+      "version": "v4",
+      "cpe": "cpe:2.3:a:actions\\/checkout:actions\\/checkout:v4:*:*:*:*:*:*:*",
+      "purl": "pkg:github/actions/checkout@v4",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "github-actions-usage-cataloger"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "github-action"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "github-actions-use-statement"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/.github.flows/ci.yml"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:github/actions/setup-node@v4?package-id=0655ed1d97886acf",
+      "type": "library",
+      "name": "actions/setup-node",
+      "version": "v4",
+      "cpe": "cpe:2.3:a:actions\\/setup-node:actions\\/setup-node:v4:*:*:*:*:*:*:*",
+      "purl": "pkg:github/actions/setup-node@v4",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "github-actions-usage-cataloger"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "github-action"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "github-actions-use-statement"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:actions\\/setup-node:actions\\/setup_node:v4:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:actions\\/setup_node:actions\\/setup-node:v4:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:actions\\/setup_node:actions\\/setup_node:v4:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:actions\\/setup:actions\\/setup-node:v4:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:actions\\/setup:actions\\/setup_node:v4:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/.github.flows/ci.yml"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/dompurify@3.4.17?package-id=05878eb010533042",
+      "type": "library",
+      "name": "dompurify",
+      "version": "3.4.17",
+      "licenses": [
+        {
+          "expression": "MPL-2.0 OR Apache-2.0"
+        }
+      ],
+      "cpe": "cpe:2.3:a:dompurify:dompurify:3.4.17:*:*:*:*:*:*:*",
+      "purl": "pkg:npm/dompurify@3.4.17",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "javascript-lock-cataloger"
+        },
+        {
+          "name": "syft:package:language",
+          "value": "javascript"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "npm"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "javascript-npm-package-lock-entry"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/package-lock.json"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/forge@0.1.0?package-id=ad38c2d0921c7cf6",
+      "type": "library",
+      "name": "forge",
+      "version": "0.1.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:forge:forge:0.1.0:*:*:*:*:*:*:*",
+      "purl": "pkg:npm/forge@0.1.0",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "javascript-lock-cataloger"
+        },
+        {
+          "name": "syft:package:language",
+          "value": "javascript"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "npm"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "javascript-npm-package-lock-entry"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/package-lock.json"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/marked@14.0.0?package-id=e3e85003c4086352",
+      "type": "library",
+      "name": "marked",
+      "version": "14.0.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:marked_project:marked:14.0.0:*:*:*:*:node.js:*:*",
+      "purl": "pkg:npm/marked@14.0.0",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "javascript-lock-cataloger"
+        },
+        {
+          "name": "syft:package:language",
+          "value": "javascript"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "npm"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "javascript-npm-package-lock-entry"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/package-lock.json"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/monaco-editor@0.57.0?package-id=e56adb03b93c4088",
+      "type": "library",
+      "name": "monaco-editor",
+      "version": "0.57.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:monaco-editor:monaco-editor:0.57.0:*:*:*:*:*:*:*",
+      "purl": "pkg:npm/monaco-editor@0.57.0",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "javascript-lock-cataloger"
+        },
+        {
+          "name": "syft:package:language",
+          "value": "javascript"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "npm"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "javascript-npm-package-lock-entry"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:monaco-editor:monaco_editor:0.57.0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:monaco_editor:monaco-editor:0.57.0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:monaco_editor:monaco_editor:0.57.0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:monaco:monaco-editor:0.57.0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:monaco:monaco_editor:0.57.0:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/package-lock.json"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/react@19.3.1?package-id=97b15e6332b2fe2a",
+      "type": "library",
+      "name": "react",
+      "version": "19.3.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:react:react:19.3.1:*:*:*:*:*:*:*",
+      "purl": "pkg:npm/react@19.3.1",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "javascript-lock-cataloger"
+        },
+        {
+          "name": "syft:package:language",
+          "value": "javascript"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "npm"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "javascript-npm-package-lock-entry"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/package-lock.json"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/react-dom@19.3.1?package-id=968b9255993be456",
+      "type": "library",
+      "name": "react-dom",
+      "version": "19.3.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:react-dom:react-dom:19.3.1:*:*:*:*:*:*:*",
+      "purl": "pkg:npm/react-dom@19.3.1",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "javascript-lock-cataloger"
+        },
+        {
+          "name": "syft:package:language",
+          "value": "javascript"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "npm"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "javascript-npm-package-lock-entry"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:react-dom:react_dom:19.3.1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:react_dom:react-dom:19.3.1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:react_dom:react_dom:19.3.1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:react:react-dom:19.3.1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:cpe23",
+          "value": "cpe:2.3:a:react:react_dom:19.3.1:*:*:*:*:*:*:*"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/package-lock.json"
+        }
+      ]
+    },
+    {
+      "bom-ref": "pkg:npm/scheduler@0.28.0?package-id=411f54da9a899817",
+      "type": "library",
+      "name": "scheduler",
+      "version": "0.28.0",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ],
+      "cpe": "cpe:2.3:a:scheduler:scheduler:0.28.0:*:*:*:*:*:*:*",
+      "purl": "pkg:npm/scheduler@0.28.0",
+      "properties": [
+        {
+          "name": "syft:package:foundBy",
+          "value": "javascript-lock-cataloger"
+        },
+        {
+          "name": "syft:package:language",
+          "value": "javascript"
+        },
+        {
+          "name": "syft:package:type",
+          "value": "npm"
+        },
+        {
+          "name": "syft:package:metadataType",
+          "value": "javascript-npm-package-lock-entry"
+        },
+        {
+          "name": "syft:location:0:path",
+          "value": "/package-lock.json"
+        }
+      ]
+    },
+    {
+      "bom-ref": "7561d461b00ff11d",
+      "type": "file",
+      "name": "./.github.flows/ci.yml",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "6c123e14ff39336a8e318566d63d204ef3d18937"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "1ca54bf7c2380b90218992919f1842bec3c6d347d11152bfc150c907ae004727"
+        }
+      ]
+    },
+    {
+      "bom-ref": "fd71c2238fc07657",
+      "type": "file",
+      "name": "./package-lock.json",
+      "hashes": [
+        {
+          "alg": "SHA-1",
+          "content": "aee9d430a7852a6a9ecc8f3721b1da7c41951b0c"
+        },
+        {
+          "alg": "SHA-256",
+          "content": "03ba6e3681a7ff0665a7e1c540e129fec1a74c05ebc2e0dbd39a4fb7a8027bd8"
+        }
+      ]
+    }
+  ],
+  "dependencies": [
+    {
+      "ref": "pkg:npm/forge@0.1.0?package-id=ad38c2d0921c7cf6",
+      "dependsOn": [
+        "pkg:npm/monaco-editor@0.57.0?package-id=e56adb03b93c4088",
+        "pkg:npm/react-dom@19.3.1?package-id=968b9255993be456",
+        "pkg:npm/react@19.3.1?package-id=97b15e6332b2fe2a"
+      ]
+    },
+    {
+      "ref": "pkg:npm/monaco-editor@0.57.0?package-id=e56adb03b93c4088",
+      "dependsOn": [
+        "pkg:npm/dompurify@3.4.17?package-id=05878eb010533042",
+        "pkg:npm/marked@14.0.0?package-id=e3e85003c4086352"
+      ]
+    },
+    {
+      "ref": "pkg:npm/react-dom@19.3.1?package-id=968b9255993be456",
+      "dependsOn": [
+        "pkg:npm/scheduler@0.28.0?package-id=411f54da9a899817"
+      ]
+    }
+  ]
+}
