@@ -517,6 +517,36 @@
   overscroll-behavior: contain;
 }
 
+/* While sections continue below the fold, the body's bottom edge softens into
+   the dialog surface, so the body visibly continues instead of ending on a hard
+   cut under the footer. The fade follows the body's own scroll position and is
+   gone once the scroll reaches the closure below the vendor details. */
+@supports (animation-timeline: scroll()) {
+  .about-body {
+    animation-name: about-body-bottom-fade;
+    animation-duration: auto;
+    animation-timing-function: linear;
+    animation-fill-mode: both;
+    animation-timeline: scroll(self block);
+  }
+
+  @keyframes about-body-bottom-fade {
+    from {
+      -webkit-mask-image: linear-gradient(
+        to bottom,
+        black calc(100% - 16px),
+        transparent 100%
+      );
+      mask-image: linear-gradient(to bottom, black calc(100% - 16px), transparent 100%);
+    }
+
+    to {
+      -webkit-mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
+      mask-image: linear-gradient(to bottom, black 100%, transparent 100%);
+    }
+  }
+}
+
 .about-actions {
   flex: 0 0 auto;
 }
