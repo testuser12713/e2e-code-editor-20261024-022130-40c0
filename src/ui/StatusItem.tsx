@@ -7,11 +7,17 @@ export type StatusItemProps = {
   title?: string;
   className?: string;
   testId?: string;
+  dataState?: string;
 };
 
-export function StatusItem({ children, title, className, testId }: StatusItemProps) {
+export function StatusItem({ children, title, className, testId, dataState }: StatusItemProps) {
   return (
-    <span className={cn('status-item', className)} title={title} data-testid={testId}>
+    <span
+      className={cn('status-item', className)}
+      title={title}
+      data-testid={testId}
+      data-state={dataState}
+    >
       {children}
     </span>
   );
