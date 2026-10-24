@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
 
 import { cn } from '../lib/cn';
 import { Icon } from './Icon';
@@ -48,7 +49,18 @@ function scheduleDismiss(id: number) {
 export function notify(message: string, kind: NoticeKind = 'info', options: NotifyOptions = {}): void {
   const notice: NoticeItem = { id: nextId, message, kind, title: options.title };
   nextId += 1;
-  notices = [...notices, notice].slice(-MAX_NOTICES);
+
+  const next = [...notices, notice].slice(-MAX_NOTICES);
+  for (const dropped of notices) {
+    if (next.includes(dropped)) continue;
+    const timer = timers.get(dropped.id);
+    if (timer) {
+      clearTimeout(timer);
+      timers.delete(dropped.id);
+    }
+  }
+
+  notices = next;
   publish();
   scheduleDismiss(notice.id);
 }
@@ -100,6 +112,7 @@ export function NoticeView({
 
 export function Notifications() {
   const [items, setItems] = useState<NoticeItem[]>(notices);
+  const [host, setHost] = useState<HTMLElement | null>(null);
 
   useEffect(() => {
     listeners.add(setItems);
@@ -109,10 +122,36 @@ export function Notifications() {
     };
   }, []);
 
+  useLayoutEffect(() => {
+    if (typeof document === 'undefined') return;
+
+    const app = document.querySelector<HTMLElement>('.app');
+    if (!app) return;
+
+    const container = document.createElement('div');
+    container.className = 'notices-host';
+    container.setAttribute('data-notices-host', '');
+    const statusbar = app.querySelector<HTMLElement>('.statusbar');
+    if (statusbar) {
+      app.insertBefore(container, statusbar);
+    } else {
+      app.appendChild(container);
+    }
+    setHost(container);
+
+    return () => {
+      container.remove();
+    };
+  }, []);
+
   if (items.length === 0) return null;
 
-  return (
-    <div className="notices" aria-live="polite" data-testid="notifications">
+  const view = (
+    <div
+      className={cn('notices', host ? undefined : 'is-floating')}
+      aria-live="polite"
+      data-testid="notifications"
+    >
       {items.map((notice) => (
         <NoticeView
           key={notice.id}
@@ -124,4 +163,6 @@ export function Notifications() {
       ))}
     </div>
   );
+
+  return host ? createPortal(view, host) : view;
 }
