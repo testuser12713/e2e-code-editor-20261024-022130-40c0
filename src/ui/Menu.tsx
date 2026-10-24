@@ -10,6 +10,8 @@ export type MenuAction = {
   disabled?: boolean;
   danger?: boolean;
   onSelect?: () => void;
+  testId?: string;
+  preview?: 'hover' | 'focus';
 };
 
 export type MenuSeparator = { separator: true };
@@ -20,14 +22,62 @@ export type MenuProps = {
   label: string;
   items: MenuEntry[];
   testId?: string;
+  menuTestId?: string;
+  defaultOpen?: boolean;
+  inline?: boolean;
 };
 
 function isSeparator(entry: MenuEntry): entry is MenuSeparator {
   return 'separator' in entry;
 }
 
-export function Menu({ label, items, testId }: MenuProps) {
-  const [open, setOpen] = useState(false);
+export type MenuListProps = {
+  items: MenuEntry[];
+  onActivate: (entry: MenuAction) => void;
+};
+
+export function MenuList({ items, onActivate }: MenuListProps) {
+  return (
+    <>
+      {items.map((entry, index) => {
+        if (isSeparator(entry)) {
+          return <div key={`separator-${index}`} className="menu-sep" />;
+        }
+
+        const disabled = entry.disabled === true || !entry.onSelect;
+        return (
+          <button
+            key={entry.label}
+            type="button"
+            role="menuitem"
+            className={cn(
+              'menu-item',
+              entry.danger ? 'is-danger' : undefined,
+              entry.preview === 'hover' ? 'is-preview-hover' : undefined,
+              entry.preview === 'focus' ? 'is-preview-focus' : undefined,
+            )}
+            aria-disabled={disabled}
+            disabled={disabled}
+            data-testid={entry.testId}
+            onClick={() => {
+              if (disabled) return;
+              onActivate(entry);
+            }}
+          >
+            <span className="menu-item-label">
+              {entry.icon ? <Icon name={entry.icon} size="sm" /> : null}
+              {entry.label}
+            </span>
+            {entry.keybinding ? <span className="kbd">{entry.keybinding}</span> : null}
+          </button>
+        );
+      })}
+    </>
+  );
+}
+
+export function Menu({ label, items, testId, menuTestId, defaultOpen = false, inline = false }: MenuProps) {
+  const [open, setOpen] = useState(defaultOpen);
   const [position, setPosition] = useState<{ left: number; top: number } | null>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -84,40 +134,20 @@ export function Menu({ label, items, testId }: MenuProps) {
       </button>
       <div
         ref={menuRef}
-        className="menu"
+        className={cn('menu', inline ? 'is-inline' : undefined)}
         role="menu"
         aria-label={label}
+        data-testid={menuTestId}
         hidden={!open}
-        style={position ? { left: position.left, top: position.top } : undefined}
+        style={!inline && position ? { left: position.left, top: position.top } : undefined}
       >
-        {items.map((entry, index) => {
-          if (isSeparator(entry)) {
-            return <div key={`separator-${index}`} className="menu-sep" />;
-          }
-
-          const disabled = entry.disabled === true || !entry.onSelect;
-          return (
-            <button
-              key={entry.label}
-              type="button"
-              role="menuitem"
-              className={cn('menu-item', entry.danger ? 'is-danger' : undefined)}
-              aria-disabled={disabled}
-              disabled={disabled}
-              onClick={() => {
-                if (disabled) return;
-                entry.onSelect?.();
-                setOpen(false);
-              }}
-            >
-              <span className="menu-item-label">
-                {entry.icon ? <Icon name={entry.icon} size="sm" /> : null}
-                {entry.label}
-              </span>
-              {entry.keybinding ? <span className="kbd">{entry.keybinding}</span> : null}
-            </button>
-          );
-        })}
+        <MenuList
+          items={items}
+          onActivate={(entry) => {
+            entry.onSelect?.();
+            setOpen(false);
+          }}
+        />
       </div>
     </>
   );

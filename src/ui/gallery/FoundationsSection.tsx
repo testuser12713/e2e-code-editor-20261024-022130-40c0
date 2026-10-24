@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import type { ReactNode } from 'react';
 
 import type { Tab, TreeNode } from '../../state/types';
 import { Button } from '../Button';
@@ -14,6 +13,7 @@ import { TextField } from '../TextField';
 import { Toggle } from '../Toggle';
 import { Tooltip } from '../Tooltip';
 import { TreeRow } from '../TreeRow';
+import { Specimen, State } from './GallerySpecimen';
 
 const ICON_NAMES: IconName[] = [
   'brand',
@@ -101,37 +101,6 @@ const STATE_DIR: TreeNode = { name: 'state', relPath: 'src/state', kind: 'dir' }
 const DOCUMENTS_FILE: TreeNode = { name: 'documents.ts', relPath: 'src/state/documents.ts', kind: 'file' };
 const HERO_FILE: TreeNode = { name: 'hero.png', relPath: 'assets/hero.png', kind: 'file' };
 const LOG_FILE: TreeNode = { name: 'electron.log', relPath: 'logs/electron.log', kind: 'file' };
-
-function Specimen({
-  id,
-  title,
-  description,
-  children,
-}: {
-  id: string;
-  title: string;
-  description: string;
-  children: ReactNode;
-}) {
-  return (
-    <article className="kit-specimen" data-testid={id}>
-      <header className="kit-specimen-head">
-        <h3>{title}</h3>
-        <p>{description}</p>
-      </header>
-      <div className="kit-specimen-body">{children}</div>
-    </article>
-  );
-}
-
-function State({ label, children }: { label: string; children: ReactNode }) {
-  return (
-    <div className="kit-state">
-      {children}
-      <span className="kit-state-label">{label}</span>
-    </div>
-  );
-}
 
 export function FoundationsSection() {
   const [toggles, setToggles] = useState({ off: false, on: true });

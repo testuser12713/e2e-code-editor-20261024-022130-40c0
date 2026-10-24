@@ -7,12 +7,14 @@ import type { IconName } from './Icon';
 export type ConfirmDialogProps = {
   open: boolean;
   title: string;
+  subtitle?: ReactNode;
   description: ReactNode;
   confirmLabel: string;
   cancelLabel?: string;
   meta?: string;
   tone?: 'default' | 'danger';
   icon?: IconName;
+  contained?: boolean;
   onConfirm: () => void;
   onCancel: () => void;
   testId?: string;
@@ -21,12 +23,14 @@ export type ConfirmDialogProps = {
 export function ConfirmDialog({
   open,
   title,
+  subtitle,
   description,
   confirmLabel,
   cancelLabel = 'Cancel',
   meta,
   tone = 'default',
   icon = 'alert',
+  contained = false,
   onConfirm,
   onCancel,
   testId,
@@ -36,9 +40,11 @@ export function ConfirmDialog({
       open={open}
       role="alertdialog"
       title={title}
+      subtitle={subtitle}
       description={description}
       icon={icon}
       iconTone={tone === 'danger' ? 'danger' : 'accent'}
+      contained={contained}
       onClose={onCancel}
       testId={testId}
       footer={

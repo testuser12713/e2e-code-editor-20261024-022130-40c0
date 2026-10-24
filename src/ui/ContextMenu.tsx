@@ -1,8 +1,7 @@
 import { useEffect, useRef } from 'react';
 
 import { cn } from '../lib/cn';
-import { Icon } from './Icon';
-import type { MenuEntry } from './Menu';
+import { MenuList, type MenuEntry } from './Menu';
 
 export type ContextMenuProps = {
   x: number;
@@ -11,13 +10,10 @@ export type ContextMenuProps = {
   items: MenuEntry[];
   onClose: () => void;
   testId?: string;
+  inline?: boolean;
 };
 
-function isSeparator(entry: MenuEntry): entry is { separator: true } {
-  return 'separator' in entry;
-}
-
-export function ContextMenu({ x, y, label, items, onClose, testId }: ContextMenuProps) {
+export function ContextMenu({ x, y, label, items, onClose, testId, inline = false }: ContextMenuProps) {
   const menuRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -45,38 +41,19 @@ export function ContextMenu({ x, y, label, items, onClose, testId }: ContextMenu
   return (
     <div
       ref={menuRef}
-      className="context-menu"
+      className={cn('context-menu', inline ? 'is-inline' : undefined)}
       role="menu"
       aria-label={label}
       data-testid={testId}
-      style={{ position: 'fixed', left, top }}
+      style={inline ? undefined : { position: 'fixed', left, top }}
     >
-      {items.map((entry, index) => {
-        if (isSeparator(entry)) {
-          return <div key={`separator-${index}`} className="menu-sep" />;
-        }
-        const disabled = entry.disabled === true || !entry.onSelect;
-        return (
-          <button
-            key={entry.label}
-            type="button"
-            role="menuitem"
-            className={cn('menu-item', entry.danger ? 'is-danger' : undefined)}
-            aria-disabled={disabled}
-            disabled={disabled}
-            onClick={() => {
-              if (disabled) return;
-              entry.onSelect?.();
-              onClose();
-            }}
-          >
-            <span className="menu-item-label">
-              {entry.icon ? <Icon name={entry.icon} size="sm" /> : null}
-              {entry.label}
-            </span>
-          </button>
-        );
-      })}
+      <MenuList
+        items={items}
+        onActivate={(entry) => {
+          entry.onSelect?.();
+          onClose();
+        }}
+      />
     </div>
   );
 }
