@@ -4,13 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="screen-route" content="/design-set">
-  <title>Forge — Interface set</title>
+  <title>Forge — Python interface set</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body class="index-page">
   <!-- serves: design-set index; links every screen in the set -->
   <svg class="svg-sprite" aria-hidden="true" focusable="false">
     <symbol id="i-brand" viewBox="0 0 24 24"><path d="M8.5 7 4 12l4.5 5M15.5 7 20 12l-4.5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="m7 9 3 3-3 3M12.5 15h4.5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.5 5.5 19 12 8.5 18.5z"/></symbol>
   </svg>
 
   <main class="index-wrap" data-od-id="design-set-index">
@@ -19,105 +21,223 @@
         <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg></span>
         <span>
           <span class="index-brand-name">Forge</span>
-          <span class="index-brand-sub">Interface set for review</span>
+          <span class="index-brand-sub">Python interface set for review</span>
         </span>
       </a>
       <div class="index-meta">
         <span class="badge badge-accent">Electron · Windows</span>
+        <span class="badge">Desktop + browser build</span>
         <span class="badge">Dark / Light</span>
         <span class="badge">360 px ready</span>
       </div>
     </header>
 
     <section class="index-hero" data-od-id="index-hero">
-      <h1>One surface.<br><em>Every</em> screen.</h1>
+      <h1>Run it. Read it.<br><em>Check</em> it.</h1>
       <div class="index-hero-copy">
         <span class="badge badge-dot badge-success">Review build</span>
-        <p>Forge is a deliberately narrow desktop code editor: open a folder, read the tree, edit a file, find a line, save. The interface is graphite and ember, with Bitter for display, Inter for controls, and JetBrains Mono wherever the product talks about code.</p>
+        <p>Python now lives inside Forge’s editor surface: a streamed output panel under Monaco, explicit run controls, clickable traceback locations, and completion that stays in the renderer. The set extends the approved graphite-and-ember system rather than replacing it.</p>
         <div class="index-hero-actions">
-          <a class="btn btn-primary" href="workspace.html">Open the workspace</a>
-          <a class="btn" href="welcome.html">Start at welcome</a>
+          <a class="btn btn-primary" href="workspace.html"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-play"/></svg>Open the Python workspace</a>
+          <a class="btn" href="python-running.html">Review a live run</a>
         </div>
       </div>
     </section>
 
-    <section class="index-section" data-od-id="screen-directory">
+    <section class="index-section" data-od-id="screen-directory-python">
       <div class="index-section-head">
-        <h2>Screen directory</h2>
-        <p>12 screens · one stylesheet · no network</p>
+        <h2>Python in the editor</h2>
+        <p>10 screens · one output panel</p>
       </div>
       <div class="screen-grid">
+        <a class="screen-card" href="workspace.html" data-od-id="screen-card-workspace">
+          <span class="screen-card-top"><span class="screen-index">01</span><span class="badge badge-accent">Primary</span></span>
+          <h3>Python workspace</h3>
+          <p>Open .py tab, dirty dot, idle output panel, interpreter version and the normal status line.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-running.html" data-od-id="screen-card-python-running">
+          <span class="screen-card-top"><span class="screen-index">02</span><span class="badge badge-info badge-dot">Running</span></span>
+          <h3>Live run</h3>
+          <p>stdout streams into the panel, Run is disabled, Stop is available, the status bar names the file.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-exited.html" data-od-id="screen-card-python-exited">
+          <span class="screen-card-top"><span class="screen-index">03</span><span class="badge badge-success">Exit 0</span></span>
+          <h3>Successful exit</h3>
+          <p>All stdout arrives, then “Process exited with code 0 in 0.42 s”; the status bar keeps the last exit code.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-traceback.html" data-od-id="screen-card-python-traceback">
+          <span class="screen-card-top"><span class="screen-index">04</span><span class="badge badge-danger">Exit 1</span></span>
+          <h3>Traceback</h3>
+          <p>stderr in error colour, clickable workspace locations, one external frame left plain, final exit code.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-syntax-error.html" data-od-id="screen-card-python-syntax-error">
+          <span class="screen-card-top"><span class="screen-index">05</span><span class="badge badge-danger">Syntax</span></span>
+          <h3>Syntax error</h3>
+          <p>Check syntax reports file, line, column and the affected source line without running the file.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-check-clean.html" data-od-id="screen-card-python-check-clean">
+          <span class="screen-card-top"><span class="screen-index">06</span><span class="badge badge-success">Passed</span></span>
+          <h3>Syntax check passed</h3>
+          <p>“No syntax errors (40 lines)” plus the explicit no-artefact guarantee.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-completion.html" data-od-id="screen-card-python-completion">
+          <span class="screen-card-top"><span class="screen-index">07</span><span class="badge">Completion</span></span>
+          <h3>Prefix completion</h3>
+          <p>After “pri”, the builtin print with its signature comes before the file’s own print_receipt.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-math-completion.html" data-od-id="screen-card-python-math-completion">
+          <span class="screen-card-top"><span class="screen-index">08</span><span class="badge">Completion</span></span>
+          <h3>Member completion</h3>
+          <p>After “math.”, sqrt, pi, floor and fsum carry detail and documentation cues.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-import-completion.html" data-od-id="screen-card-python-import-completion">
+          <span class="screen-card-top"><span class="screen-index">09</span><span class="badge">Completion</span></span>
+          <h3>Import completion</h3>
+          <p>After “from ”, stdlib modules and the workspace’s own .py files are offered in separate groups.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-snippet-completion.html" data-od-id="screen-card-python-snippet-completion">
+          <span class="screen-card-top"><span class="screen-index">10</span><span class="badge">Completion</span></span>
+          <h3>Snippet completion</h3>
+          <p>The “if __name__ == &quot;__main__&quot;:” snippet at the entry-file boundary.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="index-section" data-od-id="screen-directory-edge">
+      <div class="index-section-head">
+        <h2>Edge states</h2>
+        <p>6 screens · every promised outcome</p>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="python-stopped.html" data-od-id="screen-card-python-stopped">
+          <span class="screen-card-top"><span class="screen-index">11</span><span class="badge badge-warn">Stopped</span></span>
+          <h3>Stopped by user</h3>
+          <p>Stop is gone, Run returns, partial output stays and the panel names the interruption.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-timeout.html" data-od-id="screen-card-python-timeout">
+          <span class="screen-card-top"><span class="screen-index">12</span><span class="badge badge-warn">Timeout</span></span>
+          <h3>60-second timeout</h3>
+          <p>The process ends automatically with “Process stopped after 60 s”; the app stayed usable.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-stdin.html" data-od-id="screen-card-python-stdin">
+          <span class="screen-card-top"><span class="screen-index">13</span><span class="badge badge-danger">EOF</span></span>
+          <h3>No standard input</h3>
+          <p>An input() call receives EOF, the panel says “Standard input is not connected.” and the run ends.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-interpreter-missing.html" data-od-id="screen-card-python-interpreter-missing">
+          <span class="screen-card-top"><span class="screen-index">14</span><span class="badge badge-danger">Missing</span></span>
+          <h3>Python not found</h3>
+          <p>The exact install-and-PATH message, no process started, no silent failure.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-non-file.html" data-od-id="screen-card-python-non-file">
+          <span class="screen-card-top"><span class="screen-index">15</span><span class="badge">Non-Python</span></span>
+          <h3>Non-Python tab</h3>
+          <p>Run and Check syntax are visibly disabled under the TypeScript tab; the panel says why.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="python-browser.html" data-od-id="screen-card-python-browser">
+          <span class="screen-card-top"><span class="screen-index">16</span><span class="badge">Browser</span></span>
+          <h3>Browser build</h3>
+          <p>Run and Check are unavailable with “Running Python requires the desktop application.”</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+      </div>
+    </section>
+
+    <section class="index-section" data-od-id="screen-directory-surrounding">
+      <div class="index-section-head">
+        <h2>Surfaces around the feature</h2>
+        <p>4 screens · commands, trust, entry</p>
+      </div>
+      <div class="screen-grid">
+        <a class="screen-card" href="command-palette.html" data-od-id="screen-card-command-palette">
+          <span class="screen-card-top"><span class="screen-index">17</span><span class="badge badge-accent">Commands</span></span>
+          <h3>Command palette</h3>
+          <p>Python: Run file and Python: Check syntax, with their real shortcuts, filtered from the registry.</p>
+          <span class="screen-route">/workspace</span>
+        </a>
+        <a class="screen-card" href="about-privacy.html" data-od-id="screen-card-about-privacy">
+          <span class="screen-card-top"><span class="screen-index">18</span><span class="badge">Trust</span></span>
+          <h3>About / Privacy</h3>
+          <p>Python output stays in memory, creates no artefacts and never leaves the machine.</p>
+          <span class="screen-route">/about</span>
+        </a>
         <a class="screen-card" href="welcome.html" data-od-id="screen-card-welcome">
-          <span class="screen-card-top"><span class="screen-index">01</span><span class="badge">Launch</span></span>
+          <span class="screen-card-top"><span class="screen-index">19</span><span class="badge">Launch</span></span>
           <h3>Welcome</h3>
-          <p>No workspace yet. Open a folder, reopen one of five recents, or learn the shortcuts.</p>
+          <p>The unchanged entry surface: open a folder or return to a recent workspace.</p>
           <span class="screen-route">/</span>
         </a>
-        <a class="screen-card" href="workspace.html" data-od-id="screen-card-workspace">
-          <span class="screen-card-top"><span class="screen-index">02</span><span class="badge">Primary</span></span>
-          <h3>Workspace</h3>
-          <p>Explorer, open tabs, Monaco-style editor and the complete document status line.</p>
-          <span class="screen-route">/workspace</span>
+        <a class="screen-card" href="settings.html" data-od-id="screen-card-settings">
+          <span class="screen-card-top"><span class="screen-index">20</span><span class="badge">Persistent</span></span>
+          <h3>Settings</h3>
+          <p>Existing appearance and editor preferences; no interpreter picker was added.</p>
+          <span class="screen-route">/settings</span>
         </a>
+      </div>
+    </section>
+
+    <section class="index-section" data-od-id="screen-directory-existing">
+      <div class="index-section-head">
+        <h2>Existing workspace surfaces</h2>
+        <p>7 screens · unchanged composition</p>
+      </div>
+      <div class="screen-grid">
         <a class="screen-card" href="quick-open.html" data-od-id="screen-card-quick-open">
-          <span class="screen-card-top"><span class="screen-index">03</span><span class="badge">Overlay</span></span>
+          <span class="screen-card-top"><span class="screen-index">21</span><span class="badge">Overlay</span></span>
           <h3>Quick Open</h3>
-          <p>Ctrl+P fuzzy file jump with keyboard selection, path detail and Escape to dismiss.</p>
-          <span class="screen-route">/workspace</span>
-        </a>
-        <a class="screen-card" href="command-palette.html" data-od-id="screen-card-command-palette">
-          <span class="screen-card-top"><span class="screen-index">04</span><span class="badge">Overlay</span></span>
-          <h3>Command Palette</h3>
-          <p>The registered command set, fuzzy filtered, every row carrying its real keybinding.</p>
+          <p>Ctrl+P fuzzy file jump with keyboard selection and path detail.</p>
           <span class="screen-route">/workspace</span>
         </a>
         <a class="screen-card" href="project-search.html" data-od-id="screen-card-project-search">
-          <span class="screen-card-top"><span class="screen-index">05</span><span class="badge">Search</span></span>
+          <span class="screen-card-top"><span class="screen-index">22</span><span class="badge">Search</span></span>
           <h3>Project Search</h3>
           <p>Workspace-wide matches grouped by file, with case, whole-word and regex controls.</p>
           <span class="screen-route">/workspace/search</span>
         </a>
         <a class="screen-card" href="find-replace.html" data-od-id="screen-card-find-replace">
-          <span class="screen-card-top"><span class="screen-index">06</span><span class="badge">Editor</span></span>
+          <span class="screen-card-top"><span class="screen-index">23</span><span class="badge">Editor</span></span>
           <h3>Find &amp; Replace</h3>
           <p>In-file search, current hit, total count, single replace and replace all.</p>
           <span class="screen-route">/workspace</span>
         </a>
-        <a class="screen-card" href="settings.html" data-od-id="screen-card-settings">
-          <span class="screen-card-top"><span class="screen-index">07</span><span class="badge">Persistent</span></span>
-          <h3>Settings</h3>
-          <p>Dark or light, editor size, indentation, wrapping, whitespace and tree scale.</p>
-          <span class="screen-route">/settings</span>
-        </a>
         <a class="screen-card" href="explorer-context-menu.html" data-od-id="screen-card-explorer-menu">
-          <span class="screen-card-top"><span class="screen-index">08</span><span class="badge">Explorer</span></span>
+          <span class="screen-card-top"><span class="screen-index">24</span><span class="badge">Explorer</span></span>
           <h3>Explorer Menu</h3>
           <p>New file, new folder, rename and delete raised directly from a tree node.</p>
           <span class="screen-route">/workspace</span>
         </a>
         <a class="screen-card" href="delete-confirm.html" data-od-id="screen-card-delete-confirm">
-          <span class="screen-card-top"><span class="screen-index">09</span><span class="badge">Dialog</span></span>
+          <span class="screen-card-top"><span class="screen-index">25</span><span class="badge">Dialog</span></span>
           <h3>Delete Confirmation</h3>
           <p>A destructive file action stops for confirmation before anything touches disk.</p>
           <span class="screen-route">/workspace</span>
         </a>
         <a class="screen-card" href="unsaved-close.html" data-od-id="screen-card-unsaved-close">
-          <span class="screen-card-top"><span class="screen-index">10</span><span class="badge">Dialog</span></span>
+          <span class="screen-card-top"><span class="screen-index">26</span><span class="badge">Dialog</span></span>
           <h3>Unsaved Changes</h3>
           <p>Save, don’t save, or cancel when a dirty tab or the window asks to close.</p>
           <span class="screen-route">/workspace</span>
         </a>
         <a class="screen-card" href="file-rejected.html" data-od-id="screen-card-file-rejected">
-          <span class="screen-card-top"><span class="screen-index">11</span><span class="badge">Guard</span></span>
+          <span class="screen-card-top"><span class="screen-index">27</span><span class="badge">Guard</span></span>
           <h3>File Rejected</h3>
           <p>Binary and over-limit files are refused with a reason, and never get an empty tab.</p>
           <span class="screen-route">/workspace</span>
-        </a>
-        <a class="screen-card" href="about-privacy.html" data-od-id="screen-card-about-privacy">
-          <span class="screen-card-top"><span class="screen-index">12</span><span class="badge">Trust</span></span>
-          <h3>About / Privacy</h3>
-          <p>What stays local, where it lives, how to erase it, and the vendor fields still open.</p>
-          <span class="screen-route">/about</span>
         </a>
       </div>
     </section>
@@ -129,8 +249,8 @@
       </div>
       <div class="index-tokens">
         <div class="panel panel-pad">
-          <h3>Graphite &amp; ember</h3>
-          <p class="hint mt-1">Both themes derive from the same six anchors. Light mode is a documented override, not a second system.</p>
+          <h3>Graphite &amp; ember, with a Python surface</h3>
+          <p class="hint mt-1">The Python panel does not introduce a second palette. Its live state borrows the accent, failure borrows danger, and the output keeps the editor’s mono rhythm.</p>
           <div class="swatches" aria-label="Core colour tokens">
             <div class="swatch swatch-bg"><span>bg</span></div>
             <div class="swatch swatch-surface"><span>surface</span></div>
@@ -140,17 +260,18 @@
             <div class="swatch swatch-danger"><span>danger</span></div>
           </div>
           <div class="stack-inline">
-            <span class="badge">radius 3 / 6 / 9 / 13</span>
-            <span class="badge">4 · 8 · 12 · 16 · 24 · 32</span>
-            <span class="badge">data-theme → <span data-theme-live>dark</span></span>
+            <span class="badge">button states</span>
+            <span class="badge">output lines</span>
+            <span class="badge">completion list</span>
+            <span class="badge">status state</span>
           </div>
         </div>
         <div class="panel panel-pad">
           <h3>Three families, no substitutions</h3>
           <div class="type-specimen">
-            <span class="display">Forge</span>
-            <span class="ui">Inter keeps controls quiet and legible at 360 px.</span>
-            <span class="code">const workspaceRoot = "forge-editor";</span>
+            <span class="display">Run it.</span>
+            <span class="ui">Inter keeps the panel controls quiet at 360 px.</span>
+            <span class="code">Process exited with code 0 in 0.42 s</span>
           </div>
           <p class="hint mt-4">Bitter · Inter · JetBrains Mono. Loaded from <span class="mono">fonts/</span>, Latin and Latin Extended, offline.</p>
         </div>
@@ -158,7 +279,7 @@
     </section>
 
     <footer class="index-top index-footer" data-od-id="index-footer">
-      <span class="hint">Forge · binding HTML mockup set · review before implementation</span>
+      <span class="hint">Forge · Python integration · binding HTML mockup set · review before implementation</span>
       <span class="badge">HTML + CSS + vanilla JS</span>
     </footer>
   </main>

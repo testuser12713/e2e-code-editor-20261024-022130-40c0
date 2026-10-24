@@ -933,6 +933,80 @@
     });
   }
 
+
+  function initPythonPanel() {
+    const panel = document.querySelector("[data-python-panel]");
+    if (!panel) return;
+
+    const go = (target) => {
+      if (target) window.location.href = target;
+    };
+
+    panel.querySelectorAll("[data-py-run]").forEach((button) => {
+      button.addEventListener("click", () => go(button.dataset.target || panel.dataset.runTarget));
+    });
+    panel.querySelectorAll("[data-py-check]").forEach((button) => {
+      button.addEventListener("click", () => go(button.dataset.target || panel.dataset.checkTarget));
+    });
+    panel.querySelectorAll("[data-py-stop]").forEach((button) => {
+      button.addEventListener("click", () => go(button.dataset.target || panel.dataset.stopTarget));
+    });
+    panel.querySelectorAll("[data-py-clear]").forEach((button) => {
+      button.addEventListener("click", () => {
+        panel.querySelectorAll(".python-output .py-line").forEach((line) => line.remove());
+        const empty = panel.querySelector(".python-empty");
+        if (empty) empty.hidden = false;
+      });
+    });
+
+    panel.querySelectorAll(".py-jump").forEach((jump) => {
+      jump.addEventListener("click", () => {
+        const lineNumber = jump.dataset.line;
+        const stage = document.querySelector(".editor-stage");
+        if (!stage || !lineNumber) return;
+        const target = stage.querySelector(`.code-line[data-line="${lineNumber}"]`);
+        if (!target) return;
+        stage.querySelectorAll(".code-line.is-active").forEach((line) => line.classList.remove("is-active"));
+        target.classList.add("is-active");
+        const position = document.querySelector("[data-status-position]");
+        if (position) position.textContent = `${lineNumber}:1`;
+        stage.setAttribute("tabindex", "-1");
+        stage.focus({ preventScroll: true });
+        const top = Math.max(0, target.offsetTop - stage.clientHeight / 3);
+        stage.scrollTop = top;
+      });
+    });
+
+    document.querySelectorAll("[data-insert]").forEach((item) => {
+      item.addEventListener("click", () => {
+        const line = document.querySelector(".code-line.is-active code");
+        if (!line) return;
+        let insert = item.dataset.insert || "";
+        if (item.dataset.parens === "true") insert += "()";
+        const text = line.textContent || "";
+        const trailing = text.match(/[A-Za-z_][A-Za-z0-9_]*$/);
+        line.textContent = trailing ? text.slice(0, trailing.index) + insert : text + insert;
+        const popup = item.closest(".completion-popup");
+        if (popup) popup.hidden = true;
+      });
+    });
+
+    const runEnabled = Boolean(panel.querySelector("[data-py-run]:not([disabled])"));
+    const checkEnabled = Boolean(panel.querySelector("[data-py-check]:not([disabled])"));
+    if (runEnabled || checkEnabled) {
+      document.addEventListener("keydown", (event) => {
+        if (runEnabled && event.ctrlKey && !event.shiftKey && event.key === "Enter") {
+          event.preventDefault();
+          go(panel.dataset.runTarget);
+        }
+        if (checkEnabled && event.ctrlKey && event.shiftKey && event.key.toLowerCase() === "b") {
+          event.preventDefault();
+          go(panel.dataset.checkTarget);
+        }
+      });
+    }
+  }
+
   function boot() {
     markWhitespace();
     applySettings();
@@ -951,6 +1025,7 @@
     initCodeCursor();
     initLanguageSelect();
     initIndexThemeHint();
+    initPythonPanel();
   }
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot);

@@ -1,0 +1,465 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="screen-route" content="/workspace">
+  <title>Forge — Import completion</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- serves: AC-13, AC-15, AC-23 -->
+  <svg class="svg-sprite" aria-hidden="true" focusable="false">
+    <symbol id="i-brand" viewBox="0 0 24 24"><path d="M8.5 7 4 12l4.5 5M15.5 7 20 12l-4.5 5M14 4l-4 16"/></symbol>
+    <symbol id="i-folder" viewBox="0 0 24 24"><path d="M3.5 7.5h6l2 2H20v9.5H4V7.5Z"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M6 3.5h7l5 5v12H6z"/><path d="M13 3.5v5h5"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2"/><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4"/></symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.2 9a7 7 0 0 1 11.6-2.5L20 9M4 15l2.2 2.5A7 7 0 0 0 17.8 15"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h3V6Zm0 12a3 3 0 1 1-3-3h3v3Zm6-12a3 3 0 1 1 3 3h-3V6Zm0 12a3 3 0 1 0 3-3h-3v3ZM9 9h6v6H9z"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 10.5V17M12 7.4v.2"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M4.5 4.5h11l4 4v11h-15z"/><path d="M8 4.5v5h7v-5M8 19.5v-5h8v5"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="m4 20 4.5-1 10-10-3.5-3.5-10 10z"/><path d="m13.5 6.5 3.5 3.5"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8.5 5.5 19 12 8.5 18.5z"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7"/></symbol>
+    <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6.5" y="6.5" width="11" height="11" rx="1"/></symbol>
+    <symbol id="i-clear" viewBox="0 0 24 24"><path d="M5 7h14M9 7V4.5h6V7M7 7l1 13h8l1-13"/></symbol>
+    <symbol id="i-terminal" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="m7 9 3 3-3 3M12.5 15h4.5"/></symbol>
+    <symbol id="i-branch" viewBox="0 0 24 24"><circle cx="7" cy="6" r="2"/><circle cx="17" cy="7" r="2"/><circle cx="7" cy="18" r="2"/><path d="M7 8v8M9 7h3a5 5 0 0 1 5 5v0"/></symbol>
+  </svg>
+
+  <div class="app" data-od-id="app-shell">
+    <header class="titlebar" data-od-id="titlebar">
+      <a class="brand" href="welcome.html" aria-label="Forge home">
+        <span class="brand-mark"><svg class="icon" aria-hidden="true"><use href="#i-brand"/></svg></span>
+        <span class="brand-name">Forge</span>
+      </a>
+      <nav class="menubar" data-menubar aria-label="Application menu"></nav>
+      <div class="titlebar-context">
+        <svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg>
+        <span class="path">C:\Users\Patrick\Projects\forge\forge-editor</span>
+      </div>
+      <div class="titlebar-actions">
+        <a class="command-hint" href="command-palette.html" aria-label="Open command palette">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-command"/></svg>
+          <span>Commands</span>
+          <span class="kbd">Ctrl+Shift+P</span>
+        </a>
+      </div>
+    </header>
+
+    <div class="app-body">
+      <nav class="activitybar" aria-label="Primary views" data-od-id="activity-bar">
+        <a class="activity-btn" href="workspace.html" aria-current="page" title="Explorer" aria-label="Explorer">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-folder"/></svg>
+        </a>
+        <a class="activity-btn" href="project-search.html" title="Project search" aria-label="Project search">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-search"/></svg>
+        </a>
+        <a class="activity-btn" href="settings.html" title="Settings" aria-label="Settings">
+          <svg class="icon icon-lg" aria-hidden="true"><use href="#i-settings"/></svg>
+        </a>
+        <span class="activity-spacer"></span>
+        <span class="activity-sep"></span>
+        <a class="activity-btn" href="about-privacy.html" title="About / Privacy" aria-label="About and privacy">
+          <svg class="icon" aria-hidden="true"><use href="#i-info"/></svg>
+        </a>
+      </nav>
+
+      <aside class="sidebar" aria-label="Explorer" data-od-id="explorer-panel">
+        <div class="sidebar-head">
+          <span class="eyebrow">Explorer</span>
+          <div class="sidebar-actions">
+            <a class="icon-btn icon-btn-sm" href="workspace.html" title="Refresh explorer" aria-label="Refresh explorer">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-refresh"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="workspace-name">
+          <svg class="icon icon-sm" aria-hidden="true"><use href="#i-folder"/></svg>
+          <span>forge-editor</span>
+        </div>
+        <div class="tree" role="tree" aria-label="Workspace files">
+          <button class="tree-row" type="button" role="treeitem" aria-expanded="false" data-tree-toggle>
+            <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+            <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span class="tree-label">assets</span>
+          </button>
+          <div class="tree-children" hidden>
+            <a class="tree-row" href="file-rejected.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">hero.png</span
+              ><span class="tree-badge">BIN</span
+            ></a>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">forge-mark.svg</span
+            ></a>
+          </div>
+          <button class="tree-row" type="button" role="treeitem" aria-expanded="true" data-tree-toggle>
+            <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+            <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span class="tree-label">data</span>
+          </button>
+          <div class="tree-children">
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">shipments.csv</span
+              ><span class="tree-badge">CSV</span
+            ></a>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">warehouse.csv</span
+              ><span class="tree-badge">CSV</span
+            ></a>
+          </div>
+          <button class="tree-row" type="button" role="treeitem" aria-expanded="false" data-tree-toggle>
+            <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+            <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span class="tree-label">electron</span>
+          </button>
+          <div class="tree-children" hidden>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">main.cjs</span
+            ></a>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">preload.cjs</span
+            ></a>
+            <button class="tree-row" type="button" role="treeitem" aria-expanded="false" data-tree-toggle>
+              <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+              <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+              <span class="tree-label">handlers</span>
+            </button>
+            <div class="tree-children" hidden>
+              <a class="tree-row" href="workspace.html"
+                ><span class="tree-spacer"
+                ></span
+                ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                  ><use href="#i-file"
+                /></svg
+                ><span class="tree-label">files.cjs</span
+              ></a>
+              <a class="tree-row" href="workspace.html"
+                ><span class="tree-spacer"
+                ></span
+                ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                  ><use href="#i-file"
+                /></svg
+                ><span class="tree-label">python.cjs</span
+              ></a>
+            </div>
+          </div>
+          <button class="tree-row" type="button" role="treeitem" aria-expanded="true" data-tree-toggle>
+            <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+            <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span class="tree-label">reports</span>
+          </button>
+          <div class="tree-children">
+            <a class="tree-row is-active" href="workspace.html" aria-current="page"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">inventory_report.py</span
+              ><span class="tree-badge">PY</span
+            ></a>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">receipts.py</span
+              ><span class="tree-badge">PY</span
+            ></a>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">cli_tools.py</span
+              ><span class="tree-badge">PY</span
+            ></a>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">__init__.py</span
+              ><span class="tree-badge">PY</span
+            ></a>
+          </div>
+          <button class="tree-row" type="button" role="treeitem" aria-expanded="false" data-tree-toggle>
+            <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+            <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span class="tree-label">src</span>
+          </button>
+          <div class="tree-children" hidden>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">App.tsx</span
+            ></a>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">platform.ts</span
+            ></a>
+            <button class="tree-row" type="button" role="treeitem" aria-expanded="false" data-tree-toggle>
+              <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+              <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+              <span class="tree-label">state</span>
+            </button>
+            <div class="tree-children" hidden>
+              <a class="tree-row" href="workspace.html"
+                ><span class="tree-spacer"
+                ></span
+                ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                  ><use href="#i-file"
+                /></svg
+                ><span class="tree-label">documents.ts</span
+              ></a>
+              <a class="tree-row" href="workspace.html"
+                ><span class="tree-spacer"
+                ></span
+                ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                  ><use href="#i-file"
+                /></svg
+                ><span class="tree-label">types.ts</span
+              ></a>
+            </div>
+          </div>
+          <button class="tree-row" type="button" role="treeitem" aria-expanded="false" data-tree-toggle>
+            <span class="tree-caret"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-chevron"/></svg></span>
+            <svg class="icon icon-sm tree-icon" aria-hidden="true"><use href="#i-folder"/></svg>
+            <span class="tree-label">tests</span>
+          </button>
+          <div class="tree-children" hidden>
+            <a class="tree-row" href="workspace.html"
+              ><span class="tree-spacer"
+              ></span
+              ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+                ><use href="#i-file"
+              /></svg
+              ><span class="tree-label">test_reports.py</span
+              ><span class="tree-badge">PY</span
+            ></a>
+          </div>
+          <a class="tree-row" href="workspace.html"
+            ><span class="tree-spacer"
+            ></span
+            ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+              ><use href="#i-file"
+            /></svg
+            ><span class="tree-label">README.md</span
+          ></a>
+          <a class="tree-row" href="workspace.html"
+            ><span class="tree-spacer"
+            ></span
+            ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+              ><use href="#i-file"
+            /></svg
+            ><span class="tree-label">requirements.txt</span
+          ></a>
+          <a class="tree-row" href="workspace.html"
+            ><span class="tree-spacer"
+            ></span
+            ><svg class="icon icon-sm tree-icon" aria-hidden="true"
+              ><use href="#i-file"
+            /></svg
+            ><span class="tree-label">.gitignore</span
+          ></a>
+        </div>
+      </aside>
+
+      <main class="editor-region has-python" data-od-id="editor-region">
+        <div class="tabbar" data-tabset="editor-stage" role="tablist" aria-label="Open editors" data-od-id="tab-bar">
+          <div class="tab is-active" role="tab" tabindex="0" aria-selected="true" data-pane="inventory" data-language="Python" data-od-id="tab-inventory-report">
+            <svg class="icon icon-sm tab-icon" aria-hidden="true"><use href="#i-file"/></svg>
+            <span class="tab-title">inventory_report.py</span>
+            
+            <button class="tab-close" type="button" aria-label="Close inventory_report.py">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-close"/></svg>
+            </button>
+          </div>
+          <a class="tab" href="workspace.html">
+            <svg class="icon icon-sm tab-icon" aria-hidden="true"><use href="#i-file"/></svg>
+            <span class="tab-title">receipts.py</span>
+          </a>
+          <a class="tab" href="python-non-file.html">
+            <svg class="icon icon-sm tab-icon" aria-hidden="true"><use href="#i-file"/></svg>
+            <span class="tab-title">README.md</span>
+          </a>
+          <span class="tab-spacer"></span>
+          <div class="tab-actions">
+            <a class="icon-btn icon-btn-sm" href="find-replace.html" title="Find in file" aria-label="Find in file">
+              <svg class="icon icon-sm" aria-hidden="true"><use href="#i-search"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="editor-stage" id="editor-stage" data-od-id="monaco-editor" tabindex="-1">
+          <div class="code" data-pane="inventory" role="textbox" aria-label="reports/inventory_report.py source">
+            <div class="code-line" data-line="1"><span class="ln">1</span><code><span class="tok-key">from</span> __future__ <span class="tok-key">import</span> annotations</code></div>
+            <div class="code-line" data-line="2"><span class="ln">2</span><code> </code></div>
+            <div class="code-line" data-line="3"><span class="ln">3</span><code><span class="tok-key">import</span> csv</code></div>
+            <div class="code-line" data-line="4"><span class="ln">4</span><code><span class="tok-key">import</span> math</code></div>
+            <div class="code-line is-active" data-line="5"><span class="ln">5</span><code><span class="tok-key">from</span> <span class="code-caret" aria-hidden="true"></span></code></div>
+            <div class="code-line" data-line="6"><span class="ln">6</span><code><span class="tok-key">from</span> dataclasses <span class="tok-key">import</span> dataclass</code></div>
+            <div class="code-line" data-line="7"><span class="ln">7</span><code><span class="tok-key">from</span> pathlib <span class="tok-key">import</span> Path</code></div>
+            <div class="code-line" data-line="8"><span class="ln">8</span><code> </code></div>
+            <div class="code-line" data-line="9"><span class="ln">9</span><code><span class="tok-type">@dataclass</span></code></div>
+            <div class="code-line" data-line="10"><span class="ln">10</span><code><span class="tok-key">class</span> <span class="tok-type">Shipment</span>:</code></div>
+            <div class="code-line" data-line="11"><span class="ln">11</span><code>    sku: <span class="tok-type">str</span></code></div>
+            <div class="code-line" data-line="12"><span class="ln">12</span><code>    units: <span class="tok-type">int</span></code></div>
+            <div class="code-line" data-line="13"><span class="ln">13</span><code>    weight_kg: <span class="tok-type">float</span></code></div>
+            <div class="code-line" data-line="14"><span class="ln">14</span><code> </code></div>
+          </div>
+          <section class="completion-popup" role="dialog" aria-label="Python suggestions" style="left: 58px; top: 208px;" data-od-id="python-completion">
+            <header class="completion-head"><strong>Import suggestions</strong><span>from · 6 items</span></header>
+            <div class="completion-list" role="listbox" aria-label="Python suggestions">
+            <div class="completion-group">Python standard library</div>
+            <button class="completion-item" type="button" role="option" aria-selected="false" data-insert="math">
+              <span class="completion-kind" data-kind="module" aria-hidden="true">M</span>
+              <span class="completion-copy"><span class="completion-label">math</span><span class="completion-detail">standard library · math functions</span></span>
+              <span class="completion-source">stdlib</span>
+            </button>
+            <button class="completion-item" type="button" role="option" aria-selected="false" data-insert="datetime">
+              <span class="completion-kind" data-kind="module" aria-hidden="true">M</span>
+              <span class="completion-copy"><span class="completion-label">datetime</span><span class="completion-detail">standard library · dates and times</span></span>
+              <span class="completion-source">stdlib</span>
+            </button>
+            <button class="completion-item" type="button" role="option" aria-selected="false" data-insert="pathlib">
+              <span class="completion-kind" data-kind="module" aria-hidden="true">M</span>
+              <span class="completion-copy"><span class="completion-label">pathlib</span><span class="completion-detail">standard library · filesystem paths</span></span>
+              <span class="completion-source">stdlib</span>
+            </button>
+            <button class="completion-item" type="button" role="option" aria-selected="false" data-insert="collections">
+              <span class="completion-kind" data-kind="module" aria-hidden="true">M</span>
+              <span class="completion-copy"><span class="completion-label">collections</span><span class="completion-detail">standard library · container types</span></span>
+              <span class="completion-source">stdlib</span>
+            </button>
+            <div class="completion-group">Workspace .py files</div>
+            <button class="completion-item is-selected" type="button" role="option" aria-selected="true" data-insert="receipts">
+              <span class="completion-kind" data-kind="module" aria-hidden="true">M</span>
+              <span class="completion-copy"><span class="completion-label">receipts</span><span class="completion-detail">reports/receipts.py</span></span>
+              <span class="completion-source">workspace</span>
+            </button>
+            <button class="completion-item" type="button" role="option" aria-selected="false" data-insert="cli_tools">
+              <span class="completion-kind" data-kind="module" aria-hidden="true">M</span>
+              <span class="completion-copy"><span class="completion-label">cli_tools</span><span class="completion-detail">reports/cli_tools.py</span></span>
+              <span class="completion-source">workspace</span>
+            </button>
+            </div>
+            <footer class="completion-footer">
+              <span>6 suggestions · 2 workspace files</span>
+              <span class="hints"
+                ><span class="palette-hint"
+                  ><span class="kbd">↑↓</span>Navigate</span
+                ><span class="palette-hint"
+                  ><span class="kbd">Enter</span>Insert</span
+                ><span class="palette-hint"
+                  ><span class="kbd">Esc</span>Close</span
+              ></span>
+            </footer>
+          </section>
+        </div>
+        <section class="python-panel" aria-label="Python output" data-python-panel data-run-target="python-running.html" data-check-target="python-syntax-error.html" data-stop-target="python-stopped.html" data-od-id="python-output-panel">
+          <header class="python-head">
+            <div class="python-id">
+              <span class="python-file"><svg class="icon icon-sm" aria-hidden="true"><use href="#i-terminal"/></svg><span>inventory_report.py</span></span>
+              <span class="python-interpreter">Python 3.12.4</span>
+              
+            </div>
+            <div class="python-actions">
+              <button class="btn btn-sm btn-primary" type="button" data-od-id="python-run-button" data-py-run title="Save the open file and run it">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-play"/></svg>
+                Run
+                <span class="kbd">Ctrl+Enter</span>
+              </button>
+              <button class="btn btn-sm" type="button" data-od-id="python-check-button" data-py-check title="Compile the open file without running it">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-check"/></svg>
+                Check syntax
+                <span class="kbd">Ctrl+Shift+B</span>
+              </button>
+              
+              <button class="btn btn-sm btn-ghost" type="button" data-od-id="python-clear-button" data-py-clear title="Clear the output without stopping the process">
+                <svg class="icon icon-sm" aria-hidden="true"><use href="#i-clear"/></svg>
+                Clear
+              </button>
+            </div>
+          </header>
+          <div class="python-output" role="log" aria-live="polite" aria-label="Python output">
+            <div class="python-empty">
+              <strong>Output is empty</strong>
+              <span>Run the open file to stream stdout and stderr here. Syntax checks compile the file without executing it.</span>
+              <span class="mono">Working directory: C:\Users\Patrick\Projects\forge\forge-editor</span>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <footer class="statusbar" data-od-id="status-bar">
+      <span class="status-item"
+        ><select class="status-select" data-status-language aria-label="Language mode"
+          ><option>TypeScript</option
+          ><option>JavaScript</option
+          ><option>JSON</option
+          ><option>HTML</option
+          ><option>CSS</option
+          ><option selected>Python</option
+          ><option>Markdown</option
+          ><option>Shell</option
+          ><option>YAML</option
+          ><option>XML</option
+        ></select
+      ></span>
+      <span class="status-item"><span data-status-position>5:6</span></span>
+      <span class="status-item">Spaces: 4</span>
+      <span class="status-item">LF</span>
+      <span class="status-item">UTF-8</span>
+      <span class="status-spacer"></span>
+      <span class="status-item">forge-editor</span>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

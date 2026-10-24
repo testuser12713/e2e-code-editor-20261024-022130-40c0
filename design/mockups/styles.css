@@ -1924,3 +1924,401 @@ kbd {
     scroll-behavior: auto !important;
   }
 }
+
+/* ---------- Python output panel ---------- */
+
+.python-panel {
+  display: flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  height: clamp(214px, 31vh, 300px);
+  min-height: 190px;
+  border-top: 1px solid var(--border);
+  background: var(--code-bg);
+}
+.python-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 14px;
+  flex: 0 0 auto;
+  flex-wrap: wrap;
+  padding: 7px 10px 7px 12px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+}
+.python-id {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  flex-wrap: wrap;
+}
+.python-file {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  color: var(--fg);
+  font-size: 11.5px;
+  font-weight: 650;
+}
+.python-file .icon { color: var(--accent); }
+.python-file span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.python-interpreter {
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 9.5px;
+  white-space: nowrap;
+}
+.python-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+.python-actions .btn {
+  min-height: 25px;
+  padding: 0 8px;
+  font-size: 10.5px;
+  gap: 5px;
+}
+.python-actions .btn .kbd {
+  min-width: 0;
+  height: 15px;
+  padding: 0 2px;
+  border-color: transparent;
+  background: transparent;
+  color: currentColor;
+  font-size: 8.5px;
+  opacity: 0.68;
+}
+.python-actions .btn-primary .kbd { color: var(--accent-ink); opacity: 0.62; }
+.python-output {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 7px 0 18px;
+  background: var(--code-bg);
+  color: var(--code-fg);
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  line-height: 1.6;
+  font-variant-numeric: tabular-nums;
+}
+.py-line {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  align-items: start;
+  gap: 9px;
+  padding: 1px 14px 1px 2px;
+  min-height: 20px;
+}
+.py-line:hover { background: color-mix(in oklch, var(--code-fg) 2.5%, transparent); }
+.py-gutter {
+  padding-top: 1px;
+  color: var(--code-gutter);
+  font-size: 9.5px;
+  text-align: right;
+  user-select: none;
+}
+.py-text {
+  min-width: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.py-line[data-stream="stderr"] .py-text { color: var(--danger); }
+.py-line[data-stream="notice"] .py-text { color: var(--warn); }
+.py-line[data-stream="meta"] .py-text { color: var(--muted); }
+.py-line[data-stream="success"] .py-text { color: var(--success); }
+.py-line[data-stream="prompt"] .py-text { color: var(--fg); }
+.py-line.is-summary {
+  margin-top: 5px;
+  padding-top: 7px;
+  border-top: 1px solid var(--border);
+}
+.py-line.is-summary .py-text { color: var(--muted); }
+.py-line.is-stderr-summary {
+  margin-top: 5px;
+  padding-top: 7px;
+  border-top: 1px solid var(--border);
+}
+.py-line.is-stderr-summary .py-text { color: var(--danger); }
+.py-line.is-loc .py-gutter { color: var(--info); }
+.py-jump {
+  display: inline;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--info);
+  font: inherit;
+  text-align: left;
+  text-decoration: underline dotted;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+.py-jump:hover { color: var(--fg); text-decoration-style: solid; }
+.py-jump:focus-visible { outline-offset: 1px; }
+.py-line.py-cursor .py-text::after {
+  content: "";
+  display: inline-block;
+  width: 7px;
+  height: 1em;
+  margin-left: 2px;
+  background: var(--accent);
+  vertical-align: -0.16em;
+  animation: py-cursor-blink 1.1s steps(1, end) infinite;
+}
+@keyframes py-cursor-blink { 0%, 48% { opacity: 1; } 49%, 100% { opacity: 0; } }
+.python-empty {
+  display: grid;
+  gap: 5px;
+  padding: 22px 18px;
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 11.5px;
+  line-height: 1.55;
+}
+.python-empty strong {
+  color: var(--fg);
+  font-weight: 600;
+}
+.python-empty .mono { color: var(--faint); font-size: 10px; }
+.python-empty kbd { height: 16px; min-width: 16px; padding: 0 3px; font-size: 8.5px; vertical-align: 0; }
+.python-disabled-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin: 10px 12px 0;
+  padding: 8px 10px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--muted);
+  font-family: var(--font-ui);
+  font-size: 11px;
+  line-height: 1.5;
+}
+.python-disabled-note .icon { margin-top: 1px; color: var(--faint); }
+.python-head .badge { flex: 0 0 auto; }
+
+/* Status bar Python state */
+
+.status-python { color: var(--fg); }
+.status-python[data-state="running"] { color: var(--accent); background: var(--accent-soft); }
+.status-python[data-state="exit-0"] { color: var(--success); }
+.status-python[data-state="exit-n"] { color: var(--danger); }
+.status-python[data-state="stopped"],
+.status-python[data-state="timeout"] { color: var(--warn); }
+.status-python .python-dot {
+  width: 6px;
+  height: 6px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: currentColor;
+}
+.status-python .python-file-ref {
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.status-python[data-state="running"] .python-dot { animation: py-status-pulse 1.5s ease-in-out infinite; }
+@keyframes py-status-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+/* ---------- Python completion popover ---------- */
+
+.completion-popup {
+  position: absolute;
+  z-index: 32;
+  width: min(430px, calc(100% - 24px));
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-2);
+  overflow: hidden;
+}
+.completion-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 9px 6px 11px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.completion-head strong { color: var(--muted); font-weight: 500; }
+.completion-list { max-height: min(248px, 34vh); overflow: auto; padding: 4px; }
+.completion-group {
+  padding: 6px 8px 3px;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+.completion-item {
+  display: grid;
+  grid-template-columns: 20px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 34px;
+  padding: 4px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--fg);
+  text-align: left;
+}
+.completion-item:hover { background: var(--surface-2); }
+.completion-item.is-selected { background: var(--accent-soft); box-shadow: inset 2px 0 0 var(--accent); }
+.completion-kind {
+  display: inline-grid;
+  place-items: center;
+  width: 18px;
+  height: 18px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: var(--bg);
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  line-height: 1;
+}
+.completion-kind[data-kind="builtin"] { color: var(--info); border-color: color-mix(in oklch, var(--info) 40%, var(--border)); }
+.completion-kind[data-kind="keyword"] { color: var(--syn-key); border-color: color-mix(in oklch, var(--syn-key) 40%, var(--border)); }
+.completion-kind[data-kind="module"] { color: var(--accent); border-color: var(--accent-line); }
+.completion-kind[data-kind="function"] { color: var(--syn-fn); border-color: color-mix(in oklch, var(--syn-fn) 40%, var(--border)); }
+.completion-kind[data-kind="snippet"] { color: var(--syn-type); border-color: color-mix(in oklch, var(--syn-type) 40%, var(--border)); }
+.completion-kind[data-kind="variable"] { color: var(--warn); border-color: color-mix(in oklch, var(--warn) 40%, var(--border)); }
+.completion-copy { min-width: 0; display: grid; gap: 1px; }
+.completion-label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: var(--font-mono);
+  font-size: 11.5px;
+  font-weight: 500;
+}
+.completion-detail {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 9px;
+}
+.completion-source {
+  color: var(--faint);
+  font-family: var(--font-mono);
+  font-size: 8.5px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.completion-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 6px 9px;
+  border-top: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--faint);
+  font-family: var(--font-ui);
+  font-size: 9.5px;
+}
+.completion-footer .hints { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.completion-footer .kbd { height: 16px; min-width: 16px; padding: 0 3px; font-size: 8px; }
+.completion-anchor { position: absolute; z-index: 31; pointer-events: none; }
+
+.python-screen-note {
+  position: fixed;
+  right: 14px;
+  bottom: calc(var(--statusbar-h) + 12px);
+  z-index: 90;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  max-width: 330px;
+  padding: 9px 11px;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  color: var(--muted);
+  font-size: 10.5px;
+  line-height: 1.5;
+}
+.python-screen-note strong { color: var(--fg); font-weight: 650; }
+.python-screen-note .icon { margin-top: 1px; color: var(--accent); }
+
+@media (max-width: 980px) {
+  .python-panel { height: clamp(220px, 34vh, 310px); }
+  .completion-popup { width: min(380px, calc(100% - 24px)); }
+}
+@media (max-width: 760px) {
+  .python-panel { height: 320px; min-height: 260px; }
+  .python-head { align-items: flex-start; padding: 7px 8px 8px 10px; }
+  .python-actions { width: 100%; gap: 4px; }
+  .python-actions .btn { flex: 0 1 auto; }
+  .python-actions .btn .kbd { display: none; }
+  .python-output { font-size: 11px; }
+  .completion-popup {
+    left: 8px !important;
+    right: 8px;
+    top: auto !important;
+    bottom: 10px;
+    width: auto;
+  }
+  .completion-list { max-height: 200px; }
+  .completion-footer { align-items: flex-start; flex-direction: column; gap: 4px; }
+  .python-screen-note { display: none; }
+}
+@media (max-width: 430px) {
+  .python-panel { height: 360px; }
+  .python-id { gap: 5px 8px; }
+  .python-interpreter { font-size: 9px; }
+  .python-actions .btn { padding: 0 7px; font-size: 10px; }
+  .py-line { grid-template-columns: 24px minmax(0, 1fr); gap: 7px; padding-right: 7px; }
+  .py-gutter { font-size: 8.5px; }
+  .python-output { font-size: 10.5px; }
+  .completion-item { grid-template-columns: 20px minmax(0, 1fr); }
+  .completion-source { display: none; }
+  .status-python .python-file-ref { max-width: 92px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .py-line.py-cursor .py-text::after { animation: none; opacity: 1; }
+  .status-python[data-state="running"] .python-dot { animation: none; }
+}
+
+.badge-warn {
+  border-color: color-mix(in oklch, var(--warn) 42%, transparent);
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+.code-caret {
+  display: inline-block;
+  width: 7px;
+  height: 1.2em;
+  margin-left: 1px;
+  background: var(--accent);
+  vertical-align: -0.2em;
+  animation: py-cursor-blink 1.1s steps(1, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .code-caret { animation: none; opacity: 1; }
+}
+
+.py-line.is-summary[data-stream="success"] .py-text { color: var(--success); }
