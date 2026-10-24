@@ -15,8 +15,12 @@
     "dist": "npm run build && electron-builder"
   },
   "dependencies": {
+    "monaco-editor": "^0.57.0",
     "react": "19.3.1",
     "react-dom": "19.3.1"
+  },
+  "overrides": {
+    "dompurify": "3.4.17"
   },
   "devDependencies": {
     "@testing-library/dom": "10.4.2",
