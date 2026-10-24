@@ -182,3 +182,48 @@ describe('kit overlays gallery', () => {
     expect(screen.getByTestId('prompt-dialog-error-restore')).toBeTruthy();
   });
 });
+
+describe('kit palette gallery', () => {
+  it('renders quick open, the command palette and an empty result', () => {
+    render(<OverlaysSection />);
+
+    expect(screen.getByTestId('kit-palette')).toBeTruthy();
+
+    const quickOpen = screen.getByTestId('palette-quick-open');
+    const quickInput = within(quickOpen).getByRole('textbox') as HTMLInputElement;
+    expect(quickInput.value).toBe('docu');
+    expect(within(quickOpen).getByRole('listbox', { name: /Quick open results/ })).toBeTruthy();
+    expect(within(quickOpen).getAllByRole('option').length).toBeGreaterThan(0);
+    expect(
+      within(quickOpen)
+        .getAllByRole('option')
+        .some((option) => option.getAttribute('aria-selected') === 'true'),
+    ).toBe(true);
+    expect(within(quickOpen).getByText('Workspace files')).toBeTruthy();
+    expect(within(quickOpen).getByText('Navigate')).toBeTruthy();
+    expect(within(quickOpen).getByText('Open')).toBeTruthy();
+    expect(within(quickOpen).getByText('Close')).toBeTruthy();
+
+    const commands = screen.getByTestId('palette-command');
+    expect(within(commands).getByText('View')).toBeTruthy();
+    expect(within(commands).getByText('Ctrl+Shift+P')).toBeTruthy();
+    expect(within(commands).getByText('Run')).toBeTruthy();
+
+    const empty = screen.getByTestId('palette-empty');
+    expect(within(empty).getByText('No workspace file matches that query.')).toBeTruthy();
+  });
+
+  it('filters quick open as the query changes', () => {
+    render(<OverlaysSection />);
+
+    const quickOpen = screen.getByTestId('palette-quick-open');
+    const input = within(quickOpen).getByRole('textbox');
+
+    fireEvent.change(input, { target: { value: 'types' } });
+    const labels = within(quickOpen)
+      .getAllByRole('option')
+      .map((option) => option.textContent ?? '');
+    expect(labels).toHaveLength(1);
+    expect(labels[0]).toContain('types.ts');
+  });
+});

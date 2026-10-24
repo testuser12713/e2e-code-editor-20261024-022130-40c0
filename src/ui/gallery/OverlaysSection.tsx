@@ -7,6 +7,7 @@ import { ContextMenu } from '../ContextMenu';
 import { Dialog } from '../Dialog';
 import { Icon } from '../Icon';
 import { Menu, type MenuEntry } from '../Menu';
+import { Palette, type PaletteGroup, type PaletteItem } from '../Palette';
 import { PromptDialog } from '../PromptDialog';
 import { Specimen, State } from './GallerySpecimen';
 
@@ -38,6 +39,49 @@ const CONTEXT_MENU_ITEMS: MenuEntry[] = [
   { label: 'Rename', icon: 'edit', onSelect: () => undefined, testId: 'context-menu-item-rename', preview: 'hover' },
   { label: 'Delete', icon: 'trash', danger: true, onSelect: () => undefined, testId: 'context-menu-item-delete' },
 ];
+
+const QUICK_OPEN_FILES: PaletteItem[] = [
+  { id: 'documents', label: 'documents.ts', detail: 'src/state/documents.ts', icon: 'file' },
+  { id: 'tabs-reducer', label: 'tabsReducer.ts', detail: 'src/state/tabsReducer.ts', icon: 'file' },
+  { id: 'documents-test', label: 'documents.test.ts', detail: 'tests/documents.test.ts', icon: 'file' },
+  { id: 'types', label: 'types.ts', detail: 'src/state/types.ts', icon: 'file' },
+  { id: 'files-handler', label: 'files.cjs', detail: 'electron/handlers/files.cjs', icon: 'file' },
+  { id: 'readme', label: 'README.md', detail: 'README.md', icon: 'file' },
+];
+
+const COMMAND_GROUPS: PaletteGroup[] = [
+  {
+    label: 'View',
+    items: [
+      { id: 'view.explorer', label: 'View: Show Explorer', icon: 'layout', keybinding: 'Ctrl+Shift+E' },
+      { id: 'view.search', label: 'View: Show Search', icon: 'search' },
+      { id: 'view.settings', label: 'View: Show Settings', icon: 'settings', keybinding: 'Ctrl+,' },
+      { id: 'view.palette', label: 'View: Command Palette', icon: 'command', keybinding: 'Ctrl+Shift+P' },
+    ],
+  },
+  {
+    label: 'Workspace',
+    items: [
+      { id: 'workspace.open', label: 'Workspace: Open Folder…', icon: 'folder-open', keybinding: 'Ctrl+Shift+O' },
+      { id: 'workspace.refresh', label: 'Workspace: Refresh Explorer', icon: 'refresh' },
+    ],
+  },
+  {
+    label: 'File',
+    items: [
+      { id: 'file.save', label: 'File: Save', icon: 'save', keybinding: 'Ctrl+S' },
+      { id: 'file.saveAll', label: 'File: Save All', icon: 'save', keybinding: 'Ctrl+Alt+S' },
+      { id: 'file.close', label: 'File: Close Tab', icon: 'close' },
+      { id: 'file.quickOpen', label: 'File: Quick Open', icon: 'file', keybinding: 'Ctrl+P' },
+    ],
+  },
+];
+
+const filterItems = (items: PaletteItem[], query: string): PaletteItem[] => {
+  const needle = query.trim().toLowerCase();
+  if (!needle) return items;
+  return items.filter((item) => `${item.label} ${item.detail ?? ''}`.toLowerCase().includes(needle));
+};
 
 function PromptSpecimen({
   id,
@@ -143,12 +187,26 @@ export function OverlaysSection() {
   const [containedDialogOpen, setContainedDialogOpen] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [contextOpen, setContextOpen] = useState(true);
+  const [quickQuery, setQuickQuery] = useState('docu');
+  const [commandQuery, setCommandQuery] = useState('');
+  const [emptyQuery, setEmptyQuery] = useState('zzz');
+
+  const quickGroups: PaletteGroup[] = [
+    { label: 'Workspace files', items: filterItems(QUICK_OPEN_FILES, quickQuery) },
+  ];
+  const commandGroups: PaletteGroup[] = COMMAND_GROUPS.map((group) => ({
+    ...group,
+    items: filterItems(group.items, commandQuery),
+  }));
+  const emptyGroups: PaletteGroup[] = [
+    { label: 'Workspace files', items: filterItems(QUICK_OPEN_FILES, emptyQuery) },
+  ];
 
   return (
     <section className="settings-section" aria-labelledby="gallery-overlays-title">
       <div>
         <h2 id="gallery-overlays-title">Overlays</h2>
-        <p className="section-desc">Menus, context menus and the dialog family.</p>
+        <p className="section-desc">Menus, context menus, dialogs and the command palette.</p>
       </div>
       <div className="setting-list kit-gallery" data-testid="gallery-overlays">
         <Specimen
@@ -204,6 +262,65 @@ export function OverlaysSection() {
               </div>
             </div>
           )}
+        </Specimen>
+
+        <Specimen
+          id="kit-palette"
+          title="Palette"
+          description="One shell for quick open and the command palette: query field, grouped items with icons, a marked item, an empty result and footer hints."
+        >
+          <div className="kit-overlay-palette">
+            <State label="Quick open · marked item">
+              <Palette
+                label="Quick open"
+                placeholder="Search files by name"
+                icon="search"
+                query={quickQuery}
+                onQueryChange={setQuickQuery}
+                groups={quickGroups}
+                onClose={() => undefined}
+                emptyMessage="No workspace file matches that query."
+                footer="Fuzzy match across all files in forge-editor"
+                enterLabel="Open"
+                contained
+                testId="palette-quick-open"
+              />
+            </State>
+            <State label="Command palette · shortcuts">
+              <Palette
+                label="Command palette"
+                placeholder="Type a command"
+                icon="command"
+                query={commandQuery}
+                onQueryChange={setCommandQuery}
+                groups={commandGroups}
+                onClose={() => undefined}
+                emptyMessage="No command matches that query."
+                footer="Fuzzy filtered commands"
+                enterLabel="Run"
+                focusInput={false}
+                contained
+                testId="palette-command"
+              />
+            </State>
+            <State label="Empty result">
+              <Palette
+                label="Quick open"
+                placeholder="Search files by name"
+                icon="search"
+                query={emptyQuery}
+                onQueryChange={setEmptyQuery}
+                groups={emptyGroups}
+                onClose={() => undefined}
+                emptyMessage="No workspace file matches that query."
+                footer="Fuzzy match across all files in forge-editor"
+                enterLabel="Open"
+                focusInput={false}
+                contained
+                testId="palette-empty"
+              />
+            </State>
+          </div>
         </Specimen>
 
         <Specimen
