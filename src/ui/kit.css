@@ -1,0 +1,37 @@
+.explorer-pane {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.menu-anchor {
+  display: contents;
+}
+
+.ui-tooltip {
+  display: inline-flex;
+}
+
+.palette-list-inner {
+  display: grid;
+}
+
+.command-hint:disabled,
+.recent-item:disabled,
+.toggle-chip:disabled,
+.input:disabled,
+.status-select:disabled {
+  opacity: 0.42;
+  pointer-events: none;
+}
+
+.recent-item {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  font: inherit;
+  cursor: pointer;
+}
+
