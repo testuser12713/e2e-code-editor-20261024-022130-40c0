@@ -4,7 +4,7 @@ import { resolve } from 'node:path';
 
 import { createElement } from 'react';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
-import { cleanup, render, screen, within } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, within } from '@testing-library/react';
 
 const bridge = vi.hoisted(() => ({
   userDataPath: vi.fn(),
@@ -77,11 +77,48 @@ describe('about dialog body overflow', () => {
     expect(bodyStyle.minHeight).toBe('0px');
   });
 
-  it('gives the scrolling body a bottom affordance while content continues', async () => {
-    expect(KIT_CSS).toContain('@supports (animation-timeline: scroll())');
-    expect(KIT_CSS).toContain('animation-timeline: scroll(self block)');
-    expect(KIT_CSS).toContain('@keyframes about-body-bottom-fade');
-    expect(KIT_CSS).toContain('mask-image: linear-gradient(to bottom, black calc(100% - 16px)');
-    expect(KIT_CSS).toContain('mask-image: linear-gradient(to bottom, black 100%, transparent 100%)');
+  it('keeps the vendor paragraph as the last content of the bounded scrolling body', async () => {
+    render(createElement(AboutDialog, { open: true, onClose: () => undefined }));
+
+    const dialog = screen.getByRole('dialog');
+    const body = screen.getByTestId('about-body');
+    const actions = screen.getByTestId('about-actions');
+    const vendor = screen.getByRole('heading', { name: 'Vendor details' }).closest('section');
+
+    // The card is the bounded box; the body is the one part that scrolls, so the
+    // vendor section is the final reachable content and the footer never scrolls
+    // over it.
+    expect(getComputedStyle(dialog).overflow).toBe('hidden');
+    expect(getComputedStyle(dialog).maxHeight).not.toBe('none');
+    expect(getComputedStyle(actions).flexShrink).toBe('0');
+    expect(body.lastElementChild).toBe(vendor);
+    expect(
+      within(vendor as HTMLElement).getByText(
+        /Provider name, contact address and legal notice are still to be supplied by the vendor\. These fields are intentionally not invented\./,
+      ),
+    ).toBeTruthy();
+  });
+
+  it('makes the scrolling body reachable and operable from the keyboard', () => {
+    render(createElement(AboutDialog, { open: true, onClose: () => undefined }));
+
+    const body = screen.getByTestId('about-body');
+
+    expect(body.getAttribute('tabindex')).toBe('0');
+    expect(body.getAttribute('role')).toBe('region');
+    expect(body.getAttribute('aria-label')).toBe('About / Privacy details');
+    expect(document.activeElement).toBe(body);
+  });
+
+  it('stays closable with Escape while the scroll body holds focus', () => {
+    const onClose = vi.fn();
+    render(createElement(AboutDialog, { open: true, onClose }));
+
+    const body = screen.getByTestId('about-body');
+    expect(document.activeElement).toBe(body);
+
+    fireEvent.keyDown(document, { key: 'Escape' });
+
+    expect(onClose).toHaveBeenCalledTimes(1);
   });
 });
