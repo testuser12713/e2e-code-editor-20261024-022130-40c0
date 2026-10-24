@@ -4,7 +4,6 @@ import { COMMAND_IDS } from '../commands/ids';
 import { hasCommand, runCommand } from '../commands/registry';
 import { platform } from '../platform';
 import {
-  registerPrivacyCommands,
   resetLocalData,
   setPrivacyDialogHandler,
   type PrivacyDialogRequest,
@@ -12,6 +11,12 @@ import {
 import { Button } from '../ui/Button';
 import { ConfirmDialog } from '../ui/ConfirmDialog';
 import { Icon } from '../ui/Icon';
+
+const FILESYSTEM_PATH = /^(?:[a-zA-Z]:[\\/]|\\\\|\/)/;
+
+function isFilesystemPath(value: string): boolean {
+  return FILESYSTEM_PATH.test(value);
+}
 
 export type AboutDialogProps = {
   open: boolean;
@@ -27,8 +32,6 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
   const isOpen = open || requestedOpen;
 
   useEffect(() => {
-    registerPrivacyCommands();
-
     const handleRequest = (request: PrivacyDialogRequest) => {
       if (request === 'about') {
         setRequestedOpen(true);
@@ -93,7 +96,9 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
     onClose();
   };
 
-  const location = userDataPath ?? (pathUnavailable ? 'User data directory unavailable' : 'Reading user data directory…');
+  const locationPath = typeof userDataPath === 'string' ? userDataPath.trim() : '';
+  const hasFilesystemPath = isFilesystemPath(locationPath);
+  const readingPath = userDataPath === null && !pathUnavailable;
 
   return (
     <>
@@ -106,8 +111,14 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
             if (event.target === event.currentTarget) close();
           }}
         >
-          <section className="about-dialog" role="dialog" aria-modal="true" aria-labelledby="about-title">
-            <div className="about-head">
+          <section
+            className="about-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="about-title"
+            style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}
+          >
+            <div className="about-head" style={{ flexShrink: 0 }}>
               <div className="about-id">
                 <span className="brand-mark">
                   <Icon name="brand" />
@@ -128,7 +139,10 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               </button>
             </div>
 
-            <div className="about-body">
+            <div
+              className="about-body"
+              style={{ flex: '1 1 auto', minHeight: 0, overflowY: 'auto' }}
+            >
               <p className="about-lede">
                 Forge works only inside the folder you open. Everything else — preferences, session and recent
                 folders — stays in a local userData directory. There is no account, no sync and no telemetry.
@@ -161,13 +175,26 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
                 <div className="about-note">
                   <strong>Location</strong>
                   <br />
-                  The operating system’s userData directory for this account:{' '}
-                  <span className="about-path" data-testid="about-user-data-path">
-                    {location}
-                  </span>
+                  {hasFilesystemPath ? (
+                    <>
+                      The operating system’s userData directory for this account:{' '}
+                      <span className="about-path" data-testid="about-user-data-path">
+                        {locationPath}
+                      </span>
+                    </>
+                  ) : (
+                    <span data-testid="about-user-data-path">
+                      {pathUnavailable
+                        ? 'Forge could not read the operating system’s userData directory for this account.'
+                        : readingPath
+                          ? 'Reading the operating system’s userData directory for this account…'
+                          : 'In this browser preview there is no userData directory; settings, session and recent folders are kept in this browser’s local storage for this site.'}
+                    </span>
+                  )}
                   <br />
-                  Settings, session and recent folders are separate JSON files. File contents are never
-                  persisted.
+                  {hasFilesystemPath
+                    ? 'Settings, session and recent folders are separate JSON files. File contents are never persisted.'
+                    : 'Settings, session and recent folders are stored separately. File contents are never persisted.'}
                 </div>
               </section>
 
@@ -199,7 +226,7 @@ export function AboutDialog({ open, onClose }: AboutDialogProps) {
               </section>
             </div>
 
-            <div className="about-actions">
+            <div className="about-actions" style={{ flexShrink: 0 }}>
               <Button
                 variant="danger"
                 disabled={!hasCommand(COMMAND_IDS.resetLocalData)}

@@ -70,3 +70,5 @@ export function registerPrivacyCommands(options: RegisterPrivacyCommandsOptions 
     },
   ]);
 }
+
+registerPrivacyCommands();

@@ -1,3 +1,4 @@
+import '../privacy/privacyCommands';
 import { installKeymap } from '../commands/keymap';
 import { initCloseFlow } from '../state/closeFlow';
 import { initSessionSync } from '../state/sessionSync';
