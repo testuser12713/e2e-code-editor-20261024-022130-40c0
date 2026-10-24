@@ -21,9 +21,6 @@ const LANGUAGES = [
   'Plain Text',
 ];
 
-const PLACEHOLDER = '\u2014';
-const POSITION_PLACEHOLDER = `${PLACEHOLDER}:${PLACEHOLDER}`;
-
 const INDENT_OPTIONS: { label: string; mode: 'spaces' | 'tabs'; size: 2 | 4 | 8 }[] = [
   { label: 'Spaces: 2', mode: 'spaces', size: 2 },
   { label: 'Spaces: 4', mode: 'spaces', size: 4 },
@@ -131,37 +128,29 @@ export function StatusBar() {
     return (
       <footer className="statusbar" data-od-id="status-bar" data-testid="status-bar">
         <StatusItem title="Language">
-          <span className="status-placeholder" data-status-language data-testid="status-language">
-            {PLACEHOLDER}
+          <span data-status-language data-testid="status-language">
+            {status.language}
           </span>
         </StatusItem>
         {pythonView ? <PythonStatusItem view={pythonView} /> : null}
         <StatusItem title="Line and column">
-          <span
-            className="status-placeholder"
-            data-status-position
-            data-testid="status-position"
-          >
-            {POSITION_PLACEHOLDER}
+          <span data-status-position data-testid="status-position">
+            {status.line}:{status.column}
           </span>
         </StatusItem>
         <StatusItem title="Indentation">
-          <span
-            className="status-placeholder"
-            data-status-indentation
-            data-testid="status-indentation"
-          >
-            {PLACEHOLDER}
+          <span data-status-indentation data-testid="status-indentation">
+            {indentLabel}
           </span>
         </StatusItem>
         <StatusItem title="Line ending">
-          <span className="status-placeholder" data-status-eol data-testid="status-eol">
-            {PLACEHOLDER}
+          <span data-status-eol data-testid="status-eol">
+            {status.eol.toUpperCase()}
           </span>
         </StatusItem>
         <StatusItem title="Encoding">
-          <span className="status-placeholder" data-status-encoding data-testid="status-encoding">
-            {PLACEHOLDER}
+          <span data-status-encoding data-testid="status-encoding">
+            {status.encoding.toUpperCase()}
           </span>
         </StatusItem>
         <span className="status-spacer" />

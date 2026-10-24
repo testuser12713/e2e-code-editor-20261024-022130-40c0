@@ -144,29 +144,32 @@ describe('status bar', () => {
     expect(screen.queryByTestId('status-indentation')).toBeNull();
   });
 
-  it('keeps the document segments as neutral placeholders while a workspace has no active document', () => {
+  it('shows readable document segments and the folder name while a workspace has no active document', () => {
     openWorkspace();
 
     render(<StatusBar />);
 
     const bar = screen.getByTestId('status-bar');
-    expect(within(bar).getByTestId('status-language').textContent).toBe('\u2014');
-    expect(within(bar).getByTestId('status-position').textContent).toBe('\u2014:\u2014');
-    expect(within(bar).getByTestId('status-indentation').textContent).toBe('\u2014');
-    expect(within(bar).getByTestId('status-eol').textContent).toBe('\u2014');
-    expect(within(bar).getByTestId('status-encoding').textContent).toBe('\u2014');
+    expect(within(bar).getByTestId('status-language').textContent).toBe('Plain Text');
+    expect(within(bar).getByTestId('status-position').textContent).toBe('1:1');
+    expect(within(bar).getByTestId('status-indentation').textContent).toBe('Spaces: 2');
+    expect(within(bar).getByTestId('status-eol').textContent).toBe('LF');
+    expect(within(bar).getByTestId('status-encoding').textContent).toBe('UTF-8');
     expect(within(bar).getByText('forge-editor')).toBeTruthy();
+
+    expect(within(bar).queryByText('\u2014')).toBeNull();
+    expect(within(bar).queryByText('\u2014:\u2014')).toBeNull();
 
     expect(within(bar).queryByText('Welcome')).toBeNull();
     expect(within(bar).queryByText('No active document')).toBeNull();
     expect(within(bar).queryAllByRole('button')).toHaveLength(0);
   });
 
-  it('fills the placeholder segments and follows the cursor once a document opens', () => {
+  it('fills the document segments and follows the cursor once a document opens', () => {
     openWorkspace();
 
     render(<StatusBar />);
-    expect(screen.getByTestId('status-position').textContent).toBe('\u2014:\u2014');
+    expect(screen.getByTestId('status-position').textContent).toBe('1:1');
 
     act(() => {
       appStore.dispatch({
