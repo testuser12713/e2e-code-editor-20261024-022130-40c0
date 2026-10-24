@@ -1,0 +1,10 @@
+/* Palette list: scroll on whole rows so the footer never slices an entry. */
+.palette-list {
+  scroll-snap-type: y proximity;
+  scroll-padding-bottom: 6px;
+  overscroll-behavior: contain;
+}
+
+.palette-list .palette-item {
+  scroll-snap-align: end;
+}

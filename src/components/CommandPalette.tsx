@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import type { KeyboardEvent } from 'react';
 
 import { COMMAND_IDS, COMMAND_KEYBINDINGS } from '../commands/ids';
@@ -11,7 +11,7 @@ import {
 import { fuzzyFilter } from '../lib/fuzzy';
 import { type IconName } from '../ui/Icon';
 import { ListBox } from '../ui/ListBox';
-import { Palette } from '../ui/Palette';
+import { Palette, revealPaletteRow } from '../ui/Palette';
 
 export type CommandPaletteProps = {
   open: boolean;
@@ -168,14 +168,11 @@ export function CommandPalette({ open, onClose }: CommandPaletteProps) {
   const activeIndex = ordered.length === 0 ? -1 : Math.min(selectedIndex, ordered.length - 1);
   const activeCommand = activeIndex >= 0 ? ordered[activeIndex] : null;
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isOpen || !activeCommand) return;
-    const node = document.querySelector<HTMLElement>(
-      '[data-testid="command-palette"] [role="option"][aria-selected="true"]',
+    revealPaletteRow(
+      document.querySelector<HTMLElement>('[data-testid="command-palette"] .palette-list'),
     );
-    if (node && typeof node.scrollIntoView === 'function') {
-      node.scrollIntoView({ block: 'nearest' });
-    }
   }, [isOpen, activeCommand?.id]);
 
   const activate = (command: Command) => {
