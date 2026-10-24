@@ -19,6 +19,10 @@ const handlers = require('../electron/handlers/workspace.cjs') as {
   listDir: (relPath: unknown) => Promise<TreeNode[]>;
 };
 
+const { grantRoot } = require('../electron/lib/pathGuard.cjs') as {
+  grantRoot: (absPath: string) => string | null;
+};
+
 let root = '';
 
 beforeAll(() => {
@@ -128,6 +132,7 @@ describe('workspace handlers', () => {
   });
 
   it('opens a folder and lists its top level through the handler', async () => {
+    grantRoot(root);
     await expect(handlers.openFolder(root)).resolves.toEqual({ ok: true });
     await expect(handlers.getRoot()).resolves.toBe(realpathSync(root));
 

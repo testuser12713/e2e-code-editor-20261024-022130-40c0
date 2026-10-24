@@ -35,6 +35,10 @@ const workspaceHandlers = require('../electron/handlers/workspace.cjs') as {
   openFolder: (absPath: unknown) => Promise<OpResult>;
 };
 
+const { grantRoot } = require('../electron/lib/pathGuard.cjs') as {
+  grantRoot: (absPath: string) => string | null;
+};
+
 let root = '';
 
 beforeEach(() => {
@@ -226,6 +230,7 @@ describe('manage handler argument validation', () => {
   });
 
   it('runs create, rename and remove through the handlers', async () => {
+    grantRoot(root);
     await expect(workspaceHandlers.openFolder(root)).resolves.toEqual({ ok: true });
 
     await expect(manage.create('src/created.ts', 'file')).resolves.toEqual({ ok: true });

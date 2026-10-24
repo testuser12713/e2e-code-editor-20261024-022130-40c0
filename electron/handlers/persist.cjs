@@ -1,6 +1,7 @@
 'use strict';
 
 const persist = require('../lib/persist.cjs');
+const { isRootGranted } = require('../lib/pathGuard.cjs');
 
 function failure(message) {
   return { ok: false, message };
@@ -88,6 +89,10 @@ async function saveSession(session) {
     );
   }
 
+  if (session.workspaceRoot !== null && !isRootGranted(session.workspaceRoot)) {
+    return failure('The session could not be saved: the workspace folder has not been granted.');
+  }
+
   const location = resolveUserDataDir();
   if (!location.ok) return location;
 
@@ -111,6 +116,9 @@ async function loadRecentFolders() {
 async function addRecentFolder(absPath) {
   if (!persist.isAbsolutePathString(absPath)) {
     return failure('A recently opened folder must be an absolute path.');
+  }
+  if (!isRootGranted(absPath)) {
+    return failure('The folder has not been granted. Open it with Open Folder first.');
   }
 
   const location = resolveUserDataDir();

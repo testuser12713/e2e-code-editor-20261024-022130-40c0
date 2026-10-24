@@ -21,11 +21,15 @@ type WorkspaceHandlers = {
 
 const files = require('../electron/handlers/files.cjs') as FilesHandlers;
 const workspace = require('../electron/handlers/workspace.cjs') as WorkspaceHandlers;
+const { grantRoot } = require('../electron/lib/pathGuard.cjs') as {
+  grantRoot: (absPath: string) => string | null;
+};
 
 let root: string;
 
 beforeEach(async () => {
   root = mkdtempSync(path.join(tmpdir(), 'forge-atomic-'));
+  grantRoot(root);
   const opened = await workspace.openFolder(root);
   expect(opened.ok).toBe(true);
 });
