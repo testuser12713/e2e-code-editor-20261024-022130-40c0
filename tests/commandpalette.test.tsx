@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
-import { cleanup, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { cleanup, fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 
 import App from '../src/App';
 import { installKeymap } from '../src/commands/keymap';
@@ -28,10 +28,10 @@ describe('command palette', () => {
     render(<App />);
     openPalette();
 
-    expect(await screen.findByTestId('command-palette')).toBeTruthy();
+    const palette = await screen.findByTestId('command-palette');
 
     for (const command of getCommands()) {
-      expect(screen.getByText(command.title)).toBeTruthy();
+      expect(within(palette).getByText(command.title)).toBeTruthy();
     }
 
     const explorer = screen.getByRole('option', { name: /View: Explorer/ });
