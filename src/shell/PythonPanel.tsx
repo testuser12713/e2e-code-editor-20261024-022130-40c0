@@ -1,8 +1,11 @@
-import { COMMAND_IDS } from '../commands/ids';
-import { hasCommand } from '../commands/registry';
 import { cn } from '../lib/cn';
 import { hasDesktopBridge } from '../platform';
-import { checkActivePython } from '../python/checkPython';
+import {
+  checkActivePython,
+  isPythonCheckSuccess,
+  pythonCheckOutcome,
+  type PythonCheckOutcome,
+} from '../python/checkPython';
 import {
   clearPythonOutput,
   usePythonSession,
@@ -52,11 +55,13 @@ function hasBlankGutter(line: PythonOutputLine): boolean {
   return (
     line.text.startsWith('Process stopped') ||
     line.text.startsWith('No process was started') ||
+    line.text.startsWith('No syntax errors found before line') ||
     line.text.startsWith('The output panel is shown')
   );
 }
 
 function displayStream(line: PythonOutputLine): string {
+  if (line.stream === 'meta' && isPythonCheckSuccess(line.text)) return 'success';
   if (line.stream === 'meta' && /^Process exited with code 0\b/.test(line.text)) return 'success';
   return line.stream;
 }
@@ -66,11 +71,16 @@ function badgeFor(
   interpreterFound: boolean | null,
   desktop: boolean,
   activeIsPython: boolean,
+  checkOutcome: PythonCheckOutcome,
 ): { label: string; className: string } {
   if (!desktop) return { label: 'unavailable', className: 'badge' };
   if (interpreterFound === false) return { label: 'no interpreter', className: 'badge badge-danger' };
 
   if (run.state === 'running') return { label: 'running', className: 'badge badge-info badge-dot' };
+  if (checkOutcome === 'passed') return { label: 'check passed', className: 'badge badge-success' };
+  if (checkOutcome === 'syntax-error') {
+    return { label: 'syntax error', className: 'badge badge-danger' };
+  }
   if (run.state === 'finished') {
     if (run.reason === 'stopped') return { label: 'stopped', className: 'badge badge-warn' };
     if (run.reason === 'timeout') return { label: 'timeout', className: 'badge badge-warn' };
@@ -92,13 +102,13 @@ export function PythonPanel() {
   const activeRelPath = activeTab?.relPath ?? null;
   const activeIsPython = isPythonFile(activeRelPath);
   const desktop = hasDesktopBridge;
-  const checkAvailable = hasCommand(COMMAND_IDS.pythonCheck);
+  const checkOutcome = pythonCheckOutcome(lines, activeRelPath ?? undefined);
   const running = run.state === 'running';
 
   const displayRelPath = run.state === 'idle' ? activeRelPath : run.relPath;
   const fileName = displayRelPath ? baseName(displayRelPath) : 'No file open';
   const interpreterFound = interpreter === null ? null : interpreter.found;
-  const badge = badgeFor(run, interpreterFound, desktop, activeIsPython);
+  const badge = badgeFor(run, interpreterFound, desktop, activeIsPython, checkOutcome);
 
   let interpreterLabel = 'Python';
   if (!desktop) {
@@ -120,14 +130,12 @@ export function PythonPanel() {
         ? 'A Python process is already running'
         : 'Save the open file and run it';
 
-  const checkDisabled = !desktop || !activeIsPython || !checkAvailable;
+  const checkDisabled = !desktop || !activeIsPython;
   const checkTitle = !desktop
     ? 'Running Python requires the desktop application.'
     : !activeIsPython
       ? 'Only Python files can be run'
-      : !checkAvailable
-        ? 'Syntax checking is not available yet.'
-        : 'Compile the open file without running it';
+      : 'Compile the open file without running it';
 
   const showEmptyState = desktop && activeIsPython && !running && lines.length === 0;
   const showNonPythonNote = desktop && activeTab !== null && !activeIsPython;
