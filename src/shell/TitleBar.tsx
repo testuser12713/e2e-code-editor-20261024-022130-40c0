@@ -17,6 +17,10 @@ export function TitleBar() {
     };
   };
 
+  const forgeHome = () => {
+    void runCommand(COMMAND_IDS.showExplorer);
+  };
+
   const fileMenu: MenuEntry[] = [
     {
       label: 'Open Folder…',
@@ -123,9 +127,7 @@ export function TitleBar() {
         type="button"
         className="brand"
         aria-label="Forge home"
-        onClick={() => {
-          void runCommand(COMMAND_IDS.showExplorer);
-        }}
+        onClick={forgeHome}
       >
         <span className="brand-mark">
           <Icon name="brand" />
