@@ -1,3 +1,4 @@
+import { COMMAND_IDS } from '../commands/ids';
 import { runCommand } from '../commands/registry';
 import { platform } from '../platform';
 import type { MenuState } from '../state/types';
@@ -22,13 +23,32 @@ export function menuStateFor(store: MenuSyncStore): MenuState {
 }
 
 export function initMenuSync(store: MenuSyncStore): () => void {
+  let pushed: MenuState | null = null;
+
   const pushState = () => {
-    platform.menu.setMenuState(menuStateFor(store));
+    const next = menuStateFor(store);
+    if (
+      pushed
+      && pushed.hasWorkspace === next.hasWorkspace
+      && pushed.hasDocument === next.hasDocument
+      && pushed.canSave === next.canSave
+      && pushed.hasDirtyTabs === next.hasDirtyTabs
+    ) {
+      return;
+    }
+    pushed = next;
+    platform.menu.setMenuState(next);
   };
 
   pushState();
   const unsubscribeStore = store.subscribe(pushState);
   const unsubscribeMenu = platform.menu.onCommand((commandId) => {
+    if (commandId === COMMAND_IDS.closeTab) {
+      const tabId = store.getState().tabs.activeId;
+      if (!tabId) return;
+      void runCommand(commandId, { tabId });
+      return;
+    }
     void runCommand(commandId);
   });
 
