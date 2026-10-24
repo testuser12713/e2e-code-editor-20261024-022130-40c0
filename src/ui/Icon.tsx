@@ -9,6 +9,7 @@ export type IconName =
   | 'settings'
   | 'refresh'
   | 'chevron'
+  | 'chevron-down'
   | 'close'
   | 'command'
   | 'info'
@@ -27,15 +28,18 @@ type IconProps = {
   size?: 'sm' | 'md' | 'lg';
   className?: string;
   title?: string;
+  testId?: string;
 };
 
-export function Icon({ name, size = 'md', className, title }: IconProps) {
+export function Icon({ name, size = 'md', className, title, testId }: IconProps) {
   const sizeClass = size === 'sm' ? 'icon-sm' : size === 'lg' ? 'icon-lg' : undefined;
   return (
     <svg
       className={cn('icon', sizeClass, className)}
       aria-hidden={title ? undefined : true}
       role={title ? 'img' : undefined}
+      focusable="false"
+      data-testid={testId}
     >
       {title ? <title>{title}</title> : null}
       <use href={`#i-${name}`} />
@@ -54,6 +58,7 @@ export function IconSprite() {
       <symbol id="i-settings" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3.2" /><path d="M12 3v2M12 19v2M3 12h2M19 12h2M5.6 5.6 7 7M17 17l1.4 1.4M18.4 5.6 17 7M7 17l-1.4 1.4" /></symbol>
       <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M20 7v5h-5M4 17v-5h5" /><path d="M6.2 9a7 7 0 0 1 11.6-2.5L20 9M4 15l2.2 2.5A7 7 0 0 0 17.8 15" /></symbol>
       <symbol id="i-chevron" viewBox="0 0 24 24"><path d="m9 6 6 6-6 6" /></symbol>
+      <symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol>
       <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" /></symbol>
       <symbol id="i-command" viewBox="0 0 24 24"><path d="M9 6a3 3 0 1 0-3 3h3V6Zm0 12a3 3 0 1 1-3-3h3v3Zm6-12a3 3 0 1 1 3 3h-3V6Zm0 12a3 3 0 1 0 3-3h-3v3ZM9 9h6v6H9z" /></symbol>
       <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" /><path d="M12 10.5V17M12 7.4v.2" /></symbol>
